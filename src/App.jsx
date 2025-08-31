@@ -1,14 +1,12 @@
-import { useState } from 'react'
-import './App.css'
+import { Routes, Route } from "react-router";
+import Home from "./pages/Home/Home";
+import { TriageForm } from "./pages/TriageForm/TriageForm";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-    Test
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/triage" element={<TriageForm />} />
+    </Routes>
+  );
 }
-
-export default App

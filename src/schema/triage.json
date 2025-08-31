@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "slug": "triaje",
+  "name": "Triaje",
+  "title": "Ficha Nro. 0001",
+  "sections": [
+    {
+      "order": 1,
+      "code": "ingreso_servicio",
+      "title": "Ingreso del servicio",
+      "fields": [
+        {
+          "code": "fecha_registro",
+          "title": "Fecha de registro",
+          "type": "date",
+          "required": true,
+          "order": 1
+        },
+        {
+          "code": "motivo_consulta",
+          "title": "Motivo de consulta",
+          "type": "multi-select",
+          "options": [
+            { "value": "trabajo_social", "label": "Trabajo social" },
+            { "value": "psicologia", "label": "Psicologia" },
+            { "value": "legal", "label": "Legal" },
+            { "value": "medios_vida", "label": "Medios de vida" },
+            {
+              "value": "otro",
+              "label": "Otros: (Consutas de salud, educación, alojamiento, alimentación, acceso a servicios)"
+            }
+          ],
+          "required": true,
+          "order": 2
+        },
+        {
+          "code": "servicio_activo",
+          "title": "¿Se encuentra activo en el servicio?",
+          "type": "select",
+          "options": [
+            { "value": "primera_vez", "label": "Primera vez" },
+            { "value": "recurrente", "label": "Recurrente" }
+          ],
+          "required": true,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "code": "datos_identificacion",
+      "title": "Datos de identificación del usuario/a",
+      "fields": [
+        {
+          "code": "nombre",
+          "title": "Nombre",
+          "type": "text",
+          "required": true,
+          "order": 1,
+          "placeholder": "Nombre"
+        },
+        {
+          "code": "apellido",
+          "title": "Apellido",
+          "type": "text",
+          "required": true,
+          "order": 2,
+          "placeholder": "Apellido"
+        },
+        {
+          "code": "edad",
+          "title": "Edad",
+          "type": "number",
+          "required": true,
+          "order": 3
+        },
+        {
+          "code": "genero",
+          "title": "Género",
+          "type": "select",
+          "options": [
+            { "value": "masculino", "label": "Masculino" },
+            { "value": "femenino", "label": "Femenino" },
+            { "value": "otro", "label": "Otro" }
+          ],
+          "required": true,
+          "order": 4
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 8px 8px 0 0;
+}
+
+.section-title {
+  text-align: center;
+  background-color: #b0c7cf;
+}
+
+.field-container{
+    padding: 0rem 2rem;
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.date-input input {
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid gray;
+}
