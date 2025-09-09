@@ -5,6 +5,8 @@ import styles from "./form-render.module.css";
 import { FloatingInput } from "./FloatingInput/FloatingInput";
 import { DateInput } from "./DateInput/DateInput";
 import { MatrixInput } from "./MatrixInput/MatrixInput";
+import { CheckboxInput } from "./CheckboxInput/CheckboxInput";
+import { TextareaField } from "./TextArea/TextArea";
 
 /**
  * Componentes pequeños y reutilizables para eliminar duplicación
@@ -78,6 +80,23 @@ const renderField = (field) => {
       );
     case "matrix":
       return <MatrixInput field={field} />;
+    case "checkbox":
+      return (
+        <FieldRow field={field} rightClassName={styles["date-input"]}>
+          <CheckboxInput checked={field.value} onChange={() => {}} />
+        </FieldRow>
+      );
+    case "textarea":
+      return (
+        <FieldRow field={field}>
+          <TextareaField
+            label={field.placeholder || "Escribe aqui..."}
+            value={field.value}
+            onChange={field.onChange}
+            required={field.required}
+          />
+        </FieldRow>
+      );
     default:
       return null;
   }

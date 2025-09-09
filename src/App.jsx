@@ -6,7 +6,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/triage" element={<TriageForm />} />
+      <Route path="/triaje" element={<TriageForm />} />
     </Routes>
   );
 }

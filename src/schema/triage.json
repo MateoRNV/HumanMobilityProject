@@ -10,31 +10,32 @@
       "title": "Ingreso del servicio",
       "fields": [
         {
+          "order": 1,
           "code": "fecha_registro",
           "title": "Fecha de registro",
           "type": "date",
           "required": true,
-          "order": 1,
           "placeHolder": "Selecciona una fecha"
         },
         {
+          "order": 2,
           "code": "motivo_consulta",
           "title": "Motivo de consulta",
           "type": "multi-select",
           "options": [
-            { "value": "trabajo_social", "label": "Trabajo social" },
-            { "value": "psicologia", "label": "Psicologia" },
+            { "value": "trabajo_social", "label": "Trabajo Social" },
+            { "value": "psicologia", "label": "Psicología" },
             { "value": "legal", "label": "Legal" },
-            { "value": "medios_vida", "label": "Medios de vida" },
+            { "value": "medios_vida", "label": "Medios de Vida" },
             {
-              "value": "otro",
-              "label": "Otros: (Consutas de salud, educación, alojamiento, alimentación, acceso a servicios)"
+              "value": "otros",
+              "label": "Otros: (Consultas de salud, educación, alojamiento, alimentación, acceso a servicios)"
             }
           ],
-          "required": true,
-          "order": 2
+          "required": true
         },
         {
+          "order": 3,
           "code": "servicio_activo",
           "title": "¿Se encuentra activo en el servicio?",
           "type": "select",
@@ -42,8 +43,13 @@
             { "value": "primera_vez", "label": "Primera vez" },
             { "value": "recurrente", "label": "Recurrente" }
           ],
-          "required": true,
-          "order": 3
+          "required": true
+        },
+        {
+          "order": 4,
+          "code": "fecha_ultima_atencion",
+          "title": "Fecha de última atención",
+          "type": "date"
         }
       ]
     },
@@ -53,63 +59,541 @@
       "title": "Datos de identificación del usuario/a",
       "fields": [
         {
-          "code": "nombre",
-          "title": "Nombre",
+          "order": 5,
+          "code": "nombres_apellidos_representante",
+          "title": "Nombres y apellidos del usuario/a representante",
           "type": "text",
-          "required": true,
-          "order": 1,
-          "placeholder": "Nombre"
+          "required": true
         },
         {
-          "code": "apellido",
-          "title": "Apellido",
-          "type": "text",
-          "required": true,
-          "order": 2,
-          "placeholder": "Apellido"
+          "order": 6,
+          "code": "direccion_domicilio_actual",
+          "title": "Dirección del domicilio actual",
+          "type": "textarea"
         },
         {
+          "order": 7,
+          "code": "sector",
+          "title": "Sector",
+          "type": "text"
+        },
+        {
+          "order": 8,
+          "code": "canton",
+          "title": "Cantón",
+          "type": "text"
+        },
+        {
+          "order": 9,
+          "code": "telefonos",
+          "title": "Teléfono(s)",
+          "type": "text"
+        },
+        {
+          "order": 10,
+          "code": "otro_contacto",
+          "title": "Otro contacto",
+          "type": "text"
+        },
+        {
+          "order": 11,
+          "code": "correo_electronico",
+          "title": "Correo electrónico",
+          "type": "text"
+        },
+        {
+          "order": 12,
+          "code": "estado_documento",
+          "title": "¿Documento de identificación?",
+          "type": "matrix",
+          "multiselect": true,
+          "rows": [
+            {
+              "value": "header_estado",
+              "label": "Estado del documento",
+              "isHeader": true
+            },
+            {
+              "value": "dni_origen",
+              "label": "DNI (Documento de identidad del país de origen)"
+            },
+            { "value": "cedula_ecuatoriana", "label": "Cédula Ecuatoriana" },
+            {
+              "value": "pasaporte_origen",
+              "label": "Pasaporte (de país de origen)"
+            },
+            { "value": "licencia_conducir", "label": "Licencia de conducir" },
+            { "value": "visa_virte", "label": "Visa VIRTE" },
+            { "value": "visa_temporal", "label": "Visa temporal" },
+            { "value": "visa_permanente", "label": "Visa permanente" },
+            {
+              "value": "visa_humanitaria",
+              "label": "Visa humanitaria (Refugio)"
+            },
+            { "value": "partida_nacimiento", "label": "Partida de nacimiento" },
+            {
+              "value": "no_posee_documentacion",
+              "label": "No posee documentación"
+            },
+            {
+              "value": "otros_nrc_refugio",
+              "label": "Otros: NRC les sacó la cita para solicitud de refugio"
+            }
+          ],
+          "columns": [
+            { "value": "vigente", "label": "V" },
+            { "value": "caducado", "label": "C" }
+          ],
+          "observations": true
+        },
+        {
+          "order": 13,
+          "code": "numero_documento",
+          "title": "Número de documento",
+          "type": "number"
+        },
+        {
+          "order": 14,
+          "code": "observaciones_documento",
+          "title": "Observaciones (estado del documento, copia, denuncia de pérdida, pasaporte humanitario, documento alterno, etc.)",
+          "type": "textarea"
+        },
+        {
+          "order": 15,
+          "code": "fecha_nacimiento",
+          "title": "Fecha de nacimiento",
+          "type": "date"
+        },
+        {
+          "order": 16,
           "code": "edad",
           "title": "Edad",
-          "type": "number",
-          "required": true,
-          "order": 3
+          "type": "number"
         },
         {
+          "order": 17,
+          "code": "pais_origen",
+          "title": "País de origen",
+          "type": "text"
+        },
+        {
+          "order": 18,
+          "code": "fecha_ingreso",
+          "title": "Fecha de ingreso",
+          "type": "date"
+        },
+        {
+          "order": 19,
+          "code": "estatus_migratorio",
+          "title": "Estatus migratorio",
+          "type": "select",
+          "options": [
+            { "value": "regular", "label": "Regular" },
+            { "value": "irregular", "label": "Irregular" }
+          ]
+        },
+        {
+          "order": 20,
+          "code": "intenciones_migratorias",
+          "title": "Intenciones migratorias",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "vocacion_permanencia",
+              "label": "Vocación de permanencia"
+            },
+            { "value": "transito", "label": "Tránsito" },
+            {
+              "value": "desplazamiento_interno",
+              "label": "Desplazamiento interno"
+            },
+            { "value": "otros", "label": "Otros" }
+          ]
+        },
+        {
+          "order": 21,
+          "code": "sexo",
+          "title": "Sexo",
+          "type": "select",
+          "options": [
+            { "value": "hombre", "label": "Hombre" },
+            { "value": "mujer", "label": "Mujer" },
+            {
+              "value": "intersex",
+              "label": "Intersex (si la persona lo declara)"
+            }
+          ]
+        },
+        {
+          "order": 22,
           "code": "genero",
           "title": "Género",
           "type": "select",
           "options": [
             { "value": "masculino", "label": "Masculino" },
             { "value": "femenino", "label": "Femenino" },
-            { "value": "otro", "label": "Otro" }
-          ],
-          "required": true,
-          "order": 4
+            { "value": "no_responde", "label": "No responde" },
+            { "value": "otro", "label": "Otro (si la persona lo declara)" }
+          ]
         },
         {
-          "order": 5,
-          "code": "documentos_identificacion",
-          "title": "Documentos de identificación",
-          "type": "matrix",
-          "multiselect": true,
-          "rows": [
+          "order": 23,
+          "code": "etnia",
+          "title": "Etnia",
+          "type": "select",
+          "options": [
+            { "value": "blanco", "label": "Blanco" },
+            { "value": "afrodescendiente", "label": "Afrodescendiente" },
+            { "value": "mestizo", "label": "Mestizo" },
+            { "value": "indigena", "label": "Indígena" },
+            { "value": "montubio", "label": "Montubio" },
+            { "value": "otro", "label": "Otro (si la persona lo declara)" }
+          ]
+        },
+        {
+          "order": 24,
+          "code": "estado_civil",
+          "title": "Estado Civil (para personas mayores de 12 años de edad)",
+          "type": "select",
+          "options": [
+            { "value": "soltero", "label": "Soltero" },
+            { "value": "union_hecho", "label": "Unión de hecho" },
+            { "value": "divorciado", "label": "Divorciado" },
+            { "value": "viudo", "label": "Viudo" },
+            { "value": "casado", "label": "Casado" }
+          ]
+        },
+        {
+          "order": 25,
+          "code": "nombre_representante_grupo_familiar",
+          "title": "Nombre del representante del grupo familiar",
+          "type": "text"
+        },
+        {
+          "order": 26,
+          "code": "pertenece_grupo_familiar",
+          "title": "¿Pertenece a un grupo familiar?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "order": 27,
+          "code": "parentesco_representante_hogar",
+          "title": "Parentesco con el representante del hogar (Si aplica)",
+          "type": "select",
+          "options": [
+            { "value": "madre", "label": "Madre" },
+            { "value": "padre", "label": "Padre" },
+            { "value": "esposo_esposa_pareja", "label": "Esposo/a o pareja" },
+            { "value": "hija", "label": "Hija/o" },
+            { "value": "hermanada", "label": "Hermana/o" },
+            { "value": "cunada_cunado", "label": "Cuñada/o" },
+            { "value": "abuela_abuelo", "label": "Abuela/o" },
+            { "value": "amigo_amiga", "label": "Amigo/a" },
+            { "value": "nuera_yerno", "label": "Nuera/Yerno" },
+            { "value": "suegra_suegro", "label": "Suegra/o" },
+            { "value": "otro", "label": "Otro" }
+          ],
+          "extraField": {
+            "type": "text",
+            "placeholder": "Especificar en caso de 'Otro'"
+          }
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "code": "situaciones_vulnerabilidad",
+      "title": "Situaciones de vulnerabilidad",
+      "fields": [
+        {
+          "order": 28,
+          "code": "nna_separados",
+          "title": "NNA separados",
+          "type": "checkbox"
+        },
+        {
+          "order": 29,
+          "code": "nna_no_acompanados",
+          "title": "NNA no acompañados",
+          "type": "checkbox"
+        },
+        {
+          "order": 30,
+          "code": "nna_en_riesgo",
+          "title": "NNA en riesgo",
+          "type": "checkbox"
+        },
+        {
+          "order": 31,
+          "code": "trabajo_infantil",
+          "title": "Trabajo infantil",
+          "type": "checkbox"
+        },
+        {
+          "order": 32,
+          "code": "mujer_sola_en_riesgo",
+          "title": "Mujer sola en riesgo",
+          "type": "checkbox"
+        },
+        {
+          "order": 33,
+          "code": "nina_adolescente_embarazada",
+          "title": "Niña/Adolescente embarazada",
+          "type": "checkbox"
+        },
+        {
+          "order": 34,
+          "code": "mujer_embarazada",
+          "title": "Mujer embarazada",
+          "type": "checkbox"
+        },
+        {
+          "order": 35,
+          "code": "mujer_lactancia",
+          "title": "Mujer en lactancia",
+          "type": "checkbox"
+        },
+        {
+          "order": 36,
+          "code": "persona_lgbtiq",
+          "title": "Persona LGBTIQ+",
+          "type": "checkbox"
+        },
+        {
+          "order": 37,
+          "code": "indicios_vbg",
+          "title": "Indicios de violencia basada en género",
+          "type": "checkbox"
+        },
+        {
+          "order": 38,
+          "code": "presunta_trata_personas",
+          "title": "Presunta trata de personas",
+          "type": "checkbox"
+        },
+        {
+          "order": 39,
+          "code": "presunto_trafico_migrantes",
+          "title": "Presunto tráfico ilícito de migrantes",
+          "type": "checkbox"
+        },
+        {
+          "order": 40,
+          "code": "personas_mayores_vulnerabilidad",
+          "title": "Personas adultas mayores en situación de vulnerabilidad",
+          "type": "checkbox"
+        },
+        {
+          "order": 41,
+          "code": "indicios_sobreviviente_tortura",
+          "title": "Indicios de sobreviviente de tortura",
+          "type": "checkbox"
+        },
+        {
+          "order": 42,
+          "code": "victima_xenofobia",
+          "title": "Víctima de xenofobia",
+          "type": "checkbox"
+        },
+        {
+          "order": 43,
+          "code": "discapacidad_miembro_familiar",
+          "title": "Discapacidad de algún miembro del grupo familiar",
+          "type": "checkbox",
+          "extraField": {
+            "type": "text",
+            "placeholder": "Si marcó, ¿cuál?"
+          }
+        },
+        {
+          "order": 44,
+          "code": "enfermedad_catastrofica_cronica",
+          "title": "Enfermedad catastrófica/crónica",
+          "type": "checkbox",
+          "extraField": {
+            "type": "text",
+            "placeholder": "Si marcó, ¿cuál?"
+          }
+        },
+        {
+          "order": 45,
+          "code": "otro_tipo_vulnerabilidad",
+          "title": "Otro tipo de vulnerabilidad",
+          "type": "checkbox",
+          "extraField": {
+            "type": "text",
+            "placeholder": "Si marcó, ¿cuál?"
+          }
+        }
+      ]
+    },
+    {
+      "order": 4,
+      "code": "mecanismos_afrontamiento",
+      "title": "Mecanismos de afrontamiento",
+      "fields": [
+        {
+          "order": 46,
+          "code": "sexo_por_supervivencia",
+          "title": "Sexo por supervivencia",
+          "type": "checkbox"
+        },
+        {
+          "order": 47,
+          "code": "numero_comidas_diarias",
+          "title": "Número de comidas diarias",
+          "type": "select",
+          "options": [
+            { "value": "1", "label": "Una" },
+            { "value": "2", "label": "Dos" },
+            { "value": "3", "label": "Tres o más" }
+          ]
+        },
+        {
+          "order": 48,
+          "code": "tipo_vivienda",
+          "title": "Tipo de vivienda",
+          "type": "multi-select",
+          "options": [
+            { "value": "propia", "label": "Vivienda propia" },
+            { "value": "arrendada", "label": "Arrendada" },
+            { "value": "albergue", "label": "Albergue" },
+            { "value": "compartida", "label": "Vivienda compartida" },
+            { "value": "posada", "label": "Posada" }
+          ]
+        },
+        {
+          "order": 49,
+          "code": "cuantas_personas_viven",
+          "title": "¿Cuántas personas viven?",
+          "type": "text"
+        },
+        {
+          "order": 50,
+          "code": "riesgo_hacinamiento",
+          "title": "Riesgo de hacinamiento",
+          "type": "checkbox"
+        },
+        {
+          "order": 51,
+          "code": "mendicidad",
+          "title": "Mendicidad o riesgo de mendicidad",
+          "type": "checkbox"
+        },
+        {
+          "order": 52,
+          "code": "ninos_asisten_escuela",
+          "title": "¿Los niños asisten a la escuela?",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "order": 5,
+      "code": "situacion_socioeconomica",
+      "title": "Situación socioeconómica",
+      "fields": [
+        {
+          "order": 53,
+          "code": "nivel_instruccion",
+          "title": "Nivel de instrucción",
+          "type": "multi-select",
+          "options": [
+            { "value": "ninguno", "label": "Ninguno" },
+            { "value": "inicial", "label": "Inicial" },
+            { "value": "basico", "label": "Básico" },
+            { "value": "media", "label": "Media" },
+            { "value": "bachillerato", "label": "Bachillerato" },
+            { "value": "tecnico", "label": "Técnico" },
+            { "value": "superior", "label": "Superior" }
+          ]
+        },
+        {
+          "order": 54,
+          "code": "profesion_capacitacion_tecnica",
+          "title": "Profesión / Capacitación técnica",
+          "type": "text"
+        },
+        {
+          "order": 55,
+          "code": "idiomas",
+          "title": "Idiomas (además del español)",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ],
+          "extraField": { "type": "text", "placeholder": "Si marcó Sí, ¿cuál?" }
+        },
+        {
+          "order": 56,
+          "code": "experiencia_previa",
+          "title": "Experiencia previa",
+          "type": "textarea"
+        },
+        {
+          "order": 57,
+          "code": "actividad_economica_actual",
+          "title": "Actividad económica actual",
+          "type": "multi-select",
+          "options": [
+            { "value": "desempleado", "label": "Desempleado" },
+            { "value": "trabajo_formal", "label": "Trabajo formal/empleo" },
             {
-              "value": "estado_del_documento",
-              "label": "Estado del documento",
-              "isHeader": true
-            },
-            { "value": "dni", "label": "DNI" },
-            { "value": "cedula", "label": "Cédula" },
-            { "value": "pasaporte", "label": "Pasaporte" },
-            { "value": "visa_temporal", "label": "Visa temporal" },
-            { "value": "visa_permanente", "label": "Visa permanente" }
-          ],
-          "columns": [
-            { "value": "vigente", "label": "Vigente" },
-            { "value": "vencido", "label": "Vencido" }
-          ],
-          "observations": true
+              "value": "trabajo_informal",
+              "label": "Trabajo informal/autempleo"
+            }
+          ]
+        },
+        {
+          "order": 58,
+          "code": "habilidades",
+          "title": "Habilidades",
+          "type": "textarea"
+        },
+        {
+          "order": 59,
+          "code": "ingreso_promedio_mensual",
+          "title": "Ingreso promedio mensual del grupo familiar",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "code": "acciones",
+      "title": "Acciones",
+      "fields": [
+        {
+          "order": 60,
+          "code": "derivacion_interna",
+          "title": "Derivación interna",
+          "type": "multi-select",
+          "options": [
+            { "value": "trabajo_social", "label": "Trabajo social" },
+            { "value": "psicologia", "label": "Psicología" },
+            { "value": "legal", "label": "Legal" },
+            {
+              "value": "promocion_medios_vida",
+              "label": "Promoción de medios de vida"
+            }
+          ]
+        },
+        {
+          "order": 61,
+          "code": "referencia_externa",
+          "title": "Referencia externa",
+          "type": "textarea"
+        },
+        {
+          "order": 62,
+          "code": "motivos_referencia",
+          "title": "Motivos de la referencia",
+          "type": "textarea"
         }
       ]
     }
