@@ -33,7 +33,7 @@ export const users = [
           selections: [{ row: "dni_origen", column: "vigente" }],
           observations: "Tiene copia física y digital.",
         },
-        { fieldId: "fld-13", type: "number", value: 12345678 },
+        { fieldId: "fld-13", type: "text", value: 12345678 },
         { fieldId: "fld-14", type: "textarea", value: "" },
         { fieldId: "fld-15", type: "date", value: "1995-04-18" },
         { fieldId: "fld-16", type: "number", value: 28 },
@@ -54,8 +54,8 @@ export const users = [
         { fieldId: "fld-27", type: "select", value: "padre" },
 
         // Vulnerabilidades (algunos ejemplos marcados)
-        { fieldId: "fld-31", type: "checkbox", value: false },
-        { fieldId: "fld-32", type: "checkbox", value: false },
+        { fieldId: "fld-31", type: "checkbox", value: true },
+        { fieldId: "fld-32", type: "checkbox", value: true },
         { fieldId: "fld-36", type: "checkbox", value: false },
         { fieldId: "fld-37", type: "checkbox", value: false },
         // Discapacidad con detalle:

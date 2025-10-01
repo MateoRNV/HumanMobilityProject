@@ -150,7 +150,7 @@
           "id": "fld-13",
           "order": 13,
           "title": "Número de documento",
-          "type": "number"
+          "type": "text"
         },
         {
           "id": "fld-14",
