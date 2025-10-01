@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "slug": "triaje",
+  "name": "Triaje",
+  "title": "Ficha Nro. 0001",
+  "sections": [
+    {
+      "order": 1,
+      "code": "ingreso_servicio",
+      "title": "Ingreso del servicio",
+      "fields": [
+        {
+          "order": 1,
+          "code": "integrantes_familia",
+          "title": "Integrantes del núcleo familiar",
+          "type": "table",
+          "columns": [
+            { "key": "name", "header": "Nombres y Apellidos", "type": "text" },
+            { "key": "age", "header": "Edad", "type": "text" },
+            { "key": "relationship", "header": "Parentesco", "type": "text" },
+            {
+              "key": "marital_status",
+              "header": "Estado Civil",
+              "type": "text"
+            },
+            {
+              "key": "education_level",
+              "header": "Grado de Instrucción",
+              "type": "text"
+            },
+            { "key": "occupation", "header": "Ocupación", "type": "text" },
+            { "key": "disability", "header": "Discapacidad", "type": "text" }
+          ],
+          "allowAddRows": true,
+          "canDeleteRows": true,
+          "addRowText": "Agregar integrante"
+        }
+      ]
+    }
+  ]
+}

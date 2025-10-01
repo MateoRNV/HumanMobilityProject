@@ -1,5 +1,4 @@
 import React from "react";
-import triageSchema from "../schema/triage.json";
 import Select from "react-select";
 import styles from "./form-render.module.css";
 import { FloatingInput } from "./FloatingInput/FloatingInput";
@@ -7,6 +6,7 @@ import { DateInput } from "./DateInput/DateInput";
 import { MatrixInput } from "./MatrixInput/MatrixInput";
 import { CheckboxInput } from "./CheckboxInput/CheckboxInput";
 import { TextareaField } from "./TextArea/TextArea";
+import { Table } from "./Table/Table";
 
 /**
  * Componentes pequeños y reutilizables para eliminar duplicación
@@ -97,17 +97,20 @@ const renderField = (field) => {
           />
         </FieldRow>
       );
+    case "table":
+      return <Table field={field} />;
     default:
       return null;
   }
 };
 
-export const FormRender = () => {
-  const { title, sections } = triageSchema || { title: "", sections: [] };
+export const FormRender = (props) => {
+  const { formSchema } = props;
+  const { title, sections } = formSchema || { title: "", sections: [] };
 
   return (
     <div className={styles["form-container"]}>
-      <h1 className="text-center">{title}</h1>
+      <h1 className="text-center py-4">{title}</h1>
       {/* Secciones */}
       <div>
         {[...(sections || [])]
