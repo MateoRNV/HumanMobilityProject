@@ -37,7 +37,8 @@ export const FormRender = ({
 
     if (field.type === "select") return a.value ?? null;
 
-    if (field.type === "multi-select") return Array.isArray(a.value) ? a.value : [];
+    if (field.type === "multi-select")
+      return Array.isArray(a.value) ? a.value : [];
 
     if (field.type === "checkbox") return !!a.value;
 
@@ -55,7 +56,10 @@ export const FormRender = ({
   // util para setear y notificar
   const setAnswer = (field, partial) => {
     setAnswerIndex((prev) => {
-      const curr = prev.get(field.id) || { fieldId: field.id, type: field.type };
+      const curr = prev.get(field.id) || {
+        fieldId: field.id,
+        type: field.type,
+      };
       const next = { ...curr, ...partial, fieldId: field.id, type: field.type };
       const clone = new Map(prev);
       clone.set(field.id, next);
@@ -66,7 +70,8 @@ export const FormRender = ({
   };
 
   // react-select necesita objetos option
-  const optionByValue = (opts = [], v) => opts.find((o) => o.value === v) || null;
+  const optionByValue = (opts = [], v) =>
+    opts.find((o) => o.value === v) || null;
   const optionsByValues = (opts = [], values = []) =>
     (values || []).map((v) => optionByValue(opts, v)).filter(Boolean);
 
@@ -77,7 +82,9 @@ export const FormRender = ({
         <div className="me-3">{`${field.order})`}</div>
         <div>{field.title}</div>
       </div>
-      <div className={`flex justify-center items-center w-1/2 p-3 ${rightClassName}`}>
+      <div
+        className={`flex justify-center items-center w-1/2 p-3 ${rightClassName}`}
+      >
         {children}
       </div>
     </div>
@@ -165,38 +172,41 @@ export const FormRender = ({
           </FieldRow>
         );
 
-      case "matrix":
+      case "matrix": {
+        const ans = answerIndex.get(field.id);
+
         return (
-          <MatrixInput
-            field={field}
-            selected={v?.selections || []}
-            observations={v?.observations || ""}
-            onChange={(rowValue, columnValue) => {
-              const current = new Set(
-                (getValue(field)?.selections || []).map(
-                  (x) => `${x.row}|${x.column}`
-                )
-              );
-              const key = `${rowValue}|${columnValue}`;
-              if (current.has(key)) {
-                // toggle off
-                const next = (getValue(field)?.selections || []).filter(
-                  (x) => !(x.row === rowValue && x.column === columnValue)
-                );
-                setAnswer(field, { selections: next });
-              } else {
-                const next = [
-                  ...(getValue(field)?.selections || []),
-                  { row: rowValue, column: columnValue },
-                ];
-                setAnswer(field, { selections: next });
-              }
-            }}
-            onChangeObservations={(text) => {
-              setAnswer(field, { observations: text });
-            }}
-          />
+          <FieldRow field={field} key={field.id}>
+            <MatrixInput
+              field={field}
+              selections={ans?.selections || []}
+              onChange={(row, col) => {
+                const isMulti = !!field.multiselect;
+                const prevSel = answerIndex.get(field.id)?.selections || [];
+
+                let nextSel;
+                if (isMulti) {
+                  const exists = prevSel.some(
+                    (s) => s.row === row && s.column === col
+                  );
+                  nextSel = exists
+                    ? prevSel.filter(
+                        (s) => !(s.row === row && s.column === col)
+                      )
+                    : [...prevSel, { row, column: col }];
+                } else {
+                  nextSel = [
+                    ...prevSel.filter((s) => s.row !== row),
+                    { row, column: col },
+                  ];
+                }
+
+                setAnswer(field, { type: "matrix", selections: nextSel });
+              }}
+            />
+          </FieldRow>
         );
+      }
 
       case "checkbox":
         return (
@@ -240,23 +250,19 @@ export const FormRender = ({
 
       {/* Secciones */}
       <div>
-        {[...(sections || [])]
-          .sort(byOrder)
-          .map((section) => (
-            <div key={section.id}>
-              <h2 className={styles["section-title"]}>
-                {`${section.order}) ${section.title}`}
-              </h2>
+        {[...(sections || [])].sort(byOrder).map((section) => (
+          <div key={section.id}>
+            <h2 className={styles["section-title"]}>
+              {`${section.order}) ${section.title}`}
+            </h2>
 
-              {[...(section.fields || [])]
-                .sort(byOrder)
-                .map((field) => (
-                  <div key={field.id} className={styles["field-container"]}>
-                    {renderField(field)}
-                  </div>
-                ))}
-            </div>
-          ))}
+            {[...(section.fields || [])].sort(byOrder).map((field) => (
+              <div key={field.id} className={styles["field-container"]}>
+                {renderField(field)}
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
 
       <div className="flex gap-3 justify-end p-4">
