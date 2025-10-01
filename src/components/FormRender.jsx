@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import styles from "./form-render.module.css";
 import { FloatingInput } from "./FloatingInput/FloatingInput";
@@ -63,7 +63,6 @@ export const FormRender = ({
       const next = { ...curr, ...partial, fieldId: field.id, type: field.type };
       const clone = new Map(prev);
       clone.set(field.id, next);
-      // notificar afuera si hace falta
       onChange?.(field.id, next);
       return clone;
     });
@@ -105,12 +104,11 @@ export const FormRender = ({
               inputFocusClass="focus:border-blue-500"
               labelFocusClass="peer-focus:text-blue-500"
               required={field.required}
-              value={v ?? ""}
-              onChange={(e) => setAnswer(field, { value: e.target.value })}
+              defaultValue={v ?? ""}
+              onBlur={(e) => setAnswer(field, { value: e.target.value })}
             />
           </FieldRow>
         );
-
       case "number":
         return (
           <FieldRow field={field}>
@@ -122,8 +120,8 @@ export const FormRender = ({
               inputFocusClass="focus:border-green-500"
               labelFocusClass="peer-focus:text-green-500"
               required={field.required}
-              value={v ?? ""}
-              onChange={(e) =>
+              defaultValue={v ?? ""}
+              onBlur={(e) =>
                 setAnswer(field, {
                   value: e.target.value === "" ? null : Number(e.target.value),
                 })
@@ -182,7 +180,7 @@ export const FormRender = ({
               selections={ans?.selections || []}
               onChange={(row, col) => {
                 const isMulti = !!field.multiselect;
-                const prevSel = answerIndex.get(field.id)?.selections || [];
+                const prevSel = answerIndex[field.id]?.selections || [];
 
                 let nextSel;
                 if (isMulti) {
@@ -223,8 +221,8 @@ export const FormRender = ({
           <FieldRow field={field}>
             <TextareaField
               label={field.placeholder || "Escribe aquí..."}
-              value={v ?? ""}
-              onChange={(e) => setAnswer(field, { value: e.target.value })}
+              defaultValue={v ?? ""}
+              onBlur={(e) => setAnswer(field, { value: e.target.value })}
               required={field.required}
             />
           </FieldRow>
@@ -252,10 +250,9 @@ export const FormRender = ({
       <div>
         {[...(sections || [])].sort(byOrder).map((section) => (
           <div key={section.id}>
-            <h2 className={styles["section-title"]}>
-              {`${section.order}) ${section.title}`}
-            </h2>
-
+            <h2
+              className={styles["section-title"]}
+            >{`${section.order}) ${section.title}`}</h2>
             {[...(section.fields || [])].sort(byOrder).map((field) => (
               <div key={field.id} className={styles["field-container"]}>
                 {renderField(field)}
@@ -264,7 +261,6 @@ export const FormRender = ({
           </div>
         ))}
       </div>
-
       <div className="flex gap-3 justify-end p-4">
         {onCancel && (
           <button type="button" className="btn-secondary" onClick={onCancel}>

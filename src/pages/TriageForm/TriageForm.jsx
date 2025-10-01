@@ -32,6 +32,7 @@ export const TriageForm = () => {
   // descomenta esto y pásalo como defaultValues:
   // const defaultValues = answersToDefaults(initialAnswers);
 
+
   return (
     <div className="mt-3">
       <h1 className="text-xl font-semibold mb-4">
@@ -40,53 +41,10 @@ export const TriageForm = () => {
 
       <FormRender
         formSchema={triageSchema}
-        // Usa UNA de las dos líneas de abajo según tu FormRender:
-        initialAnswers={initialAnswers} // ✅ si tu FormRender soporta answers[]
-        // defaultValues={defaultValues}   // ✅ si tu FormRender espera objeto plano
-
-        onSubmit={(payload) => {
-          // payload típico: { answers: [...], version?, submitted_at? }
-          console.log("submit triage", { userId: user.id, payload });
-
-          // aquí podrías simular guardar en tu store/mock
-          // ej: updateUsers(user.id, { triage: payload })
-
-          navigate(-1); // vuelve al listado o a donde prefieras
-        }}
-        onCancel={() => navigate(-1)}
+        initialAnswers={initialAnswers}
       />
     </div>
   );
 };
 
 export default TriageForm;
-
-// --- Helpers opcionales ---
-
-// Convierte answers[] a objeto plano por fieldId.
-// Manejo simple para types comunes; ajusta según tu FormRender.
-function answersToDefaults(answers = []) {
-  const acc = {};
-  for (const a of answers) {
-    const { fieldId, type } = a;
-
-    if (type === "matrix") {
-      // Puedes guardar tal cual o re-mapear a una estructura que tu FormRender entienda
-      // Ejemplo simple: un array de pares {row,column}
-      acc[fieldId] = a.selections ?? [];
-      if (a.observations) acc[`${fieldId}__observations`] = a.observations;
-      continue;
-    }
-
-    if (type === "checkbox") {
-      acc[fieldId] = !!a.value;
-      if (a.extraValue) acc[`${fieldId}__extra`] = a.extraValue;
-      continue;
-    }
-
-    // text | textarea | number | date | select | multi-select
-    acc[fieldId] = a.value ?? null;
-    if (a.extraValue) acc[`${fieldId}__extra`] = a.extraValue;
-  }
-  return acc;
-}

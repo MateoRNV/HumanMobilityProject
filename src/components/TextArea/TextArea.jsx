@@ -1,10 +1,10 @@
 import React from "react";
 
-export const TextareaField = ({ label, value, onChange, placeholder, ...props }) => {
+export const TextareaField = ({ label, value, defaultValue, onChange, placeholder, ...props }) => {
   return (
     <div className="relative w-full my-4">
       <textarea
-        value={value}
+        {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
         placeholder=" "
         className="peer h-28 w-full resize-none rounded-md border border-gray-300 bg-transparent px-3 pt-4 text-sm text-gray-900 placeholder-transparent focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"

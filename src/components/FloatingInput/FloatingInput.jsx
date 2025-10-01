@@ -8,6 +8,7 @@ export const FloatingInput = (props) => {
     labelFocusClass = "peer-focus:text-blue-500",
     required = false,
     value,
+    defaultValue,
     onChange,
   } = props;
 
@@ -19,8 +20,9 @@ export const FloatingInput = (props) => {
         className={`peer w-full px-4 pt-6 pb-2 text-slate-900 bg-white border-2 border-slate-200 rounded-lg ${inputFocusClass} focus:outline-none transition-colors duration-200 placeholder-transparent`}
         placeholder="Tu valor"
         required={required}
-        value={value ?? ""}
+        {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
+        autoComplete="off"
       />
       <label
         htmlFor={id}
