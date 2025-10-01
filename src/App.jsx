@@ -31,7 +31,7 @@ export default function App() {
         }
       />
       <Route
-        path="/triaje"
+        path="/triaje/:userId"
         element={
           <LayoutWithBanner>
             <TriageForm />

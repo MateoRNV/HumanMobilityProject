@@ -5,21 +5,21 @@
   "title": "Ficha Nro. 0001",
   "sections": [
     {
+      "id": "sec-1",
       "order": 1,
-      "code": "ingreso_servicio",
       "title": "Ingreso del servicio",
       "fields": [
         {
+          "id": "fld-1",
           "order": 1,
-          "code": "fecha_registro",
           "title": "Fecha de registro",
           "type": "date",
           "required": true,
           "placeHolder": "Selecciona una fecha"
         },
         {
+          "id": "fld-2",
           "order": 2,
-          "code": "motivo_consulta",
           "title": "Motivo de consulta",
           "type": "multi-select",
           "options": [
@@ -35,8 +35,8 @@
           "required": true
         },
         {
+          "id": "fld-3",
           "order": 3,
-          "code": "servicio_activo",
           "title": "¿Se encuentra activo en el servicio?",
           "type": "select",
           "options": [
@@ -46,64 +46,64 @@
           "required": true
         },
         {
+          "id": "fld-4",
           "order": 4,
-          "code": "fecha_ultima_atencion",
           "title": "Fecha de última atención",
           "type": "date"
         }
       ]
     },
     {
+      "id": "sec-2",
       "order": 2,
-      "code": "datos_identificacion",
       "title": "Datos de identificación del usuario/a",
       "fields": [
         {
+          "id": "fld-5",
           "order": 5,
-          "code": "nombres_apellidos_representante",
           "title": "Nombres y apellidos del usuario/a representante",
           "type": "text",
           "required": true
         },
         {
+          "id": "fld-6",
           "order": 6,
-          "code": "direccion_domicilio_actual",
           "title": "Dirección del domicilio actual",
           "type": "textarea"
         },
         {
+          "id": "fld-7",
           "order": 7,
-          "code": "sector",
           "title": "Sector",
           "type": "text"
         },
         {
+          "id": "fld-8",
           "order": 8,
-          "code": "canton",
           "title": "Cantón",
           "type": "text"
         },
         {
+          "id": "fld-9",
           "order": 9,
-          "code": "telefonos",
           "title": "Teléfono(s)",
           "type": "text"
         },
         {
+          "id": "fld-10",
           "order": 10,
-          "code": "otro_contacto",
           "title": "Otro contacto",
           "type": "text"
         },
         {
+          "id": "fld-11",
           "order": 11,
-          "code": "correo_electronico",
           "title": "Correo electrónico",
           "type": "text"
         },
         {
+          "id": "fld-12",
           "order": 12,
-          "code": "estado_documento",
           "title": "¿Documento de identificación?",
           "type": "matrix",
           "multiselect": true,
@@ -147,44 +147,44 @@
           "observations": true
         },
         {
+          "id": "fld-13",
           "order": 13,
-          "code": "numero_documento",
           "title": "Número de documento",
           "type": "number"
         },
         {
+          "id": "fld-14",
           "order": 14,
-          "code": "observaciones_documento",
           "title": "Observaciones (estado del documento, copia, denuncia de pérdida, pasaporte humanitario, documento alterno, etc.)",
           "type": "textarea"
         },
         {
+          "id": "fld-15",
           "order": 15,
-          "code": "fecha_nacimiento",
           "title": "Fecha de nacimiento",
           "type": "date"
         },
         {
+          "id": "fld-16",
           "order": 16,
-          "code": "edad",
           "title": "Edad",
           "type": "number"
         },
         {
+          "id": "fld-17",
           "order": 17,
-          "code": "pais_origen",
           "title": "País de origen",
           "type": "text"
         },
         {
+          "id": "fld-18",
           "order": 18,
-          "code": "fecha_ingreso",
           "title": "Fecha de ingreso",
           "type": "date"
         },
         {
+          "id": "fld-19",
           "order": 19,
-          "code": "estatus_migratorio",
           "title": "Estatus migratorio",
           "type": "select",
           "options": [
@@ -193,8 +193,8 @@
           ]
         },
         {
+          "id": "fld-20",
           "order": 20,
-          "code": "intenciones_migratorias",
           "title": "Intenciones migratorias",
           "type": "multi-select",
           "options": [
@@ -211,8 +211,8 @@
           ]
         },
         {
+          "id": "fld-21",
           "order": 21,
-          "code": "sexo",
           "title": "Sexo",
           "type": "select",
           "options": [
@@ -225,8 +225,8 @@
           ]
         },
         {
+          "id": "fld-22",
           "order": 22,
-          "code": "genero",
           "title": "Género",
           "type": "select",
           "options": [
@@ -237,8 +237,8 @@
           ]
         },
         {
+          "id": "fld-23",
           "order": 23,
-          "code": "etnia",
           "title": "Etnia",
           "type": "select",
           "options": [
@@ -251,8 +251,8 @@
           ]
         },
         {
+          "id": "fld-24",
           "order": 24,
-          "code": "estado_civil",
           "title": "Estado Civil (para personas mayores de 12 años de edad)",
           "type": "select",
           "options": [
@@ -264,14 +264,14 @@
           ]
         },
         {
+          "id": "fld-25",
           "order": 25,
-          "code": "nombre_representante_grupo_familiar",
           "title": "Nombre del representante del grupo familiar",
           "type": "text"
         },
         {
+          "id": "fld-26",
           "order": 26,
-          "code": "pertenece_grupo_familiar",
           "title": "¿Pertenece a un grupo familiar?",
           "type": "select",
           "options": [
@@ -280,8 +280,8 @@
           ]
         },
         {
+          "id": "fld-27",
           "order": 27,
-          "code": "parentesco_representante_hogar",
           "title": "Parentesco con el representante del hogar (Si aplica)",
           "type": "select",
           "options": [
@@ -305,146 +305,137 @@
       ]
     },
     {
+      "id": "sec-3",
       "order": 3,
-      "code": "situaciones_vulnerabilidad",
       "title": "Situaciones de vulnerabilidad",
       "fields": [
         {
+          "id": "fld-28",
           "order": 28,
-          "code": "nna_separados",
           "title": "NNA separados",
           "type": "checkbox"
         },
         {
+          "id": "fld-29",
           "order": 29,
-          "code": "nna_no_acompanados",
           "title": "NNA no acompañados",
           "type": "checkbox"
         },
         {
+          "id": "fld-30",
           "order": 30,
-          "code": "nna_en_riesgo",
           "title": "NNA en riesgo",
           "type": "checkbox"
         },
         {
+          "id": "fld-31",
           "order": 31,
-          "code": "trabajo_infantil",
           "title": "Trabajo infantil",
           "type": "checkbox"
         },
         {
+          "id": "fld-32",
           "order": 32,
-          "code": "mujer_sola_en_riesgo",
           "title": "Mujer sola en riesgo",
           "type": "checkbox"
         },
         {
+          "id": "fld-33",
           "order": 33,
-          "code": "nina_adolescente_embarazada",
           "title": "Niña/Adolescente embarazada",
           "type": "checkbox"
         },
         {
+          "id": "fld-34",
           "order": 34,
-          "code": "mujer_embarazada",
           "title": "Mujer embarazada",
           "type": "checkbox"
         },
         {
+          "id": "fld-35",
           "order": 35,
-          "code": "mujer_lactancia",
           "title": "Mujer en lactancia",
           "type": "checkbox"
         },
         {
+          "id": "fld-36",
           "order": 36,
-          "code": "persona_lgbtiq",
           "title": "Persona LGBTIQ+",
           "type": "checkbox"
         },
         {
+          "id": "fld-37",
           "order": 37,
-          "code": "indicios_vbg",
           "title": "Indicios de violencia basada en género",
           "type": "checkbox"
         },
         {
+          "id": "fld-38",
           "order": 38,
-          "code": "presunta_trata_personas",
           "title": "Presunta trata de personas",
           "type": "checkbox"
         },
         {
+          "id": "fld-39",
           "order": 39,
-          "code": "presunto_trafico_migrantes",
           "title": "Presunto tráfico ilícito de migrantes",
           "type": "checkbox"
         },
         {
+          "id": "fld-40",
           "order": 40,
-          "code": "personas_mayores_vulnerabilidad",
           "title": "Personas adultas mayores en situación de vulnerabilidad",
           "type": "checkbox"
         },
         {
+          "id": "fld-41",
           "order": 41,
-          "code": "indicios_sobreviviente_tortura",
           "title": "Indicios de sobreviviente de tortura",
           "type": "checkbox"
         },
         {
+          "id": "fld-42",
           "order": 42,
-          "code": "victima_xenofobia",
           "title": "Víctima de xenofobia",
           "type": "checkbox"
         },
         {
+          "id": "fld-43",
           "order": 43,
-          "code": "discapacidad_miembro_familiar",
           "title": "Discapacidad de algún miembro del grupo familiar",
           "type": "checkbox",
-          "extraField": {
-            "type": "text",
-            "placeholder": "Si marcó, ¿cuál?"
-          }
+          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" }
         },
         {
+          "id": "fld-44",
           "order": 44,
-          "code": "enfermedad_catastrofica_cronica",
           "title": "Enfermedad catastrófica/crónica",
           "type": "checkbox",
-          "extraField": {
-            "type": "text",
-            "placeholder": "Si marcó, ¿cuál?"
-          }
+          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" }
         },
         {
+          "id": "fld-45",
           "order": 45,
-          "code": "otro_tipo_vulnerabilidad",
           "title": "Otro tipo de vulnerabilidad",
           "type": "checkbox",
-          "extraField": {
-            "type": "text",
-            "placeholder": "Si marcó, ¿cuál?"
-          }
+          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" }
         }
       ]
     },
     {
+      "id": "sec-4",
       "order": 4,
-      "code": "mecanismos_afrontamiento",
       "title": "Mecanismos de afrontamiento",
       "fields": [
         {
+          "id": "fld-46",
           "order": 46,
-          "code": "sexo_por_supervivencia",
           "title": "Sexo por supervivencia",
           "type": "checkbox"
         },
         {
+          "id": "fld-47",
           "order": 47,
-          "code": "numero_comidas_diarias",
           "title": "Número de comidas diarias",
           "type": "select",
           "options": [
@@ -454,8 +445,8 @@
           ]
         },
         {
+          "id": "fld-48",
           "order": 48,
-          "code": "tipo_vivienda",
           "title": "Tipo de vivienda",
           "type": "multi-select",
           "options": [
@@ -467,39 +458,39 @@
           ]
         },
         {
+          "id": "fld-49",
           "order": 49,
-          "code": "cuantas_personas_viven",
           "title": "¿Cuántas personas viven?",
           "type": "text"
         },
         {
+          "id": "fld-50",
           "order": 50,
-          "code": "riesgo_hacinamiento",
           "title": "Riesgo de hacinamiento",
           "type": "checkbox"
         },
         {
+          "id": "fld-51",
           "order": 51,
-          "code": "mendicidad",
           "title": "Mendicidad o riesgo de mendicidad",
           "type": "checkbox"
         },
         {
+          "id": "fld-52",
           "order": 52,
-          "code": "ninos_asisten_escuela",
           "title": "¿Los niños asisten a la escuela?",
           "type": "text"
         }
       ]
     },
     {
+      "id": "sec-5",
       "order": 5,
-      "code": "situacion_socioeconomica",
       "title": "Situación socioeconómica",
       "fields": [
         {
+          "id": "fld-53",
           "order": 53,
-          "code": "nivel_instruccion",
           "title": "Nivel de instrucción",
           "type": "multi-select",
           "options": [
@@ -513,14 +504,14 @@
           ]
         },
         {
+          "id": "fld-54",
           "order": 54,
-          "code": "profesion_capacitacion_tecnica",
           "title": "Profesión / Capacitación técnica",
           "type": "text"
         },
         {
+          "id": "fld-55",
           "order": 55,
-          "code": "idiomas",
           "title": "Idiomas (además del español)",
           "type": "select",
           "options": [
@@ -530,14 +521,14 @@
           "extraField": { "type": "text", "placeholder": "Si marcó Sí, ¿cuál?" }
         },
         {
+          "id": "fld-56",
           "order": 56,
-          "code": "experiencia_previa",
           "title": "Experiencia previa",
           "type": "textarea"
         },
         {
+          "id": "fld-57",
           "order": 57,
-          "code": "actividad_economica_actual",
           "title": "Actividad económica actual",
           "type": "multi-select",
           "options": [
@@ -550,27 +541,27 @@
           ]
         },
         {
+          "id": "fld-58",
           "order": 58,
-          "code": "habilidades",
           "title": "Habilidades",
           "type": "textarea"
         },
         {
+          "id": "fld-59",
           "order": 59,
-          "code": "ingreso_promedio_mensual",
           "title": "Ingreso promedio mensual del grupo familiar",
           "type": "text"
         }
       ]
     },
     {
+      "id": "sec-6",
       "order": 6,
-      "code": "acciones",
       "title": "Acciones",
       "fields": [
         {
+          "id": "fld-60",
           "order": 60,
-          "code": "derivacion_interna",
           "title": "Derivación interna",
           "type": "multi-select",
           "options": [
@@ -584,14 +575,14 @@
           ]
         },
         {
+          "id": "fld-61",
           "order": 61,
-          "code": "referencia_externa",
           "title": "Referencia externa",
           "type": "textarea"
         },
         {
+          "id": "fld-62",
           "order": 62,
-          "code": "motivos_referencia",
           "title": "Motivos de la referencia",
           "type": "textarea"
         }

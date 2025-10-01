@@ -70,11 +70,16 @@ export const Menu = () => {
                   {user.name} - {user.document}
                 </div>
                 <div className="flex gap-4">
-                  {/* {user.triage && ( */}
-                  <span className="material-symbols-outlined cursor-pointer">
-                    assignment
-                  </span>
-                  {/* )} */}
+                  {user.triage && (
+                    <Link
+                      to={`/triaje/${user.id}`}
+                      state={{ user }} // <-- pasa objeto user para prefill
+                      className="material-symbols-outlined cursor-pointer"
+                      title="Cuestionario de Triaje"
+                    >
+                      assignment
+                    </Link>
+                  )}
                   {/* {user.psychological && ( */}
                   <span className="material-symbols-outlined cursor-pointer">
                     psychology
