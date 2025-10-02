@@ -30,41 +30,89 @@ export const FormRender = ({
     buildAnswerIndex(initialAnswers)
   );
 
-  // util para leer valor “normalizado”
-  const getValue = (field) => {
-    const a = answerIndex.get(field.id);
-    if (!a) return null;
+  // Obtiene el valor normalizado para un field
+  const getNormalizedValue = (fieldDefinition) => {
+    const answerRecord = answerIndex.get(fieldDefinition.id);
+    if (!answerRecord) {
+      // Si no hay respuesta, buscar en initialAnswers
+      if (fieldDefinition.type === "matrix") {
+        // Buscar en initialAnswers por fieldId
+        const initialAnswer = initialAnswers.find(
+          (answer) => answer.fieldId === fieldDefinition.id
+        );
+        if (
+          initialAnswer &&
+          initialAnswer.value &&
+          typeof initialAnswer.value === "object"
+        ) {
+          return initialAnswer.value;
+        }
+        // Si tiene selections, convertir a value
+        if (initialAnswer && Array.isArray(initialAnswer.selections)) {
+          const selectionMap = {};
+          for (const selection of initialAnswer.selections) {
+            const rowValue = selection.row;
+            const columnValue = selection.column;
+            if (!Array.isArray(selectionMap[rowValue]))
+              selectionMap[rowValue] = [];
+            if (!selectionMap[rowValue].includes(columnValue))
+              selectionMap[rowValue].push(columnValue);
+          }
+          return selectionMap;
+        }
+        return {};
+      }
+      return null;
+    }
 
-    if (field.type === "select") return a.value ?? null;
+    if (fieldDefinition.type === "select") return answerRecord.value ?? null;
 
-    if (field.type === "multi-select")
-      return Array.isArray(a.value) ? a.value : [];
+    if (fieldDefinition.type === "multi-select")
+      return Array.isArray(answerRecord.value) ? answerRecord.value : [];
 
-    if (field.type === "checkbox") return !!a.value;
+    if (fieldDefinition.type === "checkbox") return !!answerRecord.value;
 
-    if (field.type === "matrix") {
-      return {
-        selections: a.selections ?? [],
-        observations: a.observations ?? "",
-      };
+    if (fieldDefinition.type === "matrix") {
+      // Para MatrixInput controlado, value es un objeto { [row]: [col, col, ...] }
+      if (answerRecord.value && typeof answerRecord.value === "object")
+        return answerRecord.value;
+      // Si la respuesta viene con selections, convertirlas a value
+      if (Array.isArray(answerRecord.selections)) {
+        const selectionMap = {};
+        for (const selection of answerRecord.selections) {
+          const rowValue = selection.row;
+          const columnValue = selection.column;
+          if (!Array.isArray(selectionMap[rowValue]))
+            selectionMap[rowValue] = [];
+          if (!selectionMap[rowValue].includes(columnValue))
+            selectionMap[rowValue].push(columnValue);
+        }
+        return selectionMap;
+      }
+      return {};
     }
 
     // text | number | date | textarea | table
-    return a.value ?? null;
+    return answerRecord.value ?? null;
   };
 
   // util para setear y notificar
-  const setAnswer = (field, partial) => {
+  const setAnswer = (fieldDefinition, partialUpdate) => {
     setAnswerIndex((prev) => {
-      const curr = prev.get(field.id) || {
-        fieldId: field.id,
-        type: field.type,
+      const currentEntry = prev.get(fieldDefinition.id) || {
+        fieldId: fieldDefinition.id,
+        type: fieldDefinition.type,
       };
-      const next = { ...curr, ...partial, fieldId: field.id, type: field.type };
-      const clone = new Map(prev);
-      clone.set(field.id, next);
-      onChange?.(field.id, next);
-      return clone;
+      const nextEntry = {
+        ...currentEntry,
+        ...partialUpdate,
+        fieldId: fieldDefinition.id,
+        type: fieldDefinition.type,
+      };
+      const nextMap = new Map(prev);
+      nextMap.set(fieldDefinition.id, nextEntry);
+      onChange?.(fieldDefinition.id, nextEntry);
+      return nextMap;
     });
   };
 
@@ -89,40 +137,42 @@ export const FormRender = ({
     </div>
   );
 
-  const renderField = (field) => {
-    const v = getValue(field);
+  const renderField = (fieldDefinition) => {
+    const normalizedValue = getNormalizedValue(fieldDefinition);
 
-    switch (field.type) {
+    switch (fieldDefinition.type) {
       case "text":
         return (
-          <FieldRow field={field}>
+          <FieldRow field={fieldDefinition}>
             <FloatingInput
-              id={`text-${field.id}`}
+              id={`text-${fieldDefinition.id}`}
               type="text"
-              label={field.placeholder || "Escribe aquí..."}
+              label={fieldDefinition.placeholder || "Escribe aquí..."}
               widthClass="w-96"
               inputFocusClass="focus:border-blue-500"
               labelFocusClass="peer-focus:text-blue-500"
-              required={field.required}
-              defaultValue={v ?? ""}
-              onBlur={(e) => setAnswer(field, { value: e.target.value })}
+              required={fieldDefinition.required}
+              defaultValue={normalizedValue ?? ""}
+              onBlur={(e) =>
+                setAnswer(fieldDefinition, { value: e.target.value })
+              }
             />
           </FieldRow>
         );
       case "number":
         return (
-          <FieldRow field={field}>
+          <FieldRow field={fieldDefinition}>
             <FloatingInput
-              id={`number-${field.id}`}
+              id={`number-${fieldDefinition.id}`}
               type="number"
-              label={field.placeholder || "Número"}
+              label={fieldDefinition.placeholder || "Número"}
               widthClass="w-40"
-              inputFocusClass="focus:border-green-500"
-              labelFocusClass="peer-focus:text-green-500"
-              required={field.required}
-              defaultValue={v ?? ""}
+              inputFocusClass="focus:border-blue-500"
+              labelFocusClass="peer-focus:text-blue-500"
+              required={fieldDefinition.required}
+              defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
-                setAnswer(field, {
+                setAnswer(fieldDefinition, {
                   value: e.target.value === "" ? null : Number(e.target.value),
                 })
               }
@@ -132,12 +182,15 @@ export const FormRender = ({
 
       case "date":
         return (
-          <FieldRow field={field} rightClassName={styles["date-input"]}>
+          <FieldRow
+            field={fieldDefinition}
+            rightClassName={styles["date-input"]}
+          >
             <DateInput
-              id={`date-${field.id}`}
-              label={field.placeholder || "Selecciona una fecha"}
-              value={v ?? ""}
-              onChange={(val) => setAnswer(field, { value: val })}
+              id={`date-${fieldDefinition.id}`}
+              label={fieldDefinition.placeholder || "Selecciona una fecha"}
+              value={normalizedValue ?? ""}
+              onChange={(val) => setAnswer(fieldDefinition, { value: val })}
             />
           </FieldRow>
         );
@@ -145,25 +198,25 @@ export const FormRender = ({
       case "select":
       case "multi-select":
         return (
-          <FieldRow field={field}>
+          <FieldRow field={fieldDefinition}>
             <Select
               className="w-full"
-              options={field.options || []}
+              options={fieldDefinition.options || []}
               isClearable
               isSearchable
-              isMulti={field.type === "multi-select"}
-              required={field.required}
+              isMulti={fieldDefinition.type === "multi-select"}
+              required={fieldDefinition.required}
               value={
-                field.type === "multi-select"
-                  ? optionsByValues(field.options, v)
-                  : optionByValue(field.options, v)
+                fieldDefinition.type === "multi-select"
+                  ? optionsByValues(fieldDefinition.options, normalizedValue)
+                  : optionByValue(fieldDefinition.options, normalizedValue)
               }
               onChange={(opt) => {
-                if (field.type === "multi-select") {
+                if (fieldDefinition.type === "multi-select") {
                   const values = (opt || []).map((o) => o.value);
-                  setAnswer(field, { value: values });
+                  setAnswer(fieldDefinition, { value: values });
                 } else {
-                  setAnswer(field, { value: opt ? opt.value : null });
+                  setAnswer(fieldDefinition, { value: opt ? opt.value : null });
                 }
               }}
             />
@@ -171,36 +224,15 @@ export const FormRender = ({
         );
 
       case "matrix": {
-        const ans = answerIndex.get(field.id);
-
+        // value es el objeto controlado
         return (
-          <FieldRow field={field} key={field.id}>
+          <FieldRow field={fieldDefinition} key={fieldDefinition.id}>
             <MatrixInput
-              field={field}
-              selections={ans?.selections || []}
-              onChange={(row, col) => {
-                const isMulti = !!field.multiselect;
-                const prevSel = answerIndex[field.id]?.selections || [];
-
-                let nextSel;
-                if (isMulti) {
-                  const exists = prevSel.some(
-                    (s) => s.row === row && s.column === col
-                  );
-                  nextSel = exists
-                    ? prevSel.filter(
-                        (s) => !(s.row === row && s.column === col)
-                      )
-                    : [...prevSel, { row, column: col }];
-                } else {
-                  nextSel = [
-                    ...prevSel.filter((s) => s.row !== row),
-                    { row, column: col },
-                  ];
-                }
-
-                setAnswer(field, { type: "matrix", selections: nextSel });
-              }}
+              field={fieldDefinition}
+              value={getNormalizedValue(fieldDefinition)}
+              onChange={(nextValue) =>
+                setAnswer(fieldDefinition, { value: nextValue })
+              }
             />
           </FieldRow>
         );
@@ -208,28 +240,35 @@ export const FormRender = ({
 
       case "checkbox":
         return (
-          <FieldRow field={field} rightClassName={styles["date-input"]}>
+          <FieldRow
+            field={fieldDefinition}
+            rightClassName={styles["date-input"]}
+          >
             <CheckboxInput
-              checked={!!v}
-              onChange={(checked) => setAnswer(field, { value: checked })}
+              checked={!!normalizedValue}
+              onChange={(checked) =>
+                setAnswer(fieldDefinition, { value: checked })
+              }
             />
           </FieldRow>
         );
 
       case "textarea":
         return (
-          <FieldRow field={field}>
+          <FieldRow field={fieldDefinition}>
             <TextareaField
-              label={field.placeholder || "Escribe aquí..."}
-              defaultValue={v ?? ""}
-              onBlur={(e) => setAnswer(field, { value: e.target.value })}
-              required={field.required}
+              label={fieldDefinition.placeholder || "Escribe aquí..."}
+              defaultValue={normalizedValue ?? ""}
+              onBlur={(e) =>
+                setAnswer(fieldDefinition, { value: e.target.value })
+              }
+              required={fieldDefinition.required}
             />
           </FieldRow>
         );
 
       case "table":
-        return <Table field={field} />;
+        return <Table field={fieldDefinition} />;
 
       default:
         return null;
@@ -238,8 +277,27 @@ export const FormRender = ({
 
   const handleSubmit = (e) => {
     e?.preventDefault?.();
-    const answers = Array.from(answerIndex.values());
-    onSubmit?.({ answers });
+    // Convertir matrices a formato selections
+    const submittedAnswers = Array.from(answerIndex.values()).map(
+      (answerEntry) => {
+        if (
+          answerEntry.type === "matrix" &&
+          answerEntry.value &&
+          typeof answerEntry.value === "object"
+        ) {
+          // value: { [row]: [col, col, ...] } => selections: [{row, column}]
+          const selectionsArray = [];
+          for (const rowKey in answerEntry.value) {
+            for (const columnKey of answerEntry.value[rowKey]) {
+              selectionsArray.push({ row: rowKey, column: columnKey });
+            }
+          }
+          return { ...answerEntry, selections: selectionsArray };
+        }
+        return answerEntry;
+      }
+    );
+    onSubmit?.({ answers: submittedAnswers });
   };
 
   return (

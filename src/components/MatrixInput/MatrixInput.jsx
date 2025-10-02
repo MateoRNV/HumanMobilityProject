@@ -1,59 +1,52 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useCallback } from "react";
 
-export const MatrixInput = ({ field, value, selections, onChange }) => {
-  const headerRow = useMemo(
-    () => field.rows.find((r) => r.isHeader),
+/**
+ * MatrixInput
+ * - Renderiza una matriz de checkboxes (varias columnas por fila).
+ * - Componente controlado: recibe un objeto "value" de la forma { [rowValue]: [colValue, ...] }
+ * - Para compatibilidad también acepta la prop "selections" (array de {row, column}) y la convierte.
+ */
+export const MatrixInput = ({ field, value, selections, onChange = () => {} }) => {
+  // 1. Separar header y filas de datos
+  const headerDefinition = useMemo(
+    () => field.rows.find(row => row.isHeader),
     [field.rows]
   );
-  const bodyRows = useMemo(
-    () => field.rows.filter((r) => !r.isHeader),
+  const dataRows = useMemo(
+    () => field.rows.filter(row => !row.isHeader),
     [field.rows]
   );
 
-  const [answers, setAnswers] = useState(() => Object.create(null));
-
-  useEffect(() => {
-    if (value && typeof value === "object") setAnswers(value);
-  }, [value]);
-
-  useEffect(() => {
-    if (!value && Array.isArray(selections)) {
-      const isMulti = !!field.multiselect;
-      const map = Object.create(null);
-      for (const sel of selections) {
-        const r = sel.row;
-        const c = sel.column;
-        if (isMulti) {
-          if (!Array.isArray(map[r])) map[r] = [];
-          if (!map[r].includes(c)) map[r].push(c);
-        } else {
-          map[r] = c;
-        }
+  // 2. Normalizar el objeto de selecciones por fila
+  const rowSelections = useMemo(() => {
+    // Caso principal: value controlado
+    if (value && typeof value === "object") {
+      const normalized = {};
+      for (const rowKey in value) {
+        normalized[rowKey] = Array.isArray(value[rowKey]) ? value[rowKey] : [];
       }
-      setAnswers(map);
+      return normalized;
     }
-  }, [selections, value, field.multiselect]);
-
-  const handleSelect = (rowValue, colValue) => {
-    setAnswers((prev) => {
-      const isMulti = !!field.multiselect;
-      const current = prev[rowValue];
-      let nextForRow;
-
-      if (isMulti) {
-        const list = Array.isArray(current) ? current : [];
-        nextForRow = list.includes(colValue)
-          ? list.filter((v) => v !== colValue)
-          : [...list, colValue];
-      } else {
-        nextForRow = colValue;
+    // Caso legado: venir con selections (array)
+    if (Array.isArray(selections)) {
+      const selectionMap = {};
+      for (const { row, column } of selections) {
+        if (!Array.isArray(selectionMap[row])) selectionMap[row] = [];
+        if (!selectionMap[row].includes(column)) selectionMap[row].push(column);
       }
+      return selectionMap;
+    }
+    return {};
+  }, [value, selections]);
 
-      const next = { ...prev, [rowValue]: nextForRow };
-      if (onChange) onChange(rowValue, colValue);
-      return next;
-    });
-  };
+  // 3. Toggle de una celda
+  const toggleCell = useCallback((rowValue, colValue) => {
+    const current = rowSelections[rowValue] || [];
+    const nextForRow = current.includes(colValue)
+      ? current.filter(v => v !== colValue)
+      : [...current, colValue];
+    onChange({ ...rowSelections, [rowValue]: nextForRow });
+  }, [rowSelections, onChange]);
 
   const nameBase = field.code || field.id || "matrix";
 
@@ -73,7 +66,7 @@ export const MatrixInput = ({ field, value, selections, onChange }) => {
           <thead>
             <tr className="bg-gray-50">
               <th className="text-left font-medium px-4 py-3 w-[45%]">
-                {headerRow ? headerRow.label : ""}
+                {headerDefinition?.label || ""}
               </th>
               {field.columns.map((col) => (
                 <th key={col.value} className="font-medium px-4 py-3 text-center">
@@ -83,27 +76,23 @@ export const MatrixInput = ({ field, value, selections, onChange }) => {
             </tr>
           </thead>
           <tbody>
-            {bodyRows.map((row) => (
+            {dataRows.map((row) => (
               <tr key={row.value} className="odd:bg-white even:bg-gray-50/60">
                 <td className="px-4 py-3 align-middle text-gray-800">
                   {row.label}
                 </td>
                 {field.columns.map((col) => {
-                  const isMulti = !!field.multiselect;
-                  const valueForRow = answers[row.value];
-                  const checked = isMulti
-                    ? Array.isArray(valueForRow) && valueForRow.includes(col.value)
-                    : valueForRow === col.value;
-
+                  const selectedCols = rowSelections[row.value] || [];
+                  const checked = selectedCols.includes(col.value);
                   return (
                     <td key={col.value} className="px-4 py-3 text-center">
                       <label className="inline-flex items-center gap-2 cursor-pointer select-none">
                         <input
-                          type={isMulti ? "checkbox" : "radio"}
-                          name={`matrix-${nameBase}-${row.value}${isMulti ? "-multi" : ""}`}
+                          type="checkbox"
+                          name={`matrix-${nameBase}-${row.value}`}
                           value={col.value}
-                          checked={!!checked}
-                          onChange={() => handleSelect(row.value, col.value)}
+                          checked={checked}
+                          onChange={() => toggleCell(row.value, col.value)}
                           className="h-4 w-4 accent-black"
                           aria-label={`${row.label}: ${col.label}`}
                         />
