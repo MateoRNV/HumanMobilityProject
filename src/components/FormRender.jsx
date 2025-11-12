@@ -285,8 +285,33 @@ export const FormRender = ({
         );
 
       case "table":
-        return <Table field={fieldDefinition} />;
-
+        return (
+          <div className="p-3">
+            <Table
+              columns={fieldDefinition.columns}
+              data={normalizedValue || []}
+              onChange={(updatedRows) =>
+                setAnswer(fieldDefinition, { value: updatedRows })
+              }
+              allowAddRows={fieldDefinition.allowAddRows}
+              canDeleteRows={fieldDefinition.canDeleteRows}
+              addRowText={fieldDefinition.addRowText}
+            />
+          </div>
+        );
+      case "long-text":
+        return (
+          <div>
+            <TextareaField
+              label={fieldDefinition.placeholder || "Escribe aquí..."}
+              defaultValue={normalizedValue ?? ""}
+              onBlur={(e) =>
+                setAnswer(fieldDefinition, { value: e.target.value })
+              }
+              required={fieldDefinition.required}
+            />
+          </div>
+        );
       default:
         return null;
     }

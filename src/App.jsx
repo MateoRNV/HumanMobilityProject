@@ -39,7 +39,7 @@ export default function App() {
         }
       />
       <Route
-        path="/trabajo-social"
+        path="/trabajo-social/:userId"
         element={
           <LayoutWithBanner>
             <SocialWorkForm />

@@ -5,35 +5,80 @@
   "title": "Ficha Nro. 0001",
   "sections": [
     {
+      "id": "sec-1",
       "order": 1,
-      "code": "ingreso_servicio",
-      "title": "Ingreso del servicio",
+      "title": "SITUACIÓN DE VULNERABILIDAD DESCRITA EN FICHA DE TRIAJE",
       "fields": [
         {
+          "id": "fld-1",
           "order": 1,
-          "code": "integrantes_familia",
-          "title": "Integrantes del núcleo familiar",
+          "title": "",
+          "type": "long-text"
+        }
+      ]
+    },
+    {
+      "id": "sec-2",
+      "order": 2,
+      "title": "Estructura Familiar",
+      "fields": [
+        {
+          "id": "fld-1",
+          "order": 1,
+          "title": "",
           "type": "table",
           "columns": [
-            { "key": "name", "header": "Nombres y Apellidos", "type": "text" },
-            { "key": "age", "header": "Edad", "type": "text" },
-            { "key": "relationship", "header": "Parentesco", "type": "text" },
-            {
-              "key": "marital_status",
-              "header": "Estado Civil",
-              "type": "text"
-            },
-            {
-              "key": "education_level",
-              "header": "Grado de Instrucción",
-              "type": "text"
-            },
-            { "key": "occupation", "header": "Ocupación", "type": "text" },
-            { "key": "disability", "header": "Discapacidad", "type": "text" }
+            { "id": "name", "header": "Nombres y Apellidos", "width": "20%" },
+            { "id": "age", "header": "Edad", "width": "10%" },
+            { "id": "relationship", "header": "Parentesco", "width": "15%" },
+            { "id": "marital_status", "header": "Estado Civil", "width": "15%" },
+            { "id": "education_level", "header": "Grado de Intrucción", "width": "15%" },
+            { "id": "occupation", "header": "Ocupación", "width": "15%" },
+            { "id": "disability", "header": "Discapacidad", "width": "15%" }
           ],
           "allowAddRows": true,
           "canDeleteRows": true,
-          "addRowText": "Agregar integrante"
+          "addRowText": "Agregar fila"
+        },
+        {
+          "id": "fld-2",
+          "order": 2,
+          "title": "Tipos de familia",
+          "type": "multi-select",
+          "options": [
+            {
+              "value": "nuclear",
+              "label": "Nuclear"
+            },
+            {
+              "value": "ampliada",
+              "label": "Ampliada"
+            },
+            {
+              "value": "incompleta",
+              "label": "Incompleta"
+            },
+            {
+              "value": "reorganizada",
+              "label": "Reorganizada"
+            },
+            {
+              "value": "monoparental",
+              "label": "Monoparental"
+            },
+            {
+              "value": "homoparental",
+              "label": "Homoparental"
+            },
+            {
+              "value": "padres_separados",
+              "label": "Padres separados"
+            },
+            {
+              "value": "unipersonal",
+              "label": "Unipersonal"
+            }
+          ]
         }
       ]
     }
