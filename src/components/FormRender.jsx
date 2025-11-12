@@ -14,7 +14,12 @@ const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
 // answers[] -> mapa por fieldId
 const buildAnswerIndex = (answers = []) => {
   const idx = new Map();
-  for (const a of answers) idx.set(a.fieldId, a);
+  for (const a of answers) {
+    idx.set(a.fieldId, {
+      ...a,
+      observationsValue: a.observationsValue || a.observations || "",
+    });
+  }
   return idx;
 };
 
@@ -124,17 +129,29 @@ export const FormRender = ({
 
   /** UI helpers */
   const FieldRow = ({ field, rightClassName = "", children }) => (
-    <div className="flex">
-      <div className="flex items-center w-1/2 p-3 border-right">
-        <div className="me-3">{`${field.order})`}</div>
-        <div>{field.title}</div>
+    <>
+      <div className="flex">
+        <div className="flex items-center w-1/2 p-3 border-right">
+          <div className="me-3">{`${field.order})`}</div>
+          <div>{field.title}</div>
+        </div>
+        <div
+          className={`flex justify-center items-center w-1/2 p-3 ${rightClassName}`}
+        >
+          {children}
+        </div>
       </div>
-      <div
-        className={`flex justify-center items-center w-1/2 p-3 ${rightClassName}`}
-      >
-        {children}
-      </div>
-    </div>
+      {field.observations && (
+        <div className="w-full mt-2">
+          <TextareaField
+            id={`observations-${field.id}`}
+            label={field.observationsLabel || "Observaciones"}
+            value={answerIndex.get(field.id)?.observationsValue || ""}
+            onChange={(val) => setAnswer(field, { observationsValue: val })}
+          />
+        </div>
+      )}
+    </>
   );
 
   const renderField = (fieldDefinition) => {
@@ -316,6 +333,18 @@ export const FormRender = ({
                 {renderField(field)}
               </div>
             ))}
+            {section.observations && (
+              <div className="w-full mt-2 px-8">
+                <TextareaField
+                  id={`observations-${section.id}`}
+                  label={section.observationsLabel || "Observaciones"}
+                  value={answerIndex.get(section.id)?.observationsValue || ""}
+                  onChange={(val) =>
+                    setAnswer(section, { observationsValue: val })
+                  }
+                />
+              </div>
+            )}
           </div>
         ))}
       </div>

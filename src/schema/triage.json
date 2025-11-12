@@ -144,7 +144,8 @@
             { "value": "vigente", "label": "V" },
             { "value": "caducado", "label": "C" }
           ],
-          "observations": true
+          "observations": true,
+          "observationsLabel": "Observaciones:"
         },
         {
           "id": "fld-13",
@@ -155,8 +156,12 @@
         {
           "id": "fld-14",
           "order": 14,
-          "title": "Observaciones (estado del documento, copia, denuncia de pérdida, pasaporte humanitario, documento alterno, etc.)",
-          "type": "textarea"
+          "title": "Riesgo de apatridia",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Si" },
+            { "value": "no", "label": "No" }
+          ]
         },
         {
           "id": "fld-15",
@@ -418,7 +423,9 @@
           "order": 45,
           "title": "Otro tipo de vulnerabilidad",
           "type": "checkbox",
-          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" }
+          "extraField": { "type": "text", "placeholder": "Si marcó, ¿cuál?" },
+          "observations": true,
+          "observationsLabel": "Observaciones de vulnerabilidad: "
         }
       ]
     },
@@ -552,7 +559,9 @@
           "title": "Ingreso promedio mensual del grupo familiar",
           "type": "text"
         }
-      ]
+      ],
+      "observations": true,
+      "observationsLabel": "OBSERVACIONES: "
     },
     {
       "id": "sec-6",

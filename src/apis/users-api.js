@@ -31,7 +31,7 @@ export const users = [
           fieldId: "fld-12",
           type: "matrix",
           selections: [{ row: "dni_origen", column: "vigente" }],
-          observations: "Tiene copia física y digital.",
+          observations: "Tiene copia física y digital",
         },
         { fieldId: "fld-13", type: "text", value: 12345678 },
         { fieldId: "fld-14", type: "textarea", value: "" },
@@ -161,7 +161,7 @@ export const users = [
             { row: "pasaporte_origen", column: "caducado" },
             { row: "visa_temporal", column: "vigente" },
           ],
-          observations: "En trámite de renovación de pasaporte.",
+          observationsValue: "En trámite de renovación de pasaporte",
         },
         { fieldId: "fld-13", type: "number", value: 87654321 },
         {
