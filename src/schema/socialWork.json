@@ -29,12 +29,20 @@
           "type": "table",
           "columns": [
             { "id": "name", "header": "Nombres y Apellidos", "width": "20%" },
-            { "id": "age", "header": "Edad", "width": "10%" },
+            { "id": "age", "header": "Edad", "width": "7%" },
             { "id": "relationship", "header": "Parentesco", "width": "15%" },
-            { "id": "marital_status", "header": "Estado Civil", "width": "15%" },
-            { "id": "education_level", "header": "Grado de Intrucción", "width": "15%" },
+            {
+              "id": "marital_status",
+              "header": "Estado Civil",
+              "width": "15%"
+            },
+            {
+              "id": "education_level",
+              "header": "Grado de Intrucción",
+              "width": "12%"
+            },
             { "id": "occupation", "header": "Ocupación", "width": "15%" },
-            { "id": "disability", "header": "Discapacidad", "width": "15%" }
+            { "id": "disability", "header": "Discapacidad", "width": "10%" }
           ],
           "allowAddRows": true,
           "canDeleteRows": true,

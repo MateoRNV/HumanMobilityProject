@@ -43,12 +43,16 @@ export const Table = ({
                 <th
                   key={col.id}
                   className="border border-gray-300 px-4 py-2 text-left"
+                  style={{ width: col.width || "auto" }}
                 >
                   {col.header}
                 </th>
               ))}
             {canDeleteRows && (
-              <th className="border border-gray-300 px-4 py-2">Acciones</th>
+              <th
+                style={{ width: "8%" }}
+              >
+              </th>
             )}
           </tr>
         </thead>
@@ -61,6 +65,7 @@ export const Table = ({
                     <td
                       key={col.id}
                       className="border border-gray-300 px-4 py-2"
+                      style={{ width: col.width || "auto" }}
                     >
                       <input
                         type="text"
