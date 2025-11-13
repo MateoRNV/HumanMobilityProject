@@ -534,6 +534,144 @@
           "type": "long-text"
         }
       ]
+    },
+    {
+      "id": "sec-5",
+      "order": 5,
+      "title": "SALUD",
+      "fields": [
+        {
+          "id": "fld-26",
+          "order": 1,
+          "title": "¿Tiene alguna enfermedad?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-27",
+          "order": 2,
+          "title": "¿Es una enfermedad catastrófica, huérfana o rara?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-28",
+          "order": 3,
+          "title": "¿Qué enfermedad tiene?",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-29",
+          "order": 4,
+          "title": "¿Qué medicamentos?",
+          "type": "long-text"
+        },
+        {
+          "id": "fld-30",
+          "order": 5,
+          "title": "¿Consumo problemático de sustancias?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-31",
+          "order": 6,
+          "title": "¿Presenta problemas de salud mental?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-32",
+          "order": 7,
+          "title": "¿Tiene discapacidad?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-33",
+          "order": 8,
+          "title": "¿Tiene carnet de discapacidad?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-34",
+          "order": 9,
+          "title": "¿Porcentaje de discapacidad?",
+          "type": "text"
+        },
+        {
+          "id": "fld-35",
+          "order": 10,
+          "title": "Tipo de discapacidad",
+          "type": "multi-select",
+          "options": [
+            { "value": "fisica", "label": "Física" },
+            { "value": "intelectual", "label": "Intelectual" },
+            { "value": "lenguaje", "label": "Lenguaje" },
+            { "value": "visual", "label": "Visual" },
+            { "value": "auditiva", "label": "Auditiva" },
+            { "value": "psicosocial", "label": "Psicosocial" }
+          ]
+        },
+        {
+          "id": "fld-36",
+          "order": 11,
+          "title": "¿Está embarazada?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" },
+            { "value": "no_aplica", "label": "No aplica" }
+          ]
+        },
+        {
+          "id": "fld-37",
+          "order": 12,
+          "title": "Último control prenatal",
+          "type": "text"
+        },
+        {
+          "id": "fld-38",
+          "order": 13,
+          "title": "¿Se presume desnutrición infantil?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" },
+            { "value": "no_aplica", "label": "No aplica" }
+          ]
+        },
+        {
+          "id": "fld-39",
+          "order": 14,
+          "title": "¿Se encuentra en período de lactancia?",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" },
+            { "value": "no_aplica", "label": "No aplica" }
+          ]
+        }
+      ]
     }
   ]
 }
