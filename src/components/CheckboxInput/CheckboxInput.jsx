@@ -1,13 +1,17 @@
 import React from "react";
 
 export const CheckboxInput = ({ checked, onChange, ...props }) => {
+  const handleChange = (e) => {
+    onChange?.(e.target.checked);
+  };
+
   return (
     <label className="inline-flex items-center cursor-pointer">
       <span className="relative flex">
         <input
           type="checkbox"
           checked={checked}
-          onChange={onChange}
+          onChange={handleChange}
           className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-400 
                      focus:outline-none focus:ring-2 focus:ring-blue-300"
           {...props}

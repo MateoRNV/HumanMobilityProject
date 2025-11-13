@@ -262,8 +262,8 @@ export const FormRender = ({
           >
             <CheckboxInput
               checked={!!normalizedValue}
-              onChange={(checked) =>
-                setAnswer(fieldDefinition, { value: checked })
+              onChange={
+                (checked) => setAnswer(fieldDefinition, { value: checked }) // Actualiza el estado con el valor actualizado
               }
             />
           </FieldRow>
@@ -338,12 +338,12 @@ export const FormRender = ({
                         ? [...normalizedValue]
                         : [];
                       if (checked) {
-                        // agregar
+                        // Agregar el valor si está marcado
                         if (!updatedValues.includes(opt.value)) {
                           updatedValues.push(opt.value);
                         }
                       } else {
-                        // quitar
+                        // Quitar el valor si está desmarcado
                         updatedValues = updatedValues.filter(
                           (v) => v !== opt.value
                         );
