@@ -3,7 +3,7 @@ import React from "react";
 export const CheckboxInput = ({ checked, onChange, ...props }) => {
   return (
     <label className="inline-flex items-center cursor-pointer">
-      <span className="relative">
+      <span className="relative flex">
         <input
           type="checkbox"
           checked={checked}

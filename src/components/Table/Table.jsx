@@ -95,7 +95,7 @@ export const Table = ({
         <div className="w-full flex justify-end">
           <button
             type="button"
-            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             onClick={handleAddRow}
           >
             {addRowText || "Agregar fila"}

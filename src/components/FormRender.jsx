@@ -129,7 +129,7 @@ export const FormRender = ({
 
   /** UI helpers */
   const FieldRow = ({ field, rightClassName = "", children }) => (
-    <>
+    <div className={styles["field-container"]}>
       <div className="flex">
         <div className="flex items-center w-1/2 p-3 border-right">
           <div className="me-3">{`${field.order})`}</div>
@@ -151,7 +151,7 @@ export const FormRender = ({
           />
         </div>
       )}
-    </>
+    </div>
   );
 
   const renderField = (fieldDefinition) => {
@@ -241,7 +241,6 @@ export const FormRender = ({
         );
 
       case "matrix": {
-        // value es el objeto controlado
         return (
           <FieldRow field={fieldDefinition} key={fieldDefinition.id}>
             <MatrixInput
@@ -286,7 +285,7 @@ export const FormRender = ({
 
       case "table":
         return (
-          <div className="p-3">
+          <div className={`${styles["table-container"]}`}>
             <Table
               columns={fieldDefinition.columns}
               data={normalizedValue || []}
@@ -301,7 +300,10 @@ export const FormRender = ({
         );
       case "long-text":
         return (
-          <div>
+          <div className={styles["field-container"]}>
+            {fieldDefinition.title && (
+              <h3 className="mt-4 mb-2 ms-3">{`${fieldDefinition.order}) ${fieldDefinition.title}`}</h3>
+            )}
             <TextareaField
               label={fieldDefinition.placeholder || "Escribe aquí..."}
               defaultValue={normalizedValue ?? ""}
@@ -310,6 +312,48 @@ export const FormRender = ({
               }
               required={fieldDefinition.required}
             />
+          </div>
+        );
+      case "multi-checkbox":
+        return (
+          <div>
+            {fieldDefinition.title && (
+              <h3
+                className={styles["checkbox-title"]}
+              >{`${fieldDefinition.order}) ${fieldDefinition.title}`}</h3>
+            )}
+            <div className="flex flex-col">
+              {(fieldDefinition.options || []).map((opt) => (
+                <div className={styles["checkbox-container"]} key={opt.value}>
+                  <div>{opt.label}</div>
+                  <CheckboxInput
+                    key={opt.value}
+                    checked={
+                      Array.isArray(normalizedValue)
+                        ? normalizedValue.includes(opt.value)
+                        : false
+                    }
+                    onChange={(checked) => {
+                      let updatedValues = Array.isArray(normalizedValue)
+                        ? [...normalizedValue]
+                        : [];
+                      if (checked) {
+                        // agregar
+                        if (!updatedValues.includes(opt.value)) {
+                          updatedValues.push(opt.value);
+                        }
+                      } else {
+                        // quitar
+                        updatedValues = updatedValues.filter(
+                          (v) => v !== opt.value
+                        );
+                      }
+                      setAnswer(fieldDefinition, { value: updatedValues });
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         );
       default:
@@ -354,9 +398,7 @@ export const FormRender = ({
               className={styles["section-title"]}
             >{`${section.order}) ${section.title}`}</h2>
             {[...(section.fields || [])].sort(byOrder).map((field) => (
-              <div key={field.id} className={styles["field-container"]}>
-                {renderField(field)}
-              </div>
+              <div key={field.id}>{renderField(field)}</div>
             ))}
             {section.observations && (
               <div className="w-full mt-2 px-8">

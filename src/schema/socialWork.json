@@ -23,7 +23,7 @@
       "title": "Estructura Familiar",
       "fields": [
         {
-          "id": "fld-1",
+          "id": "fld-2",
           "order": 1,
           "title": "",
           "type": "table",
@@ -49,7 +49,7 @@
           "addRowText": "Agregar fila"
         },
         {
-          "id": "fld-2",
+          "id": "fld-3",
           "order": 2,
           "title": "Tipos de familia",
           "type": "multi-select",
@@ -85,6 +85,123 @@
             {
               "value": "unipersonal",
               "label": "Unipersonal"
+            }
+          ]
+        },
+        {
+          "id": "fld-4",
+          "order": 3,
+          "title": "Autopercepción de identidad de Género",
+          "type": "select",
+          "options": [
+            {
+              "value": "masculino",
+              "label": "Masculino"
+            },
+            {
+              "value": "femenino",
+              "label": "Femenino"
+            },
+            {
+              "value": "trans",
+              "label": "Trans"
+            },
+            {
+              "value": "genero_fluido",
+              "label": "Genero fluido"
+            },
+            {
+              "value": "no_responde",
+              "label": "No responde"
+            }
+          ]
+        },
+        {
+          "id": "fld-5",
+          "order": 4,
+          "title": "Orientación Sexual",
+          "type": "select",
+          "options": [
+            {
+              "value": "heterosexual",
+              "label": "Heterosexual"
+            },
+            {
+              "value": "bisexual",
+              "label": "Bisexual"
+            },
+            {
+              "value": "gay",
+              "label": "Gay"
+            },
+            {
+              "value": "lesbiana",
+              "label": "Lesbiana"
+            },
+            {
+              "value": "asexual",
+              "label": "Asexual"
+            },
+            {
+              "value": "otro",
+              "label": "Otro"
+            }
+          ]
+        },
+        {
+          "id": "fld-6",
+          "order": 5,
+          "title": "Descripción familiar",
+          "type": "long-text"
+        }
+      ]
+    },
+    {
+      "id": "sec-3",
+      "order": 3,
+      "title": "PROBLEMÁTICA SOCIAL Y VULNERABILIDAD",
+      "fields": [
+        {
+          "id": "fld-7",
+          "order": 1,
+          "title": "NNA en situacion de riesgo",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "nna_padre_madre",
+              "label": "NNA padre/madre"
+            },
+            {
+              "value": "nna_jefe_hogar",
+              "label": "NNA jefe de hogar"
+            },
+            {
+              "value": "adolescente_embarazada",
+              "label": "Adolescente embarazada"
+            },
+            {
+              "value": "nna_explotacion_infantil",
+              "label": "NNA explotación infantil"
+            },
+            {
+              "value": "nna_trabajo_infantil",
+              "label": "NNA trabajo infantil"
+            },
+            {
+              "value": "nna_riesgo_no_asistir_escuela",
+              "label": "NNA riesgo no asistir a la escuela"
+            },
+            {
+              "value": "nna_necesidades_particulares_educacion",
+              "label": "NNA necesidades particulares de educación"
+            },
+            {
+              "value": "nna_asociado_grupos_armados",
+              "label": "NNA asociado a fuerza grupos armados"
+            },
+            {
+              "value": "nna_conflicto_ley",
+              "label": "NNA conflicto con la ley"
             }
           ]
         }

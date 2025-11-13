@@ -121,6 +121,46 @@ export const users = [
         },
       ],
     },
+    socialWork: {
+      version: 1,
+      submitted_at: "2023-11-01T10:00:00Z",
+      answers: [
+        {
+          fieldId: "fld-1",
+          type: "long-text",
+          value: "Descripción de la situación de vulnerabilidad.",
+        },
+        {
+          fieldId: "fld-2",
+          type: "table",
+          value: [
+            {
+              name: "Ana Perez",
+              age: "35",
+              relationship: "Esposa",
+              marital_status: "Casada",
+              education_level: "Universitario",
+              occupation: "Ingeniera",
+              disability: "Ninguna",
+            },
+            {
+              name: "Luis Perez",
+              age: "10",
+              relationship: "Hijo",
+              marital_status: "Soltero",
+              education_level: "Primaria",
+              occupation: "Estudiante",
+              disability: "Ninguna",
+            },
+          ],
+        },
+        {
+          fieldId: "fld-3",
+          type: "multi-select",
+          value: ["nuclear", "monoparental"],
+        },
+      ],
+    },
   },
   {
     id: 2,
