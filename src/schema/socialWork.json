@@ -420,6 +420,120 @@
           ]
         }
       ]
+    },
+    {
+      "id": "sec-4",
+      "order": 4,
+      "title": "PROCESO MIGRATORIO",
+      "fields": [
+        {
+          "id": "fld-18",
+          "order": 1,
+          "title": "Razones de salida de su país de origen",
+          "type": "multi-select",
+          "observations": true,
+          "observationsLabel": "Detalles:",
+          "options": [
+            { "value": "persecucion", "label": "Persecución" },
+            {
+              "value": "amenazas_vida",
+              "label": "Amenazas contra la vida, seguridad, libertad e integridad"
+            },
+            {
+              "value": "situaciones_violencia",
+              "label": "Situaciones de Violencia"
+            },
+            {
+              "value": "detencion_arbitraria",
+              "label": "Detención arbitraria"
+            },
+            { "value": "discriminacion", "label": "Discriminación" },
+            {
+              "value": "amenaza_reclutamiento",
+              "label": "Amenaza de reclutamiento forzado"
+            },
+            {
+              "value": "falta_acceso_medicina",
+              "label": "Falta de acceso a medicina, alimentación y servicios básicos"
+            },
+            {
+              "value": "busqueda_trabajo",
+              "label": "Búsqueda de trabajo y mejores condiciones de vida"
+            },
+            { "value": "estudios", "label": "Estudios" },
+            {
+              "value": "matrimonio_reunificacion",
+              "label": "Matrimonio o reunificación familiar"
+            }
+          ]
+        },
+        {
+          "id": "fld-19",
+          "order": 2,
+          "title": "Ingreso al país",
+          "type": "multi-select",
+          "options": [
+            { "value": "ingreso_regular", "label": "Ingreso regular" },
+            { "value": "ingreso_irregular", "label": "Ingreso irregular" },
+            { "value": "trata_personas", "label": "Trata de personas" },
+            { "value": "trafico_ilicito", "label": "Tráfico ilícito" },
+            {
+              "value": "violencia_proceso",
+              "label": "Violencia durante el proceso"
+            },
+            {
+              "value": "abuso_autoridades",
+              "label": "Abuso por parte de autoridades"
+            },
+            { "value": "robo_hurto", "label": "Robo o hurto" },
+            { "value": "perdida_documentos", "label": "Pérdida de documentos" },
+            {
+              "value": "reclutamiento_forzoso",
+              "label": "Reclutamiento forzoso"
+            }
+          ]
+        },
+        {
+          "id": "fld-20",
+          "order": 3,
+          "title": "¿Hace cuánto tiempo salió de su país?",
+          "type": "text"
+        },
+        {
+          "id": "fld-21",
+          "order": 4,
+          "title": "Lugar de destino",
+          "type": "text"
+        },
+        {
+          "id": "fld-22",
+          "order": 5,
+          "title": "Reunificacion",
+          "type": "select",
+          "options": [
+            { "value": "si", "label": "Sí" },
+            { "value": "no", "label": "No" }
+          ]
+        },
+        {
+          "id": "fld-23",
+          "order": 6,
+          "title": "Países de tránsito previo al Ecuador",
+          "type": "text"
+        },
+        {
+          "id": "fld-24",
+          "order": 7,
+          "title": "Fechas estimadas",
+          "type": "text"
+        },
+        {
+          "id": "fld-25",
+          "order": 8,
+          "title": "Descripción",
+          "type": "long-text"
+        }
+      ]
     }
   ]
 }
