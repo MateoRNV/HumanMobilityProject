@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "slug": "triaje",
-  "name": "Triaje",
+  "slug": "social-work",
+  "name": "Social Work",
   "title": "Ficha Nro. 0001",
   "sections": [
     {
@@ -164,17 +164,11 @@
         {
           "id": "fld-7",
           "order": 1,
-          "title": "NNA en situacion de riesgo",
+          "title": "NNA en situación de riesgo",
           "type": "multi-checkbox",
           "options": [
-            {
-              "value": "nna_padre_madre",
-              "label": "NNA padre/madre"
-            },
-            {
-              "value": "nna_jefe_hogar",
-              "label": "NNA jefe de hogar"
-            },
+            { "value": "nna_padre_madre", "label": "NNA padre/madre" },
+            { "value": "nna_jefe_hogar", "label": "NNA jefe de hogar" },
             {
               "value": "adolescente_embarazada",
               "label": "Adolescente embarazada"
@@ -203,6 +197,226 @@
               "value": "nna_conflicto_ley",
               "label": "NNA conflicto con la ley"
             }
+          ]
+        },
+        {
+          "id": "fld-8",
+          "order": 2,
+          "title": "NNA no acompañado o separado",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "nna_separado", "label": "NNA separado" },
+            { "value": "nna_no_acompañado", "label": "NNA no acompañado" },
+            { "value": "nna_jefe_hogar", "label": "NNA jefe de hogar" },
+            {
+              "value": "nna_cuidado_institucional",
+              "label": "NNA en cuidado institucional"
+            },
+            {
+              "value": "nna_familia_hogar_acogida",
+              "label": "NNA en familia u hogar de acogida"
+            }
+          ]
+        },
+        {
+          "id": "fld-9",
+          "order": 3,
+          "title": "Mujer en situación de riesgo",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "mujer_riesgo", "label": "Mujer en riesgo" },
+            {
+              "value": "mujer_sola_riesgo",
+              "label": "Mujer sola en situación de riesgo"
+            },
+            {
+              "value": "mujer_lactancia",
+              "label": "Mujer en período de lactancia"
+            }
+          ]
+        },
+        {
+          "id": "fld-10",
+          "order": 4,
+          "title": "Adulto Mayor en situación de riesgo",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "am_con_niños", "label": "AM con niños a su cargo" },
+            { "value": "am_solo", "label": "AM solo" },
+            {
+              "value": "am_incuidado",
+              "label": "AM incapaz de cuidar de sí mismo"
+            }
+          ]
+        },
+        {
+          "id": "fld-11",
+          "order": 5,
+          "title": "Padre/Madre/Cuidador solo",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "padre_jefe_hogar",
+              "label": "Padre/madre jefe de hogar solo"
+            },
+            { "value": "jefe_hogar_solo", "label": "Jefe de hogar solo" },
+            {
+              "value": "cuidador_jefe_hogar",
+              "label": "Cuidador jefe de hogar solo"
+            }
+          ]
+        },
+        {
+          "id": "fld-12",
+          "order": 6,
+          "title": "Persona con algún tipo de discapacidad",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "discapacidad_visual", "label": "Discapacidad visual" },
+            {
+              "value": "discapacidad_auditiva",
+              "label": "Discapacidad auditiva"
+            },
+            { "value": "discapacidad_fisica", "label": "Discapacidad física" },
+            {
+              "value": "discapacidad_intelectual",
+              "label": "Discapacidad intelectual"
+            },
+            {
+              "value": "discapacidad_psicosocial",
+              "label": "Discapacidad psicosocial"
+            },
+            {
+              "value": "discapacidad_lenguaje",
+              "label": "Discapacidad lenguaje"
+            },
+            {
+              "value": "discapacidad_multiple",
+              "label": "Discapacidad múltiple"
+            },
+            { "value": "sordoceguera", "label": "Sordoceguera" }
+          ]
+        },
+        {
+          "id": "fld-13",
+          "order": 7,
+          "title": "Serios problemas médicos",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "enfermedad_mental", "label": "Enfermedad mental" },
+            { "value": "desnutricion", "label": "Desnutrición" },
+            { "value": "embarazo_riesgo", "label": "Embarazo de riesgo" },
+            { "value": "enfermedad_cronica", "label": "Enfermedad crónica" },
+            {
+              "value": "condicion_medica_critica",
+              "label": "Condición médica crítica"
+            },
+            {
+              "value": "otra_condicion_medica",
+              "label": "Otra condición médica"
+            },
+            { "value": "adiccion", "label": "Adicción" }
+          ]
+        },
+        {
+          "id": "fld-14",
+          "order": 8,
+          "title": "Unidad Familiar",
+          "type": "multi-checkbox",
+          "options": [
+            { "value": "tracing_requerido", "label": "Tracing requerido" },
+            {
+              "value": "reunificacion_familiar_requerida",
+              "label": "Reunificación Familiar requerida"
+            }
+          ]
+        },
+        {
+          "id": "fld-15",
+          "order": 9,
+          "title": "Necesidades de Protección Legal o Física",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "falta_documentacion_legal",
+              "label": "Falta de documentación legal"
+            },
+            {
+              "value": "incapacidad_cubrir_necesidades",
+              "label": "Incapacidad de cubrir sus necesidades básicas"
+            },
+            {
+              "value": "falta_acceso_servicios",
+              "label": "Falta de acceso a servicios básicos"
+            },
+            { "value": "matrimonio_mixto", "label": "Matrimonio mixto" },
+            {
+              "value": "desplazamientos_multiples",
+              "label": "Desplazamientos múltiples"
+            },
+            {
+              "value": "riesgo_devolucion",
+              "label": "Personas en riesgo de devolución"
+            },
+            {
+              "value": "riesgo_deportacion",
+              "label": "En riesgo de deportación"
+            },
+            {
+              "value": "detenido_pais_asilo",
+              "label": "Detenido en país de asilo"
+            },
+            {
+              "value": "detenido_pais_origen",
+              "label": "Anteriormente detenido en el país de origen"
+            },
+            {
+              "value": "detenido_otra_ubicacion",
+              "label": "Anteriormente detenido en otra ubicación"
+            }
+          ]
+        },
+        {
+          "id": "fld-16",
+          "order": 10,
+          "title": "Violencia Sexual y Violencia Basada en Género",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "vbg_asilo",
+              "label": "Víctima Sobreviviente de VBG en país de asilo"
+            },
+            {
+              "value": "vbg_huida",
+              "label": "Victima Sobreviviente de VBG durante la huida"
+            },
+            {
+              "value": "vbg_origen",
+              "label": "Victima Sobreviviente de VBG en país de origen"
+            },
+            {
+              "value": "mutilacion_genital",
+              "label": "Mutilación genital femenina"
+            },
+            {
+              "value": "practicas_daninas",
+              "label": "Prácticas tradicionales dañinas"
+            },
+            { "value": "matrimonio_forzado", "label": "Matrimonio forzado" },
+            { "value": "sexo_supervivencia", "label": "Sexo por supervivencia" }
+          ]
+        },
+        {
+          "id": "fld-17",
+          "order": 11,
+          "title": "Otras definiciones importantes",
+          "type": "multi-checkbox",
+          "options": [
+            {
+              "value": "tipos_vbg",
+              "label": "Tipos de violencia sexual y violencia basada en género"
+            },
+            { "value": "trata_personas", "label": "Trata de personas" }
           ]
         }
       ]
