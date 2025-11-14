@@ -27,6 +27,13 @@ export const SocialWorkForm = () => {
 
   return (
     <div className="mt-3">
+      <div
+        onClick={() => navigate("/menu")}
+        className="material-symbols-outlined absolute cursor-pointer "
+        style={{ marginLeft: "10%" }}
+      >
+        arrow_back
+      </div>
       <h1 className="text-xl font-semibold my-4 w-full text-center">
         Trabajo Social — {user.name} ({user.document})
       </h1>

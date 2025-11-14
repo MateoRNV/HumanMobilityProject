@@ -80,16 +80,24 @@ export const Menu = () => {
                       assignment
                     </Link>
                   )}
-                  {/* {user.socialWork && ( */}
+                  {user.socialWork && (
+                    <Link
+                      to={`/trabajo-social/${user.id}`}
+                      state={{ user }}
+                      className="material-symbols-outlined cursor-pointer"
+                      title="Cuestionario de Trabajo Social"
+                    >
+                      group
+                    </Link>
+                  )}
                   <Link
-                    to={`/trabajo-social/${user.id}`}
+                    to={`/legal/${user.id}`}
                     state={{ user }}
                     className="material-symbols-outlined cursor-pointer"
-                    title="Cuestionario de Trabajo Social"
+                    title="Cuestionario Legal"
                   >
-                    group
+                    balance
                   </Link>
-                  {/* )} */}
                   {/* {user.psychological && ( */}
                   <Link
                     to={`/psicologico/${user.id}`}
@@ -100,10 +108,6 @@ export const Menu = () => {
                     psychology
                   </Link>
                   {/* )} */}
-
-                  <span className="material-symbols-outlined cursor-pointer">
-                    balance
-                  </span>
                 </div>
               </div>
             ))}

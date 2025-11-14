@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router";
 import Home from "./pages/Home/Home";
 import { TriageForm } from "./pages/TriageForm/TriageForm";
 import { SocialWorkForm } from "./pages/SocialWorkForm/SocialWorkForm";
+import { LegalForm } from "./pages/LegalForm/LegalForm";
 import { Menu } from "./pages/Menu/Menu";
 import "./App.css";
 
@@ -43,6 +44,14 @@ export default function App() {
         element={
           <LayoutWithBanner>
             <SocialWorkForm />
+          </LayoutWithBanner>
+        }
+      />
+      <Route
+        path="/legal/:userId"
+        element={
+          <LayoutWithBanner>
+            <LegalForm />
           </LayoutWithBanner>
         }
       />

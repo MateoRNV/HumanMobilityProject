@@ -1,10 +1,10 @@
 import React from "react";
 import { useLocation, useParams, useNavigate } from "react-router";
 import { FormRender } from "../../components/FormRender";
-import triageSchema from "../../schema/triage.json";
+import legalSchema from "../../schema/legal.json";
 import { users } from "../../apis/users-api";
 
-export const TriageForm = () => {
+export const LegalForm = () => {
   const { userId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const TriageForm = () => {
     );
   }
 
-  const initialAnswers = user.triage?.answers ?? [];
+  const initialAnswers = user.legal?.answers ?? [];
 
   return (
     <div className="mt-3">
@@ -35,12 +35,11 @@ export const TriageForm = () => {
         arrow_back
       </div>
       <h1 className="text-xl font-semibold my-4 w-full text-center">
-        Triaje — {user.name} ({user.document})
+        Legal — {user.name} ({user.document})
       </h1>
-
-      <FormRender formSchema={triageSchema} initialAnswers={initialAnswers} />
+      <FormRender formSchema={legalSchema} initialAnswers={initialAnswers} />
     </div>
   );
 };
 
-export default TriageForm;
+export default LegalForm;
