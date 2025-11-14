@@ -1,12 +1,38 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import Select from "react-select";
+import Modal from "../../components/Modal/Modal";
 import "./menu.css";
 import { users } from "../../apis/users-api";
 
 export const Menu = () => {
   const [tab, setTab] = useState("gestion-caso");
   const [searchUserBox, setSearchUserBox] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserDocument, setNewUserDocument] = useState("");
+  const [userList, setUserList] = useState(users);
+
+  const handleAddUser = () => {
+    if (newUserName.trim() === "") return;
+
+    const newUser = {
+      id: userList.length + 1, // Generar un ID único
+      name: newUserName,
+      document: newUserDocument, // Documento opcional
+      triage: {
+        version: 1
+      }, // Propiedad triage en blanco
+      socialWork: false,
+      legal: false,
+      psychological: false,
+    };
+
+    setUserList([newUser, ...userList]);
+    setNewUserName("");
+    setNewUserDocument("");
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="flex flex-col h-full  items-center">
@@ -31,12 +57,43 @@ export const Menu = () => {
           </div>
         </div>
         {tab === "gestion-caso" && (
-          <button className="primary-button">Adicionar Servicio</button>
+          <button
+            className="primary-button"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Adicionar Servicio
+          </button>
         )}
         {tab === "talleres" && (
           <button className="primary-button">Adicionar Taller</button>
         )}
       </div>
+      {/* Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        header={{ title: "Adicionar Servicio" }}
+      >
+        <div className="flex flex-col gap-4">
+          <input
+            type="text"
+            placeholder="Ingrese el nombre del usuario"
+            className="w-full pl-4 pr-4 py-2 rounded-md border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-300 outline-none transition-all shadow-sm"
+            value={newUserName}
+            onChange={(e) => setNewUserName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Ingrese el número de identificación (opcional)"
+            className="w-full pl-4 pr-4 py-2 rounded-md border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-300 outline-none transition-all shadow-sm"
+            value={newUserDocument}
+            onChange={(e) => setNewUserDocument(e.target.value)}
+          />
+          <button className="primary-button" onClick={handleAddUser}>
+            Adicionar
+          </button>
+        </div>
+      </Modal>
       {/* Gestion de Usuarios */}
       <div
         className="flex flex-col items-start w-full px-20"
@@ -56,7 +113,7 @@ export const Menu = () => {
           </span>
         </div>
         <div className="user-list mt-4">
-          {users
+          {userList
             .filter(
               (user) =>
                 user.name.toLowerCase().includes(searchUserBox.toLowerCase()) ||
@@ -114,7 +171,7 @@ export const Menu = () => {
               </div>
             ))}
 
-          {users.filter(
+          {userList.filter(
             (user) =>
               user.name.toLowerCase().includes(searchUserBox.toLowerCase()) ||
               user.document.toLowerCase().includes(searchUserBox.toLowerCase())

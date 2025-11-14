@@ -1,0 +1,61 @@
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal dialog */
+.modal-dialog {
+  background: #fff;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Modal header */
+.modal-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  color: white;
+  padding: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #27367c;
+}
+
+/* Modal close button */
+.modal-close {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+}
+
+/* Modal body */
+.modal-body {
+  padding: 20px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
