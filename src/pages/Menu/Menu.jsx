@@ -90,24 +90,26 @@ export const Menu = () => {
                       group
                     </Link>
                   )}
-                  <Link
-                    to={`/legal/${user.id}`}
-                    state={{ user }}
-                    className="material-symbols-outlined cursor-pointer"
-                    title="Cuestionario Legal"
-                  >
-                    balance
-                  </Link>
-                  {/* {user.psychological && ( */}
-                  <Link
-                    to={`/psicologico/${user.id}`}
-                    state={{ user }}
-                    className="material-symbols-outlined cursor-pointer"
-                    title="Cuestionario de Psicología"
-                  >
-                    psychology
-                  </Link>
-                  {/* )} */}
+                  {user.legal && (
+                    <Link
+                      to={`/legal/${user.id}`}
+                      state={{ user }}
+                      className="material-symbols-outlined cursor-pointer"
+                      title="Cuestionario Legal"
+                    >
+                      balance
+                    </Link>
+                  )}
+                  {user.psychological && (
+                    <Link
+                      to={`/psicologico/${user.id}`}
+                      state={{ user }}
+                      className="material-symbols-outlined cursor-pointer"
+                      title="Cuestionario de Psicología"
+                    >
+                      psychology
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}

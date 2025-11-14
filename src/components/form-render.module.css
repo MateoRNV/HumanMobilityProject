@@ -43,3 +43,8 @@
   padding: 2.5rem 1rem;
   border-bottom: 1px solid #c5c5c5;
 }
+
+.table-title{
+  font-size: 16px;
+  margin-bottom: 1.25rem;
+}

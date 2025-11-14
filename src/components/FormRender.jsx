@@ -286,6 +286,11 @@ export const FormRender = ({
       case "table":
         return (
           <div className={`${styles["table-container"]}`}>
+            {fieldDefinition?.title && (
+              <div className={styles["table-title"]}>
+                {`${fieldDefinition.order}) ${fieldDefinition.title}`}
+              </div>
+            )}
             <Table
               columns={fieldDefinition.columns}
               data={normalizedValue || []}

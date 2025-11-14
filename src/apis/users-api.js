@@ -209,6 +209,22 @@ export const users = [
         { fieldId: "fld-58", type: "text", value: "Referencia a trabajo social." }
       ],
     },
+    psychological: {
+      version: 1,
+      submitted_at: "2023-11-15T10:00:00Z",
+      answers: [
+        { fieldId: "fld-1", type: "multi-select", value: ["intervencion_en_crisis", "asesoria_salud_mental"] },
+        { fieldId: "fld-2", type: "long-text", value: "El usuario busca apoyo debido a estrés laboral y problemas familiares." },
+        { fieldId: "fld-3", type: "select", value: "promedio" },
+        { fieldId: "fld-4", type: "long-text", value: "El usuario vive con su pareja y dos hijos, enfrenta dificultades económicas." },
+        { fieldId: "fld-5", type: "long-text", value: "Posible indicio de ansiedad generalizada." },
+        { fieldId: "fld-6", type: "long-text", value: "Se recomienda iniciar sesiones de terapia semanal y técnicas de relajación." },
+        { fieldId: "fld-7", type: "table", value: [
+          { fecha: "2023-11-20", hora: "10:00", notas_seguimiento: "Primera sesión realizada, usuario motivado." },
+          { fecha: "2023-11-27", hora: "10:00", notas_seguimiento: "Se trabajaron técnicas de respiración." }
+        ] }
+      ]
+    },
   },
   {
     id: 2,
@@ -447,7 +463,7 @@ export const users = [
       date: "2023-10-04",
     },
   },
-  { id: 5, name: "Luis Fernandez", document: "55667788" },
+  { id: 5, name: "Luis Fernandez", document: "55667788", psychological:"test" },
   { id: 6, name: "Sofia Martinez", document: "88776655" },
   { id: 7, name: "Miguel Sanchez", document: "99887766" },
   { id: 8, name: "Laura Diaz", document: "66778899" },

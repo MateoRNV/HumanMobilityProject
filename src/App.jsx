@@ -3,6 +3,7 @@ import Home from "./pages/Home/Home";
 import { TriageForm } from "./pages/TriageForm/TriageForm";
 import { SocialWorkForm } from "./pages/SocialWorkForm/SocialWorkForm";
 import { LegalForm } from "./pages/LegalForm/LegalForm";
+import { PsicologicalForm } from "./pages/PsicologicalForm/PsicologicalForm";
 import { Menu } from "./pages/Menu/Menu";
 import "./App.css";
 
@@ -52,6 +53,14 @@ export default function App() {
         element={
           <LayoutWithBanner>
             <LegalForm />
+          </LayoutWithBanner>
+        }
+      />
+      <Route
+        path="/psicologico/:userId"
+        element={
+          <LayoutWithBanner>
+            <PsicologicalForm />
           </LayoutWithBanner>
         }
       />
