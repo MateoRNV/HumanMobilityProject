@@ -61,7 +61,7 @@ export const Menu = () => {
             className="primary-button"
             onClick={() => setIsModalOpen(true)}
           >
-            Adicionar Servicio
+            Adicionar Usuario
           </button>
         )}
         {tab === "talleres" && (
