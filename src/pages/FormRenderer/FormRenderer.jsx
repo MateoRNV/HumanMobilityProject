@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 import { FormRender } from "../../components/FormRender";
 import { personsApi } from "../../api.config";
 import LoadingSpinner from "../../components/Spinner/Spinner";
@@ -8,12 +8,12 @@ import toast, { Toaster } from "react-hot-toast";
 const FormRenderer = () => {
   const { slug, personaId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formSchema, setFormSchema] = useState(null);
   const [initialAnswers, setInitialAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState("");
-  const [userDocument, setUserDocument] = useState("");
+  const [userData, setUserData] = useState(location.state?.user || null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,16 +25,16 @@ const FormRenderer = () => {
 
         const formData = await personsApi.getForm(personaId, slug);
 
-        if (formData && formData.respuestasJson) {
-          const parsedAnswers = JSON.parse(formData.respuestasJson);
-          setInitialAnswers(parsedAnswers.respuestas || []);
+        if (formData && formData.respuestas) {
+          setInitialAnswers(formData.respuestas || []);
         }
-        try {
-          const person = await personsApi.getOne(personaId);
-          setUserName(person.nombre);
-          setUserDocument(person.documento);
-        } catch (e) {
-          toast.error("Error al cargar el formulario. Verifique su conexión.");
+        if (!userData) {
+          try {
+            const person = await personsApi.getOne(personaId);
+            setUserData(person);
+          } catch (e) {
+            console.error("Error al recuperar datos del usuario", e);
+          }
         }
       } catch (error) {
         toast.error("Error al cargar el formulario. Verifique su conexión.");
@@ -46,7 +46,7 @@ const FormRenderer = () => {
     if (slug && personaId) {
       fetchData();
     }
-  }, [slug, personaId]);
+  }, [slug, personaId, userData]);
 
   const handleSave = async (data) => {
     try {
@@ -98,12 +98,14 @@ const FormRenderer = () => {
 
       <div className="w-full text-center mb-6 px-12">
         <h1 className="text-2xl font-bold text-gray-800">
-          {formSchema.name || formSchema.title}
+          {`Caso No. ${userData.numeroCaso}`}
         </h1>
-        {userName && (
+        {userData && (
           <p className="text-gray-600 mt-1">
-            Usuario: <span className="font-semibold">{userName}</span>
-            {userDocument ? ` - Identificacion: ${userDocument}` : ""}
+            Usuario: <span className="font-semibold">{userData.nombre}</span>
+            {userData?.documento
+              ? ` - Identificacion: ${userData.documento}`
+              : ""}
           </p>
         )}
       </div>

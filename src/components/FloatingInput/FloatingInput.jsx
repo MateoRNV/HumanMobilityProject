@@ -10,6 +10,7 @@ export const FloatingInput = (props) => {
     value,
     defaultValue,
     onChange,
+    ...properties
   } = props;
 
   return (
@@ -23,6 +24,7 @@ export const FloatingInput = (props) => {
         {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
         autoComplete="off"
+        {...properties}
       />
       <label
         htmlFor={id}

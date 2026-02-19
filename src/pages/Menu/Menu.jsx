@@ -55,6 +55,9 @@ export const Menu = () => {
       user.nombre?.toLowerCase().includes(searchUserBox.toLowerCase()) ||
       String(user.documento ?? "")
         .toLowerCase()
+        .includes(searchUserBox.toLowerCase()) ||
+      String(user.numeroCaso ?? "")
+        .toLowerCase()
         .includes(searchUserBox.toLowerCase()),
   );
 
@@ -127,7 +130,7 @@ export const Menu = () => {
         <div className="relative w-full">
           <input
             type="text"
-            placeholder={"Buscar por nombre o documento"}
+            placeholder={"Buscar por nombre, documento o numero de caso"}
             className="w-full pl-4 pr-12 py-2 rounded-md border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-300 outline-none transition-all shadow-sm"
             value={searchUserBox}
             onChange={(e) => setSearchUserBox(e.target.value)}
@@ -147,49 +150,49 @@ export const Menu = () => {
                   {user.nombre} {user.documento ? ` - ${user.documento}` : ""}
                 </div>
                 <div className="flex gap-4">
-                  {user.cuestionarios?.includes("triaje") && (
-                    <Link
-                      to={`/formulario/triaje/${user.id}`}
-                      state={{ user }}
-                      className="material-symbols-outlined cursor-pointer"
-                      title="Cuestionario de Triaje"
-                    >
-                      assignment
-                    </Link>
-                  )}
+                  {/* {user.cuestionarios?.includes("triaje") && ( */}
+                  <Link
+                    to={`/formulario/triaje/${user.id}`}
+                    state={{ user }}
+                    className="material-symbols-outlined cursor-pointer"
+                    title="Cuestionario de Triaje"
+                  >
+                    assignment
+                  </Link>
+                  {/* )} */}
 
-                  {user.cuestionarios?.includes("trabajo-social") && (
-                    <Link
-                      to={`/formulario/trabajo-social/${user.id}`}
-                      state={{ user }}
-                      className="material-symbols-outlined cursor-pointer"
-                      title="Cuestionario de Trabajo Social"
-                    >
-                      group
-                    </Link>
-                  )}
+                  {/* {user.cuestionarios?.includes("social") && ( */}
+                  <Link
+                    to={`/formulario/social/${user.id}`}
+                    state={{ user }}
+                    className="material-symbols-outlined cursor-pointer"
+                    title="Cuestionario de Trabajo Social"
+                  >
+                    group
+                  </Link>
+                  {/* )} */}
 
-                  {user.cuestionarios?.includes("legal") && (
-                    <Link
-                      to={`/formulario/legal/${user.id}`}
-                      state={{ user }}
-                      className="material-symbols-outlined cursor-pointer"
-                      title="Cuestionario Legal"
-                    >
-                      balance
-                    </Link>
-                  )}
+                  {/* {user.cuestionarios?.includes("legal") && ( */}
+                  <Link
+                    to={`/formulario/legal/${user.id}`}
+                    state={{ user }}
+                    className="material-symbols-outlined cursor-pointer"
+                    title="Cuestionario Legal"
+                  >
+                    balance
+                  </Link>
+                  {/* )} */}
 
-                  {user.cuestionarios?.includes("psicologico") && (
-                    <Link
-                      to={`/formulario/psicologico/${user.id}`}
-                      state={{ user }}
-                      className="material-symbols-outlined cursor-pointer"
-                      title="Cuestionario de Psicología"
-                    >
-                      psychology
-                    </Link>
-                  )}
+                  {/* {user.cuestionarios?.includes("psicologico") && ( */}
+                  <Link
+                    to={`/formulario/psicologico/${user.id}`}
+                    state={{ user }}
+                    className="material-symbols-outlined cursor-pointer"
+                    title="Cuestionario de Psicología"
+                  >
+                    psychology
+                  </Link>
+                  {/* )} */}
                 </div>
               </div>
             ))

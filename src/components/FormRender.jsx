@@ -11,11 +11,11 @@ import { Table } from "./Table/Table";
 /** Helpers */
 const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
 
-// answers[] -> mapa por fieldId
+// answers[] -> mapa por campoId
 const buildAnswerIndex = (answers = []) => {
   const idx = new Map();
   for (const a of answers) {
-    idx.set(a.fieldId, {
+    idx.set(a.campoId, {
       ...a,
       observationsValue: a.observationsValue || a.observations || "",
     });
@@ -40,7 +40,7 @@ export const FormRender = ({
     if (!answerRecord) {
       if (fieldDefinition.type === "matrix") {
         const initialAnswer = initialAnswers.find(
-          (answer) => answer.fieldId === fieldDefinition.id,
+          (answer) => answer.campoId === fieldDefinition.id,
         );
         if (
           initialAnswer &&
@@ -97,13 +97,13 @@ export const FormRender = ({
   const setAnswer = (fieldDefinition, partialUpdate) => {
     setAnswerIndex((prev) => {
       const currentEntry = prev.get(fieldDefinition.id) || {
-        fieldId: fieldDefinition.id,
+        campoId: fieldDefinition.id,
         type: fieldDefinition.type,
       };
       const nextEntry = {
         ...currentEntry,
         ...partialUpdate,
-        fieldId: fieldDefinition.id,
+        campoId: fieldDefinition.id,
         type: fieldDefinition.type,
       };
       const nextMap = new Map(prev);

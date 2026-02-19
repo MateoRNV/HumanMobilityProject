@@ -7,7 +7,7 @@ export const DateInput = (props) => {
       type="date"
       required={required}
       value={value ?? ""}
-      onChange={onChange}
+      onChange={(e) => onChange(e.target.value)}
     />
   );
 };
