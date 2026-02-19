@@ -11,11 +11,11 @@ import { Table } from "./Table/Table";
 /** Helpers */
 const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
 
-// answers[] -> mapa por fieldId
+// answers[] -> mapa por campoId
 const buildAnswerIndex = (answers = []) => {
   const idx = new Map();
   for (const a of answers) {
-    idx.set(a.fieldId, {
+    idx.set(a.campoId, {
       ...a,
       observationsValue: a.observationsValue || a.observations || "",
     });
@@ -28,22 +28,19 @@ export const FormRender = ({
   initialAnswers = [],
   onSubmit,
   onCancel,
-  onChange, // opcional: te aviso cada cambio
+  onChange,
 }) => {
   const { title = "", sections = [] } = formSchema || {};
   const [answerIndex, setAnswerIndex] = useState(() =>
-    buildAnswerIndex(initialAnswers)
+    buildAnswerIndex(initialAnswers),
   );
 
-  // Obtiene el valor normalizado para un field
   const getNormalizedValue = (fieldDefinition) => {
     const answerRecord = answerIndex.get(fieldDefinition.id);
     if (!answerRecord) {
-      // Si no hay respuesta, buscar en initialAnswers
       if (fieldDefinition.type === "matrix") {
-        // Buscar en initialAnswers por fieldId
         const initialAnswer = initialAnswers.find(
-          (answer) => answer.fieldId === fieldDefinition.id
+          (answer) => answer.campoId === fieldDefinition.id,
         );
         if (
           initialAnswer &&
@@ -52,7 +49,6 @@ export const FormRender = ({
         ) {
           return initialAnswer.value;
         }
-        // Si tiene selections, convertir a value
         if (initialAnswer && Array.isArray(initialAnswer.selections)) {
           const selectionMap = {};
           for (const selection of initialAnswer.selections) {
@@ -78,10 +74,8 @@ export const FormRender = ({
     if (fieldDefinition.type === "checkbox") return !!answerRecord.value;
 
     if (fieldDefinition.type === "matrix") {
-      // Para MatrixInput controlado, value es un objeto { [row]: [col, col, ...] }
       if (answerRecord.value && typeof answerRecord.value === "object")
         return answerRecord.value;
-      // Si la respuesta viene con selections, convertirlas a value
       if (Array.isArray(answerRecord.selections)) {
         const selectionMap = {};
         for (const selection of answerRecord.selections) {
@@ -97,21 +91,19 @@ export const FormRender = ({
       return {};
     }
 
-    // text | number | date | textarea | table
     return answerRecord.value ?? null;
   };
 
-  // util para setear y notificar
   const setAnswer = (fieldDefinition, partialUpdate) => {
     setAnswerIndex((prev) => {
       const currentEntry = prev.get(fieldDefinition.id) || {
-        fieldId: fieldDefinition.id,
+        campoId: fieldDefinition.id,
         type: fieldDefinition.type,
       };
       const nextEntry = {
         ...currentEntry,
         ...partialUpdate,
-        fieldId: fieldDefinition.id,
+        campoId: fieldDefinition.id,
         type: fieldDefinition.type,
       };
       const nextMap = new Map(prev);
@@ -121,13 +113,11 @@ export const FormRender = ({
     });
   };
 
-  // react-select necesita objetos option
   const optionByValue = (opts = [], v) =>
     opts.find((o) => o.value === v) || null;
   const optionsByValues = (opts = [], values = []) =>
     (values || []).map((v) => optionByValue(opts, v)).filter(Boolean);
 
-  /** UI helpers */
   const FieldRow = ({ field, rightClassName = "", children }) => (
     <div className={styles["field-container"]}>
       <div className="flex">
@@ -262,8 +252,8 @@ export const FormRender = ({
           >
             <CheckboxInput
               checked={!!normalizedValue}
-              onChange={
-                (checked) => setAnswer(fieldDefinition, { value: checked }) // Actualiza el estado con el valor actualizado
+              onChange={(checked) =>
+                setAnswer(fieldDefinition, { value: checked })
               }
             />
           </FieldRow>
@@ -343,14 +333,12 @@ export const FormRender = ({
                         ? [...normalizedValue]
                         : [];
                       if (checked) {
-                        // Agregar el valor si está marcado
                         if (!updatedValues.includes(opt.value)) {
                           updatedValues.push(opt.value);
                         }
                       } else {
-                        // Quitar el valor si está desmarcado
                         updatedValues = updatedValues.filter(
-                          (v) => v !== opt.value
+                          (v) => v !== opt.value,
                         );
                       }
                       setAnswer(fieldDefinition, { value: updatedValues });
@@ -368,7 +356,6 @@ export const FormRender = ({
 
   const handleSubmit = (e) => {
     e?.preventDefault?.();
-    // Convertir matrices a formato selections
     const submittedAnswers = Array.from(answerIndex.values()).map(
       (answerEntry) => {
         if (
@@ -376,7 +363,6 @@ export const FormRender = ({
           answerEntry.value &&
           typeof answerEntry.value === "object"
         ) {
-          // value: { [row]: [col, col, ...] } => selections: [{row, column}]
           const selectionsArray = [];
           for (const rowKey in answerEntry.value) {
             for (const columnKey of answerEntry.value[rowKey]) {
@@ -386,7 +372,7 @@ export const FormRender = ({
           return { ...answerEntry, selections: selectionsArray };
         }
         return answerEntry;
-      }
+      },
     );
     onSubmit?.({ answers: submittedAnswers });
   };

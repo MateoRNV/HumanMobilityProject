@@ -1,13 +1,9 @@
 import { Routes, Route } from "react-router";
 import Home from "./pages/Home/Home";
-import { TriageForm } from "./pages/TriageForm/TriageForm";
-import { SocialWorkForm } from "./pages/SocialWorkForm/SocialWorkForm";
-import { LegalForm } from "./pages/LegalForm/LegalForm";
-import { PsicologicalForm } from "./pages/PsicologicalForm/PsicologicalForm";
-import { Menu } from "./pages/Menu/Menu";
+import Menu from "./pages/Menu/Menu";
+import FormRenderer from "./pages/FormRenderer/FormRenderer";
 import "./App.css";
 
-// Layout con banner
 function LayoutWithBanner({ children }) {
   return (
     <div>
@@ -20,10 +16,7 @@ function LayoutWithBanner({ children }) {
 export default function App() {
   return (
     <Routes>
-      {/* Ruta SIN banner */}
       <Route path="/" element={<Home />} />
-
-      {/* Rutas CON banner */}
       <Route
         path="/menu"
         element={
@@ -33,34 +26,10 @@ export default function App() {
         }
       />
       <Route
-        path="/triaje/:userId"
+        path="/formulario/:slug/:personaId"
         element={
           <LayoutWithBanner>
-            <TriageForm />
-          </LayoutWithBanner>
-        }
-      />
-      <Route
-        path="/trabajo-social/:userId"
-        element={
-          <LayoutWithBanner>
-            <SocialWorkForm />
-          </LayoutWithBanner>
-        }
-      />
-      <Route
-        path="/legal/:userId"
-        element={
-          <LayoutWithBanner>
-            <LegalForm />
-          </LayoutWithBanner>
-        }
-      />
-      <Route
-        path="/psicologico/:userId"
-        element={
-          <LayoutWithBanner>
-            <PsicologicalForm />
+            <FormRenderer />
           </LayoutWithBanner>
         }
       />
