@@ -86,25 +86,26 @@ const FormRenderer = () => {
   }
 
   return (
-    <div className="mt-3 relative">
+    <div className="min-h-screen bg-gray-50 pt-8 pb-16 relative font-sans text-gray-900">
       <Toaster />
       <div
         onClick={() => navigate("/menu")}
-        className="material-symbols-outlined absolute cursor-pointer top-0 left-4 text-2xl text-gray-600 hover:text-blue-600 transition-colors"
+        className="material-symbols-outlined absolute cursor-pointer top-8 left-8 text-3xl text-[#273a71] hover:text-[#1e2d5c] transition-colors bg-white p-2 rounded-full shadow-sm"
         title="Volver al menú"
       >
         arrow_back
       </div>
 
-      <div className="w-full text-center mb-6 px-12">
-        <h1 className="text-2xl font-bold text-gray-800">
+      <div className="w-full text-center mt-2 mb-6 px-12">
+        <h1 className="text-sm font-bold text-[#d72836] bg-red-50 inline-block px-3 py-1 rounded-md border border-red-200 uppercase tracking-wider">
           {`Caso No. ${userData.numeroCaso}`}
         </h1>
         {userData && (
-          <p className="text-gray-600 mt-1">
-            Usuario: <span className="font-semibold">{userData.nombre}</span>
+          <p className="text-gray-600 mt-3 text-lg font-medium">
+            Usuario:{" "}
+            <span className="font-bold text-[#273a71]">{userData.nombre}</span>
             {userData?.documento
-              ? ` - Identificacion: ${userData.documento}`
+              ? ` | Identificación: ${userData.documento}`
               : ""}
           </p>
         )}

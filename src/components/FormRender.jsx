@@ -35,6 +35,14 @@ export const FormRender = ({
   const [answerIndex, setAnswerIndex] = useState(() =>
     buildAnswerIndex(initialAnswers),
   );
+  const [collapsedSections, setCollapsedSections] = useState({});
+
+  const toggleSection = (sectionId) => {
+    setCollapsedSections((prev) => ({
+      ...prev,
+      [sectionId]: !prev[sectionId],
+    }));
+  };
 
   const getNormalizedValue = (fieldDefinition) => {
     const answerRecord = answerIndex.get(fieldDefinition.id);
@@ -121,24 +129,26 @@ export const FormRender = ({
 
   const FieldRow = ({ field, rightClassName = "", children }) => (
     <div className={styles["field-container"]}>
-      <div className="flex">
-        <div className="flex items-center w-1/2 p-3 border-right">
-          <div className="me-3">{`${field.order})`}</div>
-          <div>{field.title}</div>
+      <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
+        <div className={`w-full md:w-2/5 ${styles["field-label-col"]}`}>
+          <span className={styles["field-number"]}>{field.order}.</span>
+          <span>{field.title}</span>
         </div>
         <div
-          className={`flex justify-center items-center w-1/2 p-3 ${rightClassName}`}
+          className={`w-full md:w-3/5 flex flex-col justify-center ${rightClassName}`}
         >
           {children}
         </div>
       </div>
       {field.observations && (
-        <div className="w-full mt-2">
+        <div className="w-full mt-6 pl-0 md:pl-[calc(40%+2rem)]">
           <TextareaField
             id={`observations-${field.id}`}
             label={field.observationsLabel || "Observaciones"}
-            value={answerIndex.get(field.id)?.observationsValue || ""}
-            onChange={(val) => setAnswer(field, { observationsValue: val })}
+            defaultValue={answerIndex.get(field.id)?.observationsValue || ""}
+            onBlur={(e) =>
+              setAnswer(field, { observationsValue: e.target.value })
+            }
           />
         </div>
       )}
@@ -155,10 +165,8 @@ export const FormRender = ({
             <FloatingInput
               id={`text-${fieldDefinition.id}`}
               type="text"
-              label={fieldDefinition.placeholder || "Escribe aquí..."}
-              widthClass="w-96"
-              inputFocusClass="focus:border-blue-500"
-              labelFocusClass="peer-focus:text-blue-500"
+              label={fieldDefinition.placeholder || "Respuesta"}
+              widthClass="w-full"
               required={fieldDefinition.required}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
@@ -174,9 +182,7 @@ export const FormRender = ({
               id={`number-${fieldDefinition.id}`}
               type="number"
               label={fieldDefinition.placeholder || "Número"}
-              widthClass="w-40"
-              inputFocusClass="focus:border-blue-500"
-              labelFocusClass="peer-focus:text-blue-500"
+              widthClass="w-full max-w-xs"
               required={fieldDefinition.required}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
@@ -233,15 +239,43 @@ export const FormRender = ({
 
       case "matrix": {
         return (
-          <FieldRow field={fieldDefinition} key={fieldDefinition.id}>
-            <MatrixInput
-              field={fieldDefinition}
-              value={getNormalizedValue(fieldDefinition)}
-              onChange={(nextValue) =>
-                setAnswer(fieldDefinition, { value: nextValue })
-              }
-            />
-          </FieldRow>
+          <div className={styles["field-container"]} key={fieldDefinition.id}>
+            <div className="flex flex-col gap-4 w-full">
+              <div className="flex items-center w-full">
+                <span className={styles["field-number"]}>
+                  {fieldDefinition.order}.
+                </span>
+                <span className="font-medium text-gray-700 text-lg">
+                  {fieldDefinition.title}
+                </span>
+              </div>
+              <div className="w-full">
+                <MatrixInput
+                  field={fieldDefinition}
+                  value={getNormalizedValue(fieldDefinition)}
+                  onChange={(nextValue) =>
+                    setAnswer(fieldDefinition, { value: nextValue })
+                  }
+                />
+              </div>
+            </div>
+            {fieldDefinition.observations && (
+              <div className="w-full mt-6">
+                <TextareaField
+                  id={`observations-${fieldDefinition.id}`}
+                  label={fieldDefinition.observationsLabel || "Observaciones"}
+                  defaultValue={
+                    answerIndex.get(fieldDefinition.id)?.observationsValue || ""
+                  }
+                  onBlur={(e) =>
+                    setAnswer(fieldDefinition, {
+                      observationsValue: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            )}
+          </div>
         );
       }
 
@@ -249,7 +283,7 @@ export const FormRender = ({
         return (
           <FieldRow
             field={fieldDefinition}
-            rightClassName={styles["date-input"]}
+            rightClassName={styles["checkbox-input"]}
           >
             <CheckboxInput
               checked={!!normalizedValue}
@@ -264,7 +298,7 @@ export const FormRender = ({
         return (
           <FieldRow field={fieldDefinition}>
             <TextareaField
-              label={fieldDefinition.placeholder || "Escribe aquí..."}
+              label={fieldDefinition.placeholder || "Comentarios / Respuesta"}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
                 setAnswer(fieldDefinition, { value: e.target.value })
@@ -301,7 +335,7 @@ export const FormRender = ({
               <h3 className="mt-4 mb-2 ms-3">{`${fieldDefinition.order}) ${fieldDefinition.title}`}</h3>
             )}
             <TextareaField
-              label={fieldDefinition.placeholder || "Escribe aquí..."}
+              label={fieldDefinition.placeholder || "Comentarios / Respuesta"}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
                 setAnswer(fieldDefinition, { value: e.target.value })
@@ -314,9 +348,12 @@ export const FormRender = ({
         return (
           <div>
             {fieldDefinition.title && (
-              <h3
-                className={styles["checkbox-title"]}
-              >{`${fieldDefinition.order}) ${fieldDefinition.title}`}</h3>
+              <h3 className={styles["checkbox-title"]}>
+                <span className={styles["field-number"]}>
+                  {String(fieldDefinition.order).padStart(2, "0")}
+                </span>
+                {fieldDefinition.title}
+              </h3>
             )}
             <div className="flex flex-col">
               {(fieldDefinition.options || []).map((opt) => (
@@ -380,55 +417,90 @@ export const FormRender = ({
 
   return (
     <form className={styles["form-container"]} onSubmit={handleSubmit}>
-      <div className="relative flex items-center justify-center py-4 border-b border-gray-200">
-        {/* Titulo del cuestionario */}
-        <h1 className="text-xl font-bold text-center">{title}</h1>
-
-        {/* Fecha de última actualización */}
-        <div className="absolute right-0 text-sm text-gray-500 italic pr-4">
-          Última actualización:{" "}
-          {new Date(lastUpdate).toLocaleDateString("es-ES", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          })}
-        </div>
+      <div className="bg-[#273a71] text-white py-8 px-8 flex flex-col justify-center rounded-t-lg">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
+          {title}
+        </h1>
+        {lastUpdate && (
+          <div className="text-sm text-blue-100 font-medium">
+            Última actualización:{" "}
+            {new Date(lastUpdate).toLocaleDateString("es-ES", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+          </div>
+        )}
       </div>
 
       {/* Secciones */}
-      <div>
-        {[...(sections || [])].sort(byOrder).map((section) => (
-          <div key={section.id}>
-            <h2
-              className={styles["section-title"]}
-            >{`${section.order}) ${section.title}`}</h2>
-            {[...(section.fields || [])].sort(byOrder).map((field) => (
-              <div key={field.id}>{renderField(field)}</div>
-            ))}
-            {section.observations && (
-              <div className="w-full mt-2 px-8">
-                <TextareaField
-                  id={`observations-${section.id}`}
-                  label={section.observationsLabel || "Observaciones"}
-                  value={answerIndex.get(section.id)?.observationsValue || ""}
-                  onChange={(val) =>
-                    setAnswer(section, { observationsValue: val })
-                  }
-                />
+      <div className="flex flex-col pb-4">
+        {[...(sections || [])].sort(byOrder).map((section) => {
+          const isCollapsed = collapsedSections[section.id];
+          return (
+            <div key={section.id} className="border-b border-gray-200">
+              <h2
+                className={`${styles["section-title"]} flex justify-between items-center cursor-pointer select-none`}
+                onClick={() => toggleSection(section.id)}
+              >
+                <div>
+                  <span className="text-[var(--primary-color)] mr-3">
+                    {section.order}.
+                  </span>
+                  {section.title}
+                </div>
+                <span
+                  className="material-symbols-outlined text-[var(--primary-color)] transition-transform duration-200"
+                  style={{
+                    transform: isCollapsed ? "rotate(-90deg)" : "rotate(0)",
+                  }}
+                >
+                  expand_more
+                </span>
+              </h2>
+              <div
+                className={`transition-all duration-300 overflow-hidden ${isCollapsed ? "max-h-0 opacity-0" : "max-h-[10000px] opacity-100"}`}
+              >
+                {[...(section.fields || [])].sort(byOrder).map((field) => (
+                  <div key={field.id}>{renderField(field)}</div>
+                ))}
+                {section.observations && (
+                  <div className="w-full mt-8 px-8 pb-8">
+                    <TextareaField
+                      id={`observations-${section.id}`}
+                      label={
+                        section.observationsLabel ||
+                        "Observaciones Generales de la Sección"
+                      }
+                      defaultValue={
+                        answerIndex.get(section.id)?.observationsValue || ""
+                      }
+                      onBlur={(e) =>
+                        setAnswer(section, {
+                          observationsValue: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
-      <div className="flex gap-3 justify-end p-4">
+      <div className="flex gap-4 justify-end p-6 bg-gray-50 border-t border-gray-200 rounded-b-lg">
         {onCancel && (
-          <button type="button" className="btn-secondary" onClick={onCancel}>
+          <button
+            type="button"
+            className={styles["cancel-btn"]}
+            onClick={onCancel}
+          >
             Cancelar
           </button>
         )}
         {onSubmit && (
-          <button type="submit" className="btn-primary">
-            Guardar
+          <button type="submit" className={styles["submit-btn"]}>
+            Guardar Respuestas
           </button>
         )}
       </div>

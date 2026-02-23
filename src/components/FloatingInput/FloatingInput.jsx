@@ -3,9 +3,7 @@ export const FloatingInput = (props) => {
     id,
     type = "text",
     label,
-    widthClass = "w-96",
-    inputFocusClass = "focus:border-blue-500",
-    labelFocusClass = "peer-focus:text-blue-500",
+    widthClass = "w-full",
     required = false,
     value,
     defaultValue,
@@ -14,24 +12,18 @@ export const FloatingInput = (props) => {
   } = props;
 
   return (
-    <div className={`relative ${widthClass}`}>
+    <div className={`flex flex-col gap-1.5 ${widthClass} text-left`}>
       <input
         type={type}
         id={id}
-        className={`peer w-full px-4 pt-6 pb-2 text-slate-900 bg-white border-2 border-slate-200 rounded-lg ${inputFocusClass} focus:outline-none transition-colors duration-200 placeholder-transparent`}
-        placeholder="Tu valor"
+        placeholder={label || "Escribe aquí..."}
+        className="w-full px-3 py-2.5 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-[var(--primary-color)] focus:ring-1 focus:ring-[var(--primary-color)] transition-colors"
         required={required}
         {...(value !== undefined ? { value } : { defaultValue })}
         onChange={onChange}
         autoComplete="off"
         {...properties}
       />
-      <label
-        htmlFor={id}
-        className={`absolute left-4 top-2 text-xs text-slate-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:text-xs peer-focus:top-2 ${labelFocusClass}`}
-      >
-        {label}
-      </label>
     </div>
   );
 };

@@ -1,50 +1,167 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Work+Sans:wght@300;400;500;600&display=swap");
+
+:root {
+  --primary-color: #273a71;
+  --tertiary-color: #e9f1f9;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
-  width: 80%;
-  margin: auto;
-  border: 2px solid #080f31;
-  border-radius: 8px 8px 0 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  color: #1e293b;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  font-family: "Work Sans", sans-serif;
+  overflow: hidden;
 }
 
 .section-title {
-  padding: 0.5rem 0;
-  text-align: center;
-  background-color: #b0c7cf;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background-color: var(--tertiary-color);
+  border-bottom: 2px solid #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
 }
 
 .field-container {
-  padding: 0rem 2rem;
-  border-bottom: 1px solid #c5c5c5;
+  padding: 1.5rem 2.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.field-container:hover {
+  background-color: #f1f5f9;
+}
+
+.field-label-col {
+  display: flex;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.5;
+  padding-right: 2rem;
+}
+
+.field-number {
+  color: var(--primary-color);
+  font-size: 1.15rem;
+  margin-right: 0.75rem;
 }
 
 .date-input input {
-  padding: 0.25rem 0.5rem;
-  border-bottom: 1px solid gray;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  font-family: "Work Sans", sans-serif;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.date-input input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(39, 58, 113, 0.15);
+}
+
+.checkbox-input input {
+  padding: 0.75rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  font-family: "Work Sans", sans-serif;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.checkbox-input input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(39, 58, 113, 0.15);
 }
 
 .checkbox-title {
-  font-weight: bold;
-  padding: 0.875rem;
-  padding-left: 1.5rem;
-  font-size: 1rem;
-  background-color: bisque;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1.5rem 2.5rem 1rem 2.5rem;
+  color: var(--primary-color);
+  background-color: var(--tertiary-color);
+  border-bottom: 1px solid #e2e8f0;
+  border-top: 1px solid #e2e8f0;
 }
 
 .checkbox-container {
   display: flex;
   align-items: center;
-  padding: 1rem 3rem 1rem 2.875rem;
+  padding: 1rem 2.5rem;
   justify-content: space-between;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  font-size: 1.05rem;
+  transition: background-color 0.2s;
 }
 
-.table-container{
-  padding: 2.5rem 1rem;
-  border-bottom: 1px solid #c5c5c5;
+.checkbox-container:hover {
+  background-color: var(--tertiary-color);
 }
 
-.table-title{
-  font-size: 16px;
-  margin-bottom: 1.25rem;
+.table-container {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #ffffff;
+}
+
+.table-title {
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+.submit-btn {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  border: 1px solid var(--primary-color);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.submit-btn:hover {
+  background-color: #1e2c58;
+  border-color: #1e2c58;
+  box-shadow: 0 4px 6px -1px rgba(39, 58, 113, 0.2);
+}
+
+.cancel-btn {
+  background-color: transparent;
+  color: #64748b;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 500;
+  padding: 0.75rem 2rem;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.cancel-btn:hover {
+  color: #334155;
+  background-color: #f1f5f9;
 }
