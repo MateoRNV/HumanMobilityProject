@@ -35,6 +35,14 @@ export const FormRender = ({
   const [answerIndex, setAnswerIndex] = useState(() =>
     buildAnswerIndex(initialAnswers),
   );
+  const [collapsedSections, setCollapsedSections] = useState({});
+
+  const toggleSection = (sectionId) => {
+    setCollapsedSections((prev) => ({
+      ...prev,
+      [sectionId]: !prev[sectionId],
+    }));
+  };
 
   const getNormalizedValue = (fieldDefinition) => {
     const answerRecord = answerIndex.get(fieldDefinition.id);
@@ -123,9 +131,7 @@ export const FormRender = ({
     <div className={styles["field-container"]}>
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
         <div className={`w-full md:w-2/5 ${styles["field-label-col"]}`}>
-          <span className={styles["field-number"]}>
-            {field.order}.
-          </span>
+          <span className={styles["field-number"]}>{field.order}.</span>
           <span>{field.title}</span>
         </div>
         <div
@@ -140,7 +146,9 @@ export const FormRender = ({
             id={`observations-${field.id}`}
             label={field.observationsLabel || "Observaciones"}
             value={answerIndex.get(field.id)?.observationsValue || ""}
-            onChange={(val) => setAnswer(field, { observationsValue: val })}
+            onChange={(e) =>
+              setAnswer(field, { observationsValue: e.target.value })
+            }
           />
         </div>
       )}
@@ -259,8 +267,10 @@ export const FormRender = ({
                   value={
                     answerIndex.get(fieldDefinition.id)?.observationsValue || ""
                   }
-                  onChange={(val) =>
-                    setAnswer(fieldDefinition, { observationsValue: val })
+                  onChange={(e) =>
+                    setAnswer(fieldDefinition, {
+                      observationsValue: e.target.value,
+                    })
                   }
                 />
               </div>
@@ -424,35 +434,59 @@ export const FormRender = ({
       </div>
 
       {/* Secciones */}
-      <div>
-        {[...(sections || [])].sort(byOrder).map((section) => (
-          <div key={section.id}>
-            <h2 className={styles["section-title"]}>
-              <span className="text-[#273a71] font-['Libre_Baskerville'] font-bold mr-3">
-                {section.order}.
-              </span>
-              {section.title}
-            </h2>
-            {[...(section.fields || [])].sort(byOrder).map((field) => (
-              <div key={field.id}>{renderField(field)}</div>
-            ))}
-            {section.observations && (
-              <div className="w-full mt-8 px-8 pb-8">
-                <TextareaField
-                  id={`observations-${section.id}`}
-                  label={
-                    section.observationsLabel ||
-                    "Observaciones Generales de la Sección"
-                  }
-                  value={answerIndex.get(section.id)?.observationsValue || ""}
-                  onChange={(val) =>
-                    setAnswer(section, { observationsValue: val })
-                  }
-                />
+      <div className="flex flex-col pb-4">
+        {[...(sections || [])].sort(byOrder).map((section) => {
+          const isCollapsed = collapsedSections[section.id];
+          return (
+            <div key={section.id} className="border-b border-gray-200">
+              <h2
+                className={`${styles["section-title"]} flex justify-between items-center cursor-pointer select-none`}
+                onClick={() => toggleSection(section.id)}
+              >
+                <div>
+                  <span className="text-[var(--primary-color)] mr-3">
+                    {section.order}.
+                  </span>
+                  {section.title}
+                </div>
+                <span
+                  className="material-symbols-outlined text-[var(--primary-color)] transition-transform duration-200"
+                  style={{
+                    transform: isCollapsed ? "rotate(-90deg)" : "rotate(0)",
+                  }}
+                >
+                  expand_more
+                </span>
+              </h2>
+              <div
+                className={`transition-all duration-300 overflow-hidden ${isCollapsed ? "max-h-0 opacity-0" : "max-h-[10000px] opacity-100"}`}
+              >
+                {[...(section.fields || [])].sort(byOrder).map((field) => (
+                  <div key={field.id}>{renderField(field)}</div>
+                ))}
+                {section.observations && (
+                  <div className="w-full mt-8 px-8 pb-8">
+                    <TextareaField
+                      id={`observations-${section.id}`}
+                      label={
+                        section.observationsLabel ||
+                        "Observaciones Generales de la Sección"
+                      }
+                      value={
+                        answerIndex.get(section.id)?.observationsValue || ""
+                      }
+                      onChange={(e) =>
+                        setAnswer(section, {
+                          observationsValue: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
       <div className="flex gap-4 justify-end p-6 bg-gray-50 border-t border-gray-200 rounded-b-lg">
         {onCancel && (
