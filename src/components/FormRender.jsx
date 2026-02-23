@@ -145,8 +145,8 @@ export const FormRender = ({
           <TextareaField
             id={`observations-${field.id}`}
             label={field.observationsLabel || "Observaciones"}
-            value={answerIndex.get(field.id)?.observationsValue || ""}
-            onChange={(e) =>
+            defaultValue={answerIndex.get(field.id)?.observationsValue || ""}
+            onBlur={(e) =>
               setAnswer(field, { observationsValue: e.target.value })
             }
           />
@@ -264,10 +264,10 @@ export const FormRender = ({
                 <TextareaField
                   id={`observations-${fieldDefinition.id}`}
                   label={fieldDefinition.observationsLabel || "Observaciones"}
-                  value={
+                  defaultValue={
                     answerIndex.get(fieldDefinition.id)?.observationsValue || ""
                   }
-                  onChange={(e) =>
+                  onBlur={(e) =>
                     setAnswer(fieldDefinition, {
                       observationsValue: e.target.value,
                     })
@@ -472,10 +472,10 @@ export const FormRender = ({
                         section.observationsLabel ||
                         "Observaciones Generales de la Sección"
                       }
-                      value={
+                      defaultValue={
                         answerIndex.get(section.id)?.observationsValue || ""
                       }
-                      onChange={(e) =>
+                      onBlur={(e) =>
                         setAnswer(section, {
                           observationsValue: e.target.value,
                         })
