@@ -11,7 +11,7 @@ const FormRenderer = () => {
   const location = useLocation();
 
   const [formSchema, setFormSchema] = useState(null);
-  const [initialAnswers, setInitialAnswers] = useState([]);
+  const [answerData, setAnswerData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(location.state?.user || null);
 
@@ -26,7 +26,7 @@ const FormRenderer = () => {
         const formData = await personsApi.getForm(personaId, slug);
 
         if (formData && formData.respuestas) {
-          setInitialAnswers(formData.respuestas || []);
+          setAnswerData(formData);
         }
         if (!userData) {
           try {
@@ -113,9 +113,10 @@ const FormRenderer = () => {
       <div className="w-full">
         <FormRender
           formSchema={formSchema}
-          initialAnswers={initialAnswers}
+          initialAnswers={answerData?.respuestas || []}
           onSubmit={handleSave}
           onCancel={() => navigate("/menu")}
+          lastUpdate={answerData?.fecha_modificacion || null}
         />
       </div>
     </div>

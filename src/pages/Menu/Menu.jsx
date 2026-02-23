@@ -44,7 +44,7 @@ export const Menu = () => {
       fetchUsers();
       toast.success(`Usuario ${name} creado con éxito`);
     } catch (err) {
-      toast.error("Error al crear el usuario");
+      toast.error("Error al crear el usuario: " + err.message);
     } finally {
       setIsLoading(false);
     }
@@ -100,25 +100,40 @@ export const Menu = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         header={{ title: "Adicionar Servicio" }}
+        isLoading={isLoading}
       >
         <div className="flex flex-col gap-4">
-          <input
-            type="text"
-            placeholder="Ingrese el nombre del usuario"
-            className="w-full pl-4 pr-4 py-2 rounded-md border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-300 outline-none transition-all shadow-sm"
-            value={newUserName}
-            onChange={(e) => setNewUserName(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Ingrese el número de identificación (opcional)"
-            className="w-full pl-4 pr-4 py-2 rounded-md border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-300 outline-none transition-all shadow-sm"
-            value={newUserDocument}
-            onChange={(e) => setNewUserDocument(e.target.value)}
-          />
-          <button className="primary-button" onClick={handleAddUser}>
-            Adicionar
-          </button>
+          {isLoading ? (
+            <div className="flex flex-col items-center py-10">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <>
+              <input
+                type="text"
+                placeholder="Ingrese el nombre del usuario"
+                className="w-full pl-4 pr-4 py-2 rounded-md border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-300 outline-none transition-all shadow-sm"
+                value={newUserName}
+                disabled={isLoading}
+                onChange={(e) => setNewUserName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Ingrese el número de identificación (opcional)"
+                className="w-full pl-4 pr-4 py-2 rounded-md border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-300 outline-none transition-all shadow-sm"
+                value={newUserDocument}
+                disabled={isLoading}
+                onChange={(e) => setNewUserDocument(e.target.value)}
+              />
+              <button
+                className="primary-button"
+                onClick={handleAddUser}
+                disabled={isLoading}
+              >
+                Adicionar
+              </button>
+            </>
+          )}
         </div>
       </Modal>
       {/* Gestion de Usuarios */}

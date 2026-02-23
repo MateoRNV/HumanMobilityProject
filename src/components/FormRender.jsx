@@ -29,6 +29,7 @@ export const FormRender = ({
   onSubmit,
   onCancel,
   onChange,
+  lastUpdate,
 }) => {
   const { title = "", sections = [] } = formSchema || {};
   const [answerIndex, setAnswerIndex] = useState(() =>
@@ -379,7 +380,20 @@ export const FormRender = ({
 
   return (
     <form className={styles["form-container"]} onSubmit={handleSubmit}>
-      <h1 className="text-center py-4">{title}</h1>
+      <div className="relative flex items-center justify-center py-4 border-b border-gray-200">
+        {/* Titulo del cuestionario */}
+        <h1 className="text-xl font-bold text-center">{title}</h1>
+
+        {/* Fecha de última actualización */}
+        <div className="absolute right-0 text-sm text-gray-500 italic pr-4">
+          Última actualización:{" "}
+          {new Date(lastUpdate).toLocaleDateString("es-ES", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })}
+        </div>
+      </div>
 
       {/* Secciones */}
       <div>
