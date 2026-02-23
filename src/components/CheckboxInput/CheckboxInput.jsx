@@ -12,13 +12,13 @@ export const CheckboxInput = ({ checked, onChange, ...props }) => {
           type="checkbox"
           checked={checked}
           onChange={handleChange}
-          className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-400 
-                     focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-[#cbd5e1] bg-white transition-all duration-200
+                     focus:outline-none focus:ring-2 focus:ring-[#273a71] checked:border-[#273a71] checked:bg-[#273a71]"
           {...props}
         />
         {/* Check Icon ✔️ */}
         <svg
-          className="pointer-events-none absolute left-0 top-0 h-5 w-5 text-blue-600 opacity-0 peer-checked:opacity-100 transition"
+          className="pointer-events-none absolute left-0 top-0 h-5 w-5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
           fill="none"
           stroke="currentColor"
           strokeWidth={3}

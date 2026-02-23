@@ -121,19 +121,21 @@ export const FormRender = ({
 
   const FieldRow = ({ field, rightClassName = "", children }) => (
     <div className={styles["field-container"]}>
-      <div className="flex">
-        <div className="flex items-center w-1/2 p-3 border-right">
-          <div className="me-3">{`${field.order})`}</div>
-          <div>{field.title}</div>
+      <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
+        <div className={`w-full md:w-2/5 ${styles["field-label-col"]}`}>
+          <span className={styles["field-number"]}>
+            {String(field.order).padStart(2, "0")}
+          </span>
+          <span>{field.title}</span>
         </div>
         <div
-          className={`flex justify-center items-center w-1/2 p-3 ${rightClassName}`}
+          className={`w-full md:w-3/5 flex flex-col justify-center ${rightClassName}`}
         >
           {children}
         </div>
       </div>
       {field.observations && (
-        <div className="w-full mt-2">
+        <div className="w-full mt-6 pl-0 md:pl-[calc(40%+2rem)]">
           <TextareaField
             id={`observations-${field.id}`}
             label={field.observationsLabel || "Observaciones"}
@@ -156,9 +158,9 @@ export const FormRender = ({
               id={`text-${fieldDefinition.id}`}
               type="text"
               label={fieldDefinition.placeholder || "Escribe aquí..."}
-              widthClass="w-96"
-              inputFocusClass="focus:border-blue-500"
-              labelFocusClass="peer-focus:text-blue-500"
+              widthClass="w-full"
+              inputFocusClass="focus:border-[#273a71]"
+              labelFocusClass="peer-focus:text-[#273a71]"
               required={fieldDefinition.required}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
@@ -174,9 +176,9 @@ export const FormRender = ({
               id={`number-${fieldDefinition.id}`}
               type="number"
               label={fieldDefinition.placeholder || "Número"}
-              widthClass="w-40"
-              inputFocusClass="focus:border-blue-500"
-              labelFocusClass="peer-focus:text-blue-500"
+              widthClass="w-full max-w-xs"
+              inputFocusClass="focus:border-[#273a71]"
+              labelFocusClass="peer-focus:text-[#273a71]"
               required={fieldDefinition.required}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
@@ -314,9 +316,12 @@ export const FormRender = ({
         return (
           <div>
             {fieldDefinition.title && (
-              <h3
-                className={styles["checkbox-title"]}
-              >{`${fieldDefinition.order}) ${fieldDefinition.title}`}</h3>
+              <h3 className={styles["checkbox-title"]}>
+                <span className={styles["field-number"]}>
+                  {String(fieldDefinition.order).padStart(2, "0")}
+                </span>
+                {fieldDefinition.title}
+              </h3>
             )}
             <div className="flex flex-col">
               {(fieldDefinition.options || []).map((opt) => (
@@ -380,36 +385,45 @@ export const FormRender = ({
 
   return (
     <form className={styles["form-container"]} onSubmit={handleSubmit}>
-      <div className="relative flex items-center justify-center py-4 border-b border-gray-200">
-        {/* Titulo del cuestionario */}
-        <h1 className="text-xl font-bold text-center">{title}</h1>
-
-        {/* Fecha de última actualización */}
-        <div className="absolute right-0 text-sm text-gray-500 italic pr-4">
-          Última actualización:{" "}
-          {new Date(lastUpdate).toLocaleDateString("es-ES", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          })}
-        </div>
+      <div className="relative border-b-2 border-[#f1f5f9] bg-white py-12 px-8 flex flex-col items-center justify-center">
+        <h1 className="text-3xl md:text-4xl font-['Libre_Baskerville'] font-bold text-center text-[#273a71] leading-tight">
+          {title}
+        </h1>
+        {lastUpdate && (
+          <div className="mt-4 text-sm text-[#64748b] font-['Work_Sans'] bg-[#f8fafc] px-4 py-1.5 rounded-full border border-[#e2e8f0]">
+            Última actualización:{" "}
+            <span className="font-medium text-[#475569]">
+              {new Date(lastUpdate).toLocaleDateString("es-ES", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Secciones */}
       <div>
         {[...(sections || [])].sort(byOrder).map((section) => (
           <div key={section.id}>
-            <h2
-              className={styles["section-title"]}
-            >{`${section.order}) ${section.title}`}</h2>
+            <h2 className={styles["section-title"]}>
+              <span className="text-[#273a71] font-['Libre_Baskerville'] font-bold mr-3">
+                {String(section.order).padStart(2, "0")}.
+              </span>
+              {section.title}
+            </h2>
             {[...(section.fields || [])].sort(byOrder).map((field) => (
               <div key={field.id}>{renderField(field)}</div>
             ))}
             {section.observations && (
-              <div className="w-full mt-2 px-8">
+              <div className="w-full mt-8 px-8 pb-8">
                 <TextareaField
                   id={`observations-${section.id}`}
-                  label={section.observationsLabel || "Observaciones"}
+                  label={
+                    section.observationsLabel ||
+                    "Observaciones Generales de la Sección"
+                  }
                   value={answerIndex.get(section.id)?.observationsValue || ""}
                   onChange={(val) =>
                     setAnswer(section, { observationsValue: val })
@@ -420,15 +434,19 @@ export const FormRender = ({
           </div>
         ))}
       </div>
-      <div className="flex gap-3 justify-end p-4">
+      <div className="flex gap-4 justify-end p-6 bg-[#f8fafc] border-t border-[#e2e8f0] rounded-b-lg">
         {onCancel && (
-          <button type="button" className="btn-secondary" onClick={onCancel}>
+          <button
+            type="button"
+            className={styles["cancel-btn"]}
+            onClick={onCancel}
+          >
             Cancelar
           </button>
         )}
         {onSubmit && (
-          <button type="submit" className="btn-primary">
-            Guardar
+          <button type="submit" className={styles["submit-btn"]}>
+            Guardar Respuestas
           </button>
         )}
       </div>
