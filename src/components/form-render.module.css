@@ -1,17 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Work+Sans:wght@300;400;500;600&display=swap");
 
+:root {
+  --primary-color: #273a71;
+  --tertiary-color: #e9f1f9;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 900px;
-  margin: 3rem auto;
+  margin: 2rem auto;
   background-color: #ffffff;
   color: #1e293b;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  border-top: 6px solid #273a71;
   border-radius: 8px;
   font-family: "Work Sans", sans-serif;
   overflow: hidden;
@@ -22,8 +26,8 @@
   font-family: "Work Sans", sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #273a71;
-  background-color: #f8fafc;
+  color: var(--primary-color);
+  background-color: var(--tertiary-color);
   border-bottom: 2px solid #e2e8f0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -42,6 +46,7 @@
 }
 
 .field-label-col {
+  display: flex;
   font-size: 1.05rem;
   font-weight: 500;
   color: #334155;
@@ -50,10 +55,7 @@
 }
 
 .field-number {
-  font-family: "Libre Baskerville", serif;
-  font-weight: 700;
-  /* color: #d72836; */
-  color: #273a71;
+  color: var(--primary-color);
   font-size: 1.15rem;
   margin-right: 0.75rem;
 }
@@ -70,7 +72,23 @@
 
 .date-input input:focus {
   outline: none;
-  border-color: #273a71;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(39, 58, 113, 0.15);
+}
+
+.checkbox-input input {
+  padding: 0.75rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  font-family: "Work Sans", sans-serif;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.checkbox-input input:focus {
+  outline: none;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(39, 58, 113, 0.15);
 }
 
@@ -79,8 +97,8 @@
   font-weight: 600;
   font-size: 1.1rem;
   padding: 1.5rem 2.5rem 1rem 2.5rem;
-  color: #273a71;
-  background-color: #f8fafc;
+  color: var(--primary-color);
+  background-color: var(--tertiary-color);
   border-bottom: 1px solid #e2e8f0;
   border-top: 1px solid #e2e8f0;
 }
@@ -97,7 +115,7 @@
 }
 
 .checkbox-container:hover {
-  background-color: #f8fafc;
+  background-color: var(--tertiary-color);
 }
 
 .table-container {
@@ -111,17 +129,17 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  color: #273a71;
+  color: var(--primary-color);
 }
 
 .submit-btn {
-  background-color: #273a71;
+  background-color: var(--primary-color);
   color: #ffffff;
   font-family: "Work Sans", sans-serif;
   font-weight: 600;
   padding: 0.75rem 2rem;
   border-radius: 6px;
-  border: 1px solid #273a71;
+  border: 1px solid var(--primary-color);
   transition: all 0.2s ease;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }

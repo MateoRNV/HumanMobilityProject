@@ -52,15 +52,6 @@ export const MatrixInput = ({ field, value, selections, onChange = () => {} }) =
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      {field.title && (
-        <div className="flex items-center w-1/2 py-3">
-          {typeof field.order !== "undefined" && (
-            <div className="me-3">{`${field.order})`}</div>
-          )}
-          <div>{field.title}</div>
-        </div>
-      )}
-
       <div className="overflow-x-auto rounded-2xl shadow-sm ring-1 ring-black/5">
         <table className="min-w-full border-collapse text-sm">
           <thead>

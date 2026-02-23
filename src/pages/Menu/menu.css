@@ -3,9 +3,9 @@
 }
 
 .active {
-  /* text-decoration: underline; */
-  color: var(--main-color);
-  border-bottom: 2px solid var(--main-color);
+  color: var(--primary-color, #273a71);
+  border-bottom: 3px solid var(--primary-color, #273a71);
+  font-weight: 600;
 }
 
 .user-list {
@@ -13,22 +13,23 @@
   min-height: 0;
   overflow-y: auto;
   width: 100%;
-  max-height: 50vh;
+  max-height: calc(100vh - 200px);
 }
 
 .user-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.375rem;
-  margin-bottom: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
   background-color: white;
-  transition: background-color 0.3s;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .user-card:hover {
-  /* background color light blue */
-  background-color: #f0f8ff;
+  background-color: var(--tertiary-color, #e9f1f9);
+  border-color: var(--primary-color, #273a71);
 }

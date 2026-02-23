@@ -124,7 +124,7 @@ export const FormRender = ({
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
         <div className={`w-full md:w-2/5 ${styles["field-label-col"]}`}>
           <span className={styles["field-number"]}>
-            {String(field.order).padStart(2, "0")}
+            {field.order}.
           </span>
           <span>{field.title}</span>
         </div>
@@ -157,10 +157,8 @@ export const FormRender = ({
             <FloatingInput
               id={`text-${fieldDefinition.id}`}
               type="text"
-              label={fieldDefinition.placeholder || "Escribe aquí..."}
+              label={fieldDefinition.placeholder || "Respuesta"}
               widthClass="w-full"
-              inputFocusClass="focus:border-[#273a71]"
-              labelFocusClass="peer-focus:text-[#273a71]"
               required={fieldDefinition.required}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
@@ -177,8 +175,6 @@ export const FormRender = ({
               type="number"
               label={fieldDefinition.placeholder || "Número"}
               widthClass="w-full max-w-xs"
-              inputFocusClass="focus:border-[#273a71]"
-              labelFocusClass="peer-focus:text-[#273a71]"
               required={fieldDefinition.required}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
@@ -235,15 +231,41 @@ export const FormRender = ({
 
       case "matrix": {
         return (
-          <FieldRow field={fieldDefinition} key={fieldDefinition.id}>
-            <MatrixInput
-              field={fieldDefinition}
-              value={getNormalizedValue(fieldDefinition)}
-              onChange={(nextValue) =>
-                setAnswer(fieldDefinition, { value: nextValue })
-              }
-            />
-          </FieldRow>
+          <div className={styles["field-container"]} key={fieldDefinition.id}>
+            <div className="flex flex-col gap-4 w-full">
+              <div className="flex items-center w-full">
+                <span className={styles["field-number"]}>
+                  {fieldDefinition.order}.
+                </span>
+                <span className="font-medium text-gray-700 text-lg">
+                  {fieldDefinition.title}
+                </span>
+              </div>
+              <div className="w-full">
+                <MatrixInput
+                  field={fieldDefinition}
+                  value={getNormalizedValue(fieldDefinition)}
+                  onChange={(nextValue) =>
+                    setAnswer(fieldDefinition, { value: nextValue })
+                  }
+                />
+              </div>
+            </div>
+            {fieldDefinition.observations && (
+              <div className="w-full mt-6">
+                <TextareaField
+                  id={`observations-${fieldDefinition.id}`}
+                  label={fieldDefinition.observationsLabel || "Observaciones"}
+                  value={
+                    answerIndex.get(fieldDefinition.id)?.observationsValue || ""
+                  }
+                  onChange={(val) =>
+                    setAnswer(fieldDefinition, { observationsValue: val })
+                  }
+                />
+              </div>
+            )}
+          </div>
         );
       }
 
@@ -251,7 +273,7 @@ export const FormRender = ({
         return (
           <FieldRow
             field={fieldDefinition}
-            rightClassName={styles["date-input"]}
+            rightClassName={styles["checkbox-input"]}
           >
             <CheckboxInput
               checked={!!normalizedValue}
@@ -266,7 +288,7 @@ export const FormRender = ({
         return (
           <FieldRow field={fieldDefinition}>
             <TextareaField
-              label={fieldDefinition.placeholder || "Escribe aquí..."}
+              label={fieldDefinition.placeholder || "Comentarios / Respuesta"}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
                 setAnswer(fieldDefinition, { value: e.target.value })
@@ -303,7 +325,7 @@ export const FormRender = ({
               <h3 className="mt-4 mb-2 ms-3">{`${fieldDefinition.order}) ${fieldDefinition.title}`}</h3>
             )}
             <TextareaField
-              label={fieldDefinition.placeholder || "Escribe aquí..."}
+              label={fieldDefinition.placeholder || "Comentarios / Respuesta"}
               defaultValue={normalizedValue ?? ""}
               onBlur={(e) =>
                 setAnswer(fieldDefinition, { value: e.target.value })
@@ -385,20 +407,18 @@ export const FormRender = ({
 
   return (
     <form className={styles["form-container"]} onSubmit={handleSubmit}>
-      <div className="relative border-b-2 border-[#f1f5f9] bg-white py-12 px-8 flex flex-col items-center justify-center">
-        <h1 className="text-3xl md:text-4xl font-['Libre_Baskerville'] font-bold text-center text-[#273a71] leading-tight">
+      <div className="bg-[#273a71] text-white py-8 px-8 flex flex-col justify-center rounded-t-lg">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
           {title}
         </h1>
         {lastUpdate && (
-          <div className="mt-4 text-sm text-[#64748b] font-['Work_Sans'] bg-[#f8fafc] px-4 py-1.5 rounded-full border border-[#e2e8f0]">
+          <div className="text-sm text-blue-100 font-medium">
             Última actualización:{" "}
-            <span className="font-medium text-[#475569]">
-              {new Date(lastUpdate).toLocaleDateString("es-ES", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
-            </span>
+            {new Date(lastUpdate).toLocaleDateString("es-ES", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
           </div>
         )}
       </div>
@@ -409,7 +429,7 @@ export const FormRender = ({
           <div key={section.id}>
             <h2 className={styles["section-title"]}>
               <span className="text-[#273a71] font-['Libre_Baskerville'] font-bold mr-3">
-                {String(section.order).padStart(2, "0")}.
+                {section.order}.
               </span>
               {section.title}
             </h2>
@@ -434,7 +454,7 @@ export const FormRender = ({
           </div>
         ))}
       </div>
-      <div className="flex gap-4 justify-end p-6 bg-[#f8fafc] border-t border-[#e2e8f0] rounded-b-lg">
+      <div className="flex gap-4 justify-end p-6 bg-gray-50 border-t border-gray-200 rounded-b-lg">
         {onCancel && (
           <button
             type="button"
