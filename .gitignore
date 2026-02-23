@@ -27,3 +27,5 @@ package-lock.json
 .agent/*
 .agents/*
 .env
+.skills-lock.json
+package-lock.json
