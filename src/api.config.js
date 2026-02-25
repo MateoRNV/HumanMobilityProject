@@ -5,8 +5,8 @@
 
 // Revisar las APIS
 
-//const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? "http://localhost:3001/api";
- const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://wandering-lil-human-mobility-b37b6d7c.koyeb.app/api';
+// const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? "http://localhost:3001/api";
+const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://wandering-lil-human-mobility-b37b6d7c.koyeb.app/api';
 // const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://human-mobility-backend.onrender.com/api';
 
 const defaultHeaders = {
@@ -114,6 +114,11 @@ export const personsApi = {
   /** GET /api/forms/definition/:slug - Obtener estructura (schema) */
   getDefinition(slug) {
     return apiClient.get(`/forms/definition/${slug}`);
+  },
+
+  /** GET /api/forms/definitions - Obtener todas las definiciones */
+  getDefinitions() {
+    return apiClient.get("/forms/definitions");
   },
 };
 

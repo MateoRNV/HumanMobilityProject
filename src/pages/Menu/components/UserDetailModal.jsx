@@ -135,7 +135,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
         icon: isEditing ? "edit_note" : "person",
       }}
       isLoading={isLoading}
-      width="800px"
+      width="750px"
     >
       <div className="user-detail-content overflow-y-auto max-h-[70vh] pr-2">
         {/* Basic Info Section */}
