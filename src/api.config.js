@@ -5,13 +5,13 @@
 
 // Revisar las APIS
 
-// const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'http://localhost:3001/api';
+// const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? "http://localhost:3001/api";
 const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://wandering-lil-human-mobility-b37b6d7c.koyeb.app/api';
 // const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://human-mobility-backend.onrender.com/api';
 
 const defaultHeaders = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
+  "Content-Type": "application/json",
+  Accept: "application/json",
 };
 
 async function handleResponse(response) {
@@ -35,7 +35,7 @@ async function handleResponse(response) {
 export const apiClient = {
   async get(endpoint) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'GET',
+      method: "GET",
       headers: defaultHeaders,
     });
     return handleResponse(response);
@@ -43,7 +43,7 @@ export const apiClient = {
 
   async post(endpoint, body) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'POST',
+      method: "POST",
       headers: defaultHeaders,
       body: JSON.stringify(body ?? {}),
     });
@@ -52,7 +52,7 @@ export const apiClient = {
 
   async patch(endpoint, body) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: defaultHeaders,
       body: JSON.stringify(body ?? {}),
     });
@@ -61,7 +61,7 @@ export const apiClient = {
 
   async put(endpoint, body) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: defaultHeaders,
       body: JSON.stringify(body ?? {}),
     });
@@ -75,7 +75,7 @@ export const apiClient = {
 export const personsApi = {
   /** GET /api/personas - Lista todas las personas */
   getList() {
-    return apiClient.get('/personas');
+    return apiClient.get("/personas");
   },
 
   /** GET /api/personas/:id - Una persona por id */
@@ -83,14 +83,14 @@ export const personsApi = {
     return apiClient.get(`/personas/${id}`);
   },
 
-  /** POST /api/personas - Crear persona. Body: { nombre: string, documento?: string } */
-  create({ nombre, documento = null }) {
-    return apiClient.post('/personas', { nombre, documento });
+  /** POST /api/personas - Crear persona. Body: { nombre: string, apellido: string, documento?: string } */
+  create({ nombre, apellido, documento = null }) {
+    return apiClient.post("/personas", { nombre, apellido, documento });
   },
 
   /** PATCH /api/personas/:id - Actualizar persona */
-  update(id, { nombre, documento }) {
-    return apiClient.patch(`/personas/${id}`, { nombre, documento });
+  update(id, { nombre, apellido, documento }) {
+    return apiClient.patch(`/personas/${id}`, { nombre, apellido, documento });
   },
 
   /** GET /api/personas/:personaId/cuestionarios/:slug - Obtener cuestionario */
