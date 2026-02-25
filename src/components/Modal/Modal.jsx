@@ -1,7 +1,7 @@
 import React from "react";
 import "./modal.css";
 
-const Modal = ({ isOpen, onClose, children, header, isLoading }) => {
+const Modal = ({ isOpen, onClose, children, header, isLoading, width }) => {
   if (!isOpen) return null;
 
   const handleClose = () => {
@@ -12,7 +12,11 @@ const Modal = ({ isOpen, onClose, children, header, isLoading }) => {
 
   return (
     <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-dialog"
+        onClick={(e) => e.stopPropagation()}
+        style={{ width: width || "500px" }}
+      >
         <div className="modal-header">
           <div className="modal-header-content">
             {header.icon && (

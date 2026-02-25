@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Select from "react-select";
+import { SelectInput } from "./SelectInput/SelectInput";
 import styles from "./form-render.module.css";
 import { FloatingInput } from "./FloatingInput/FloatingInput";
 import { DateInput } from "./DateInput/DateInput";
@@ -213,11 +213,8 @@ export const FormRender = ({
       case "multi-select":
         return (
           <FieldRow field={fieldDefinition}>
-            <Select
-              className="w-full"
+            <SelectInput
               options={fieldDefinition.options || []}
-              isClearable
-              isSearchable
               isMulti={fieldDefinition.type === "multi-select"}
               required={fieldDefinition.required}
               value={

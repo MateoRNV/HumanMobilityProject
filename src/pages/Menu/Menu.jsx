@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router";
 import AddUserModal from "./components/AddUserModal";
+import UserDetailModal from "./components/UserDetailModal";
 import "./menu.css";
 import { personsApi } from "../../api.config";
 import toast from "react-hot-toast";
@@ -10,6 +11,8 @@ export const Menu = () => {
   const [tab, setTab] = useState("gestion-caso");
   const [searchUserBox, setSearchUserBox] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,9 +32,16 @@ export const Menu = () => {
     fetchUsers();
   }, []);
 
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    setIsDetailModalOpen(true);
+  };
+
   const filteredUsers = userList.filter(
     (user) =>
-      user.nombreCompleto?.toLowerCase().includes(searchUserBox.toLowerCase()) ||
+      user.nombreCompleto
+        ?.toLowerCase()
+        .includes(searchUserBox.toLowerCase()) ||
       String(user.documento ?? "")
         .toLowerCase()
         .includes(searchUserBox.toLowerCase()) ||
@@ -90,6 +100,12 @@ export const Menu = () => {
         onClose={() => setIsModalOpen(false)}
         onSuccess={fetchUsers}
       />
+      <UserDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        user={selectedUser}
+        onSuccess={fetchUsers}
+      />
       {/* Gestion de Usuarios */}
       <div
         className="flex flex-col items-start w-full max-w-5xl px-4 md:px-8 mt-8"
@@ -116,24 +132,38 @@ export const Menu = () => {
               <LoadingSpinner />
             ) : (
               filteredUsers.map((user) => (
-                <div key={user.id} className="user-card group">
-                  <div className="flex flex-col">
+                <div
+                  key={user.id}
+                  className="user-card group cursor-pointer hover:bg-gray-50/80 transition-all border-l-4 border-l-transparent hover:border-l-[var(--primary-color)]"
+                  onClick={() => handleUserClick(user)}
+                >
+                  <div className="flex flex-col flex-1">
                     <span className="font-semibold text-gray-900 text-lg line-clamp-1">
                       {user.nombreCompleto}
                     </span>
                     <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
-                      <span className="bg-gray-100 border border-gray-200 px-2 py-0.5 rounded text-xs">
+                      <span className="bg-gray-100 border border-gray-200 px-2 py-0.5 rounded text-xs font-medium">
                         Caso {user.numeroCaso || "-"}
                       </span>
-                      {user.documento && <span>ID: {user.documento}</span>}
+                      {user.documento && (
+                        <div className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-xs">
+                            badge
+                          </span>
+                          <span>{user.documento}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div
+                    className="flex gap-2"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {/* {user.cuestionarios?.includes("triaje") && ( */}
                     <Link
                       to={`/formulario/triaje/${user.id}`}
                       state={{ user }}
-                      className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-gray-400 border border-gray-200 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] hover:bg-[#e9f1f9] transition-all shadow-sm"
+                      className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-blue-50 text-blue-600 border-blue-100"
                       title="Cuestionario de Triaje"
                     >
                       <span className="material-symbols-outlined text-xl">
@@ -146,7 +176,7 @@ export const Menu = () => {
                     <Link
                       to={`/formulario/social/${user.id}`}
                       state={{ user }}
-                      className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-gray-400 border border-gray-200 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] hover:bg-[#e9f1f9] transition-all shadow-sm"
+                      className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-emerald-50 text-emerald-600 border-emerald-100"
                       title="Cuestionario de Trabajo Social"
                     >
                       <span className="material-symbols-outlined text-xl">
@@ -159,7 +189,7 @@ export const Menu = () => {
                     <Link
                       to={`/formulario/legal/${user.id}`}
                       state={{ user }}
-                      className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-gray-400 border border-gray-200 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] hover:bg-[#e9f1f9] transition-all shadow-sm"
+                      className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-amber-50 text-amber-600 border-amber-100"
                       title="Cuestionario Legal"
                     >
                       <span className="material-symbols-outlined text-xl">
@@ -172,7 +202,7 @@ export const Menu = () => {
                     <Link
                       to={`/formulario/psicologico/${user.id}`}
                       state={{ user }}
-                      className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-gray-400 border border-gray-200 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] hover:bg-[#e9f1f9] transition-all shadow-sm"
+                      className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-purple-50 text-purple-600 border-purple-100"
                       title="Cuestionario de Psicología"
                     >
                       <span className="material-symbols-outlined text-xl">

@@ -1,0 +1,55 @@
+/* UserDetailModal specific styles */
+
+.user-detail-content {
+  scrollbar-width: thin;
+  scrollbar-color: #e5e7eb transparent;
+}
+
+.user-detail-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.user-detail-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.user-detail-content::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb;
+  border-radius: 20px;
+}
+
+.user-detail-content {
+  animation: modalContentFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalContentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Questionnaire Link hover effect */
+.questionnaire-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.questionnaire-card:hover {
+  filter: brightness(0.98);
+}
+
+/* Glassmorphism subtle effect for headers in sections if needed */
+.section-header-pill {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Form focus ring custom color */
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(39, 54, 124, 0.1);
+}
