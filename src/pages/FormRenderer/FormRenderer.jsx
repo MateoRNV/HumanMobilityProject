@@ -103,7 +103,9 @@ const FormRenderer = () => {
         {userData && (
           <p className="text-gray-600 mt-3 text-lg font-medium">
             Usuario:{" "}
-            <span className="font-bold text-[#273a71]">{userData.nombre}</span>
+            <span className="font-bold text-[#273a71]">
+              {userData.nombreCompleto}
+            </span>
             {userData?.documento
               ? ` | Identificación: ${userData.documento}`
               : ""}

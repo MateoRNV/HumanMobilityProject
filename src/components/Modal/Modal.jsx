@@ -14,10 +14,21 @@ const Modal = ({ isOpen, onClose, children, header, isLoading }) => {
     <div className="modal-overlay" onClick={handleClose}>
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <div>{header.title}</div>
+          <div className="modal-header-content">
+            {header.icon && (
+              <span className="material-symbols-outlined modal-header-icon">
+                {header.icon}
+              </span>
+            )}
+            <h2 className="modal-title">{header.title}</h2>
+          </div>
           {!isLoading && (
-            <button className="modal-close" onClick={handleClose}>
-              &times;
+            <button
+              className="modal-close"
+              onClick={handleClose}
+              aria-label="Cerrar modal"
+            >
+              <span className="material-symbols-outlined">close</span>
             </button>
           )}
         </div>
