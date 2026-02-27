@@ -55,7 +55,13 @@ export const DateRenderer = ({ field, value, setAnswer, FieldRow }) => (
   </FieldRow>
 );
 
-export const SelectRenderer = ({ field, value, setAnswer, FieldRow }) => (
+export const SelectRenderer = ({
+  field,
+  value,
+  setAnswer,
+  FieldRow,
+  isDisabled,
+}) => (
   <FieldRow field={field}>
     <SelectInput
       options={field.options || []}
@@ -63,11 +69,18 @@ export const SelectRenderer = ({ field, value, setAnswer, FieldRow }) => (
       required={field.required}
       value={optionByValue(field.options, value)}
       onChange={(opt) => setAnswer(field, { value: opt ? opt.value : null })}
+      isDisabled={isDisabled}
     />
   </FieldRow>
 );
 
-export const MultiSelectRenderer = ({ field, value, setAnswer, FieldRow }) => (
+export const MultiSelectRenderer = ({
+  field,
+  value,
+  setAnswer,
+  FieldRow,
+  isDisabled,
+}) => (
   <FieldRow field={field}>
     <SelectInput
       options={field.options || []}
@@ -78,6 +91,7 @@ export const MultiSelectRenderer = ({ field, value, setAnswer, FieldRow }) => (
         const values = (opt || []).map((o) => o.value);
         setAnswer(field, { value: values });
       }}
+      isDisabled={isDisabled}
     />
   </FieldRow>
 );
@@ -132,7 +146,7 @@ export const TextareaRenderer = ({ field, value, setAnswer, FieldRow }) => (
   </FieldRow>
 );
 
-export const TableRenderer = ({ field, value, setAnswer }) => (
+export const TableRenderer = ({ field, value, setAnswer, isDisabled }) => (
   <div className={`${styles["table-container"]}`}>
     {field?.title && (
       <div className={styles["table-title"]}>
@@ -146,6 +160,7 @@ export const TableRenderer = ({ field, value, setAnswer }) => (
       allowAddRows={field.allowAddRows}
       canDeleteRows={field.canDeleteRows}
       addRowText={field.addRowText}
+      isDisabled={isDisabled}
     />
   </div>
 );

@@ -8,6 +8,7 @@ export const SelectInput = ({
   value,
   onChange,
   className = "",
+  isDisabled = false,
 }) => {
   return (
     <Select
@@ -19,6 +20,7 @@ export const SelectInput = ({
       required={required}
       value={value}
       onChange={onChange}
+      isDisabled={isDisabled}
       menuPortalTarget={document.body}
       styles={{
         menuPortal: (base) => ({ ...base, zIndex: 9999 }),

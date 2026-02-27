@@ -7,10 +7,12 @@ export const Table = ({
   allowAddRows,
   canDeleteRows,
   addRowText,
+  isDisabled = false,
 }) => {
   const [rows, setRows] = useState(data);
 
   const handleCellChange = (rowIndex, columnId, value) => {
+    if (isDisabled) return;
     const updatedRows = [...rows];
     updatedRows[rowIndex] = { ...updatedRows[rowIndex], [columnId]: value };
     setRows(updatedRows);
@@ -18,6 +20,7 @@ export const Table = ({
   };
 
   const handleAddRow = () => {
+    if (isDisabled) return;
     const newRow = columns.reduce((acc, col) => {
       acc[col.id] = "";
       return acc;
@@ -28,6 +31,7 @@ export const Table = ({
   };
 
   const handleDeleteRow = (rowIndex) => {
+    if (isDisabled) return;
     const updatedRows = rows.filter((_, index) => index !== rowIndex);
     setRows(updatedRows);
     onChange?.(updatedRows);
@@ -48,12 +52,7 @@ export const Table = ({
                   {col.header}
                 </th>
               ))}
-            {canDeleteRows && (
-              <th
-                style={{ width: "8%" }}
-              >
-              </th>
-            )}
+            {canDeleteRows && !isDisabled && <th style={{ width: "8%" }}></th>}
           </tr>
         </thead>
         <tbody>
@@ -71,13 +70,14 @@ export const Table = ({
                         type="text"
                         className="w-full border border-gray-300 px-2 py-1"
                         value={row[col.id] || ""}
+                        disabled={isDisabled}
                         onChange={(e) =>
                           handleCellChange(rowIndex, col.id, e.target.value)
                         }
                       />
                     </td>
                   ))}
-                {canDeleteRows && (
+                {canDeleteRows && !isDisabled && (
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     <span
                       className="material-symbols-outlined text-red-500 cursor-pointer hover:text-red-700"
@@ -91,7 +91,7 @@ export const Table = ({
             ))}
         </tbody>
       </table>
-      {allowAddRows && (
+      {allowAddRows && !isDisabled && (
         <div className="w-full flex justify-end">
           <button
             type="button"

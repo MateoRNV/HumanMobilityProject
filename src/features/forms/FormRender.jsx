@@ -145,6 +145,7 @@ export const FormRender = ({
         setAnswer={setAnswer}
         answerIndex={answerIndex}
         FieldRow={FieldRow}
+        isDisabled={isPreview}
       />
     );
   };
