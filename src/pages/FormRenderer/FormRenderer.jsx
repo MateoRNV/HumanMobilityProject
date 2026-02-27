@@ -25,17 +25,8 @@ const FormRenderer = () => {
         setFormSchema(schema);
 
         const formData = await personsApi.getForm(personaId, slug);
-
         if (formData && formData.respuestas) {
           setAnswerData(formData);
-        }
-        if (!userData) {
-          try {
-            const person = await personsApi.getOne(personaId);
-            setUserData(person);
-          } catch (e) {
-            console.error("Error al recuperar datos del usuario", e);
-          }
         }
       } catch (error) {
         toast.error("Error al cargar el formulario. Verifique su conexión.");
@@ -47,7 +38,17 @@ const FormRenderer = () => {
     if (slug && personaId) {
       fetchData();
     }
-  }, [slug, personaId, userData]);
+  }, [slug, personaId]);
+
+  useEffect(() => {
+    if (userData || !personaId) return;
+    personsApi
+      .getOne(personaId)
+      .then(setUserData)
+      .catch((e) => {
+        console.error("Error al recuperar datos del usuario", e);
+      });
+  }, [personaId, userData]);
 
   const handleSave = async (data) => {
     try {
@@ -101,7 +102,7 @@ const FormRenderer = () => {
 
       <div className="w-full text-center mt-2 mb-6 px-12">
         <h1 className="text-sm font-bold text-[#d72836] bg-red-50 inline-block px-3 py-1 rounded-md border border-red-200 uppercase tracking-wider">
-          {`Caso No. ${userData.numeroCaso}`}
+          {`Caso No. ${userData?.numeroCaso || "..."}`}
         </h1>
         {userData && (
           <p className="text-gray-600 mt-3 text-lg font-medium">
