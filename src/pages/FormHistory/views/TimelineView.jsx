@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const TimelineView = ({ history, formSchema }) => {
-  const [openId, setOpenId] = useState(null);
+  const [openIds, setOpenIds] = useState({});
 
   // Construye un mapa campoId -> título del campo usando el schema actual
   const fieldTitles = {};
@@ -43,10 +43,17 @@ const TimelineView = ({ history, formSchema }) => {
     );
   }
 
+  const toggleOpen = (id) => {
+    setOpenIds((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   return (
     <div className="space-y-3">
       {history.map((entry, idx) => {
-        const isOpen = openId === entry.id;
+        const isOpen = !!openIds[entry.id];
         const visibleAnswers = (entry.respuestas || []).filter(
           (a) => !a._orphaned,
         );
@@ -56,7 +63,7 @@ const TimelineView = ({ history, formSchema }) => {
             className="bg-white rounded-xl border border-gray-200 overflow-hidden"
           >
             <button
-              onClick={() => setOpenId(isOpen ? null : entry.id)}
+              onClick={() => toggleOpen(entry.id)}
               className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center gap-3">

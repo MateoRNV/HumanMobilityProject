@@ -180,8 +180,17 @@ export const FormRender = ({
       );
       return;
     }
-    const submittedAnswers = Array.from(answerIndex.values()).map(
-      (answerEntry) => {
+    const validIds = new Set();
+    for (const section of sections) {
+      if (section.observations) validIds.add(section.id);
+      for (const field of section.fields || []) {
+        validIds.add(field.id);
+      }
+    }
+
+    const submittedAnswers = Array.from(answerIndex.values())
+      .filter((answerEntry) => validIds.has(answerEntry.campoId))
+      .map((answerEntry) => {
         const mappedEntry = {
           campoId: answerEntry.campoId,
           tipo: answerEntry.type || answerEntry.tipo,
@@ -211,23 +220,8 @@ export const FormRender = ({
           mappedEntry.selecciones = seleccionesArray;
         }
         return mappedEntry;
-      },
-    );
-    const currentFieldIds = new Set();
-    for (const section of sections) {
-      for (const field of section.fields || []) {
-        currentFieldIds.add(field.id);
-      }
-    }
-
-    const orphanedAnswers = initialAnswers
-      .filter(
-        (a) => !currentFieldIds.has(a.campoId) && !answerIndex.has(a.campoId),
-      )
-      .map((a) => ({ ...a, _orphaned: true }));
-
-    const allAnswers = [...submittedAnswers, ...orphanedAnswers];
-    onSubmit?.({ answers: allAnswers });
+      });
+    onSubmit?.({ answers: submittedAnswers });
   };
 
   return (
