@@ -5,8 +5,9 @@
 
 // Revisar las APIS
 
-// const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? "http://localhost:3001/api";
-const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://wandering-lil-human-mobility-b37b6d7c.koyeb.app/api';
+const API_BASE_URL =
+  import.meta.env?.VITE_API_BASE_URL ?? "http://localhost:3001/api";
+// const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://wandering-lil-human-mobility-b37b6d7c.koyeb.app/api';
 // const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? 'https://human-mobility-backend.onrender.com/api';
 
 const defaultHeaders = {
@@ -98,14 +99,14 @@ export const personsApi = {
     });
   },
 
-  /** GET /api/personas/:personaId/cuestionarios/:slug - Obtener cuestionario */
+  /** GET /api/forms/submissions/:personaId/:slug - Obtener cuestionario */
   getForm(personaId, slug) {
-    return apiClient.get(`/personas/${personaId}/cuestionarios/${slug}`);
+    return apiClient.get(`/forms/submissions/${personaId}/${slug}`);
   },
 
-  /** PUT /api/personas/:personaId/cuestionarios/:slug - Guardar cuestionario */
+  /** PUT /api/forms/submissions/:personaId/:slug - Guardar cuestionario */
   saveForm(personaId, slug, { version_cuestionario, respuestas }) {
-    return apiClient.put(`/personas/${personaId}/cuestionarios/${slug}`, {
+    return apiClient.put(`/forms/submissions/${personaId}/${slug}`, {
       version_cuestionario,
       respuestas,
     });
