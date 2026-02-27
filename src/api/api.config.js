@@ -124,6 +124,11 @@ export const personsApi = {
   updateDefinition(slug, data) {
     return apiClient.put(`/forms/definition/${slug}`, data);
   },
+
+  /** GET /api/forms/submissions/:personaId/:slug/history */
+  getFormHistory(personaId, slug) {
+    return apiClient.get(`/forms/submissions/${personaId}/${slug}/history`);
+  },
 };
 
 export const apiService = {

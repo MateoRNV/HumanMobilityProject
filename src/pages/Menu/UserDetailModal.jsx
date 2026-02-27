@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Modal from "../../components/ui/Modal/Modal";
 import { personsApi } from "../../api/api.config";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ import "./UserDetailModal.css";
 const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // States for Info
   const [nombre, setNombre] = useState("");
@@ -400,42 +401,82 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {questionnaires.map((q) => (
-                    <Link
-                      key={q.slug}
-                      to={`/formulario/${q.slug}/${user.id}`}
-                      state={{ user }}
-                      className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all hover:shadow-md hover:-translate-y-0.5 ${q.color}`}
-                    >
-                      <span className="material-symbols-outlined text-2xl">
-                        {q.icon}
-                      </span>
-                      <span className="text-xs font-bold">{q.name}</span>
-                    </Link>
+                    <div key={q.slug} className="relative group">
+                      <Link
+                        to={`/formulario/${q.slug}/${user.id}`}
+                        state={{ user }}
+                        className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all hover:shadow-md hover:-translate-y-0.5 ${q.color}`}
+                      >
+                        <span className="material-symbols-outlined text-2xl">
+                          {q.icon}
+                        </span>
+                        <span className="text-xs font-bold">{q.name}</span>
+                      </Link>
+                      {user?.cuestionarios?.includes(q.slug) && (
+                        <button
+                          onClick={() =>
+                            navigate(`/historial/${q.slug}/${user.id}`, {
+                              state: { user },
+                            })
+                          }
+                          title="Ver historial"
+                          className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-full p-0.5 shadow-sm hover:shadow-md"
+                        >
+                          <span className="material-symbols-outlined text-base text-gray-500 hover:text-[#273a71]">
+                            history
+                          </span>
+                        </button>
+                      )}
+                    </div>
                   ))}
                 </div>
               </section>
             )}
 
-            {/* History Placeholder */}
-            {/* {!isEditing && (
-          <section className="mb-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">
-              Historial de Respuestas
-            </h3>
-            <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center text-center">
-              <span className="material-symbols-outlined text-4xl text-gray-300 mb-2">
-                history
-              </span>
-              <p className="text-sm text-gray-500">
-                Próximamente: Consulta el histórico de cambios y respuestas de
-                este usuario.
-              </p>
-              <button className="mt-4 text-xs font-bold text-gray-400 cursor-not-allowed uppercase tracking-widest">
-                Ver Historial Completo
-              </button>
-            </div>
-          </section>
-        )} */}
+            {/* History Display */}
+            {!isEditing && (
+              <section className="mb-4">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">
+                  Historial de Respuestas
+                </h3>
+                {user?.cuestionarios?.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {questionnaires
+                      .filter((q) => user.cuestionarios.includes(q.slug))
+                      .map((q) => (
+                        <button
+                          key={q.slug}
+                          onClick={() =>
+                            navigate(`/historial/${q.slug}/${user.id}`, {
+                              state: { user },
+                            })
+                          }
+                          className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all hover:shadow-md hover:-translate-y-0.5 ${q.color} cursor-pointer group`}
+                        >
+                          <span className="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">
+                            history
+                          </span>
+                          <span className="text-xs font-bold text-center">
+                            Historial - {q.name}
+                          </span>
+                        </button>
+                      ))}
+                  </div>
+                ) : (
+                  <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center text-center">
+                    <span className="material-symbols-outlined text-4xl text-gray-300 mb-2">
+                      history
+                    </span>
+                    <p className="text-sm text-gray-500">
+                      El usuario aún no tiene un historial guardado.
+                    </p>
+                    <button className="mt-4 text-xs font-bold text-gray-400 cursor-not-allowed uppercase tracking-widest">
+                      Sin Registros
+                    </button>
+                  </div>
+                )}
+              </section>
+            )}
 
             {/* Actions for Editing */}
             {isEditing && (
