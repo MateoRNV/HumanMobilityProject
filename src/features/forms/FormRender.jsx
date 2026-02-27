@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { SelectInput } from "../../components/ui/SelectInput/SelectInput";
 import styles from "./form-render.module.css";
-import { FloatingInput } from "../../components/ui/FloatingInput/FloatingInput";
-import { DateInput } from "../../components/ui/DateInput/DateInput";
-import { MatrixInput } from "./inputs/MatrixInput/MatrixInput";
-import { CheckboxInput } from "../../components/ui/CheckboxInput/CheckboxInput";
 import { TextareaField } from "../../components/ui/TextArea/TextArea";
-import { Table } from "./inputs/Table/Table";
+import { FIELD_RENDERERS } from "./inputs/renderers";
+import toast from "react-hot-toast";
 
 /** Helpers */
 const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
@@ -122,11 +118,6 @@ export const FormRender = ({
     });
   };
 
-  const optionByValue = (opts = [], v) =>
-    opts.find((o) => o.value === v) || null;
-  const optionsByValues = (opts = [], values = []) =>
-    (values || []).map((v) => optionByValue(opts, v)).filter(Boolean);
-
   const FieldRow = ({ field, rightClassName = "", children }) => (
     <div className={styles["field-container"]}>
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
@@ -157,240 +148,52 @@ export const FormRender = ({
 
   const renderField = (fieldDefinition) => {
     const normalizedValue = getNormalizedValue(fieldDefinition);
+    const Renderer = FIELD_RENDERERS[fieldDefinition.type];
 
-    switch (fieldDefinition.type) {
-      case "text":
-        return (
-          <FieldRow field={fieldDefinition}>
-            <FloatingInput
-              id={`text-${fieldDefinition.id}`}
-              type="text"
-              label={fieldDefinition.placeholder || "Respuesta"}
-              widthClass="w-full"
-              required={fieldDefinition.required}
-              defaultValue={normalizedValue ?? ""}
-              onBlur={(e) =>
-                setAnswer(fieldDefinition, { value: e.target.value })
-              }
-            />
-          </FieldRow>
-        );
-      case "number":
-        return (
-          <FieldRow field={fieldDefinition}>
-            <FloatingInput
-              id={`number-${fieldDefinition.id}`}
-              type="number"
-              label={fieldDefinition.placeholder || "Número"}
-              widthClass="w-full max-w-xs"
-              required={fieldDefinition.required}
-              defaultValue={normalizedValue ?? ""}
-              onBlur={(e) =>
-                setAnswer(fieldDefinition, {
-                  value: e.target.value === "" ? null : Number(e.target.value),
-                })
-              }
-            />
-          </FieldRow>
-        );
+    if (!Renderer) return null;
 
-      case "date":
-        return (
-          <FieldRow
-            field={fieldDefinition}
-            rightClassName={styles["date-input"]}
-          >
-            <DateInput
-              id={`date-${fieldDefinition.id}`}
-              label={fieldDefinition.placeholder || "Selecciona una fecha"}
-              value={normalizedValue ?? ""}
-              onChange={(val) => setAnswer(fieldDefinition, { value: val })}
-            />
-          </FieldRow>
-        );
+    return (
+      <Renderer
+        field={fieldDefinition}
+        value={normalizedValue}
+        setAnswer={setAnswer}
+        answerIndex={answerIndex}
+        FieldRow={FieldRow}
+      />
+    );
+  };
 
-      case "select":
-      case "multi-select":
-        return (
-          <FieldRow field={fieldDefinition}>
-            <SelectInput
-              options={fieldDefinition.options || []}
-              isMulti={fieldDefinition.type === "multi-select"}
-              required={fieldDefinition.required}
-              value={
-                fieldDefinition.type === "multi-select"
-                  ? optionsByValues(fieldDefinition.options, normalizedValue)
-                  : optionByValue(fieldDefinition.options, normalizedValue)
-              }
-              onChange={(opt) => {
-                if (fieldDefinition.type === "multi-select") {
-                  const values = (opt || []).map((o) => o.value);
-                  setAnswer(fieldDefinition, { value: values });
-                } else {
-                  setAnswer(fieldDefinition, { value: opt ? opt.value : null });
-                }
-              }}
-            />
-          </FieldRow>
-        );
-
-      case "matrix": {
-        return (
-          <div className={styles["field-container"]} key={fieldDefinition.id}>
-            <div className="flex flex-col gap-4 w-full">
-              <div className="flex items-center w-full">
-                <span className={styles["field-number"]}>
-                  {fieldDefinition.order}.
-                </span>
-                <span className="font-medium text-gray-700 text-lg">
-                  {fieldDefinition.title}
-                </span>
-              </div>
-              <div className="w-full">
-                <MatrixInput
-                  field={fieldDefinition}
-                  value={getNormalizedValue(fieldDefinition)}
-                  onChange={(nextValue) =>
-                    setAnswer(fieldDefinition, { value: nextValue })
-                  }
-                />
-              </div>
-            </div>
-            {fieldDefinition.observations && (
-              <div className="w-full mt-6">
-                <TextareaField
-                  id={`observations-${fieldDefinition.id}`}
-                  label={fieldDefinition.observationsLabel || "Observaciones"}
-                  defaultValue={
-                    answerIndex.get(fieldDefinition.id)?.observationsValue || ""
-                  }
-                  onBlur={(e) =>
-                    setAnswer(fieldDefinition, {
-                      observationsValue: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            )}
-          </div>
-        );
+  const validateRequiredFields = () => {
+    const missingFields = [];
+    for (const section of formSchema?.sections || []) {
+      for (const field of section.fields || []) {
+        if (field.required) {
+          const val = getNormalizedValue(field);
+          if (
+            val === null ||
+            val === undefined ||
+            val === "" ||
+            (Array.isArray(val) && val.length === 0)
+          ) {
+            missingFields.push(field.title || `Campo ${field.order}`);
+          }
+        }
       }
-
-      case "checkbox":
-        return (
-          <FieldRow
-            field={fieldDefinition}
-            rightClassName={styles["checkbox-input"]}
-          >
-            <CheckboxInput
-              checked={!!normalizedValue}
-              onChange={(checked) =>
-                setAnswer(fieldDefinition, { value: checked })
-              }
-            />
-          </FieldRow>
-        );
-
-      case "textarea":
-        return (
-          <FieldRow field={fieldDefinition}>
-            <TextareaField
-              label={fieldDefinition.placeholder || "Comentarios / Respuesta"}
-              defaultValue={normalizedValue ?? ""}
-              onBlur={(e) =>
-                setAnswer(fieldDefinition, { value: e.target.value })
-              }
-              required={fieldDefinition.required}
-            />
-          </FieldRow>
-        );
-
-      case "table":
-        return (
-          <div className={`${styles["table-container"]}`}>
-            {fieldDefinition?.title && (
-              <div className={styles["table-title"]}>
-                {`${fieldDefinition.order}) ${fieldDefinition.title}`}
-              </div>
-            )}
-            <Table
-              columns={fieldDefinition.columns}
-              data={normalizedValue || []}
-              onChange={(updatedRows) =>
-                setAnswer(fieldDefinition, { value: updatedRows })
-              }
-              allowAddRows={fieldDefinition.allowAddRows}
-              canDeleteRows={fieldDefinition.canDeleteRows}
-              addRowText={fieldDefinition.addRowText}
-            />
-          </div>
-        );
-      case "long-text":
-        return (
-          <div className={styles["field-container"]}>
-            {fieldDefinition.title && (
-              <h3 className="mt-4 mb-2 ms-3">{`${fieldDefinition.order}) ${fieldDefinition.title}`}</h3>
-            )}
-            <TextareaField
-              label={fieldDefinition.placeholder || "Comentarios / Respuesta"}
-              defaultValue={normalizedValue ?? ""}
-              onBlur={(e) =>
-                setAnswer(fieldDefinition, { value: e.target.value })
-              }
-              required={fieldDefinition.required}
-            />
-          </div>
-        );
-      case "multi-checkbox":
-        return (
-          <div>
-            {fieldDefinition.title && (
-              <h3 className={styles["checkbox-title"]}>
-                <span className={styles["field-number"]}>
-                  {String(fieldDefinition.order).padStart(2, "0")}
-                </span>
-                {fieldDefinition.title}
-              </h3>
-            )}
-            <div className="flex flex-col">
-              {(fieldDefinition.options || []).map((opt) => (
-                <div className={styles["checkbox-container"]} key={opt.value}>
-                  <div>{opt.label}</div>
-                  <CheckboxInput
-                    key={opt.value}
-                    checked={
-                      Array.isArray(normalizedValue)
-                        ? normalizedValue.includes(opt.value)
-                        : false
-                    }
-                    onChange={(checked) => {
-                      let updatedValues = Array.isArray(normalizedValue)
-                        ? [...normalizedValue]
-                        : [];
-                      if (checked) {
-                        if (!updatedValues.includes(opt.value)) {
-                          updatedValues.push(opt.value);
-                        }
-                      } else {
-                        updatedValues = updatedValues.filter(
-                          (v) => v !== opt.value,
-                        );
-                      }
-                      setAnswer(fieldDefinition, { value: updatedValues });
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      default:
-        return null;
     }
+    return missingFields;
   };
 
   const handleSubmit = (e) => {
     e?.preventDefault?.();
+
+    const missingFields = validateRequiredFields();
+    if (missingFields.length > 0) {
+      toast.error(
+        `Faltan campos obligatorios por completar:\n- ${missingFields.join("\n- ")}`,
+        { duration: 5000 },
+      );
+      return;
+    }
     const submittedAnswers = Array.from(answerIndex.values()).map(
       (answerEntry) => {
         if (
