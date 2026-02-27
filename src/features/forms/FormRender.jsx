@@ -249,60 +249,65 @@ export const FormRender = ({
       </div>
 
       {/* Secciones */}
-      <div className="flex flex-col pb-4">
-        {[...(sections || [])].sort(byOrder).map((section) => {
-          const isCollapsed = collapsedSections[section.id];
-          return (
-            <div key={section.id} className="border-b border-gray-200">
-              <h2
-                className={`${styles["section-title"]} flex justify-between items-center cursor-pointer select-none`}
-                onClick={() => toggleSection(section.id)}
-              >
-                <div>
-                  <span className="text-[var(--primary-color)] mr-3">
-                    {section.order}.
-                  </span>
-                  {section.title}
-                </div>
-                <span
-                  className="material-symbols-outlined text-[var(--primary-color)] transition-transform duration-200"
-                  style={{
-                    transform: isCollapsed ? "rotate(-90deg)" : "rotate(0)",
-                  }}
+      <fieldset
+        disabled={isPreview}
+        className={`border-0 p-0 m-0 w-full min-w-0 ${isPreview ? "opacity-90" : ""}`}
+      >
+        <div className="flex flex-col pb-4">
+          {[...(sections || [])].sort(byOrder).map((section) => {
+            const isCollapsed = collapsedSections[section.id];
+            return (
+              <div key={section.id} className="border-b border-gray-200">
+                <h2
+                  className={`${styles["section-title"]} flex justify-between items-center cursor-pointer select-none`}
+                  onClick={() => toggleSection(section.id)}
                 >
-                  expand_more
-                </span>
-              </h2>
-              <div
-                className={`transition-all duration-300 overflow-hidden ${isCollapsed ? "max-h-0 opacity-0" : "max-h-[10000px] opacity-100"}`}
-              >
-                {[...(section.fields || [])].sort(byOrder).map((field) => (
-                  <div key={field.id}>{renderField(field)}</div>
-                ))}
-                {section.observations && (
-                  <div className="w-full mt-8 px-8 pb-8">
-                    <TextareaField
-                      id={`observations-${section.id}`}
-                      label={
-                        section.observationsLabel ||
-                        "Observaciones Generales de la Sección"
-                      }
-                      defaultValue={
-                        answerIndex.get(section.id)?.observationsValue || ""
-                      }
-                      onBlur={(e) =>
-                        setAnswer(section, {
-                          observationsValue: e.target.value,
-                        })
-                      }
-                    />
+                  <div>
+                    <span className="text-[var(--primary-color)] mr-3">
+                      {section.order}.
+                    </span>
+                    {section.title}
                   </div>
-                )}
+                  <span
+                    className="material-symbols-outlined text-[var(--primary-color)] transition-transform duration-200"
+                    style={{
+                      transform: isCollapsed ? "rotate(-90deg)" : "rotate(0)",
+                    }}
+                  >
+                    expand_more
+                  </span>
+                </h2>
+                <div
+                  className={`transition-all duration-300 overflow-hidden ${isCollapsed ? "max-h-0 opacity-0" : "max-h-[10000px] opacity-100"}`}
+                >
+                  {[...(section.fields || [])].sort(byOrder).map((field) => (
+                    <div key={field.id}>{renderField(field)}</div>
+                  ))}
+                  {section.observations && (
+                    <div className="w-full mt-8 px-8 pb-8">
+                      <TextareaField
+                        id={`observations-${section.id}`}
+                        label={
+                          section.observationsLabel ||
+                          "Observaciones Generales de la Sección"
+                        }
+                        defaultValue={
+                          answerIndex.get(section.id)?.observationsValue || ""
+                        }
+                        onBlur={(e) =>
+                          setAnswer(section, {
+                            observationsValue: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      </fieldset>
       <div className="flex gap-4 justify-end p-6 bg-gray-50 border-t border-gray-200 rounded-b-lg">
         {onCancel && (
           <button
@@ -310,14 +315,14 @@ export const FormRender = ({
             className={styles["cancel-btn"]}
             onClick={onCancel}
           >
-            Cancelar
+            {isPreview ? "Volver" : "Cancelar"}
           </button>
         )}
-        {onSubmit && (
+        {onSubmit && !isPreview && (
           <button
-            type={isPreview ? "button" : "submit"}
-            className={`${styles["submit-btn"]} ${isSubmitting || isPreview ? "opacity-60 cursor-not-allowed" : ""}`}
-            disabled={isSubmitting || isPreview}
+            type="submit"
+            className={`${styles["submit-btn"]} ${isSubmitting ? "opacity-60 cursor-not-allowed" : ""}`}
+            disabled={isSubmitting}
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2 justify-center">

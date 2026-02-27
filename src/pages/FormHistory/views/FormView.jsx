@@ -60,6 +60,7 @@ const FormView = ({ history, formSchema }) => {
       {/* Panel derecho: formulario read-only */}
       <div className="flex-1 overflow-auto">
         <FormRender
+          key={selected?.id || "empty"}
           formSchema={formSchema}
           initialAnswers={selected?.respuestas || []}
           isPreview={true}
