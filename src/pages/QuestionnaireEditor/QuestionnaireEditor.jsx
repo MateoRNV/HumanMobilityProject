@@ -325,6 +325,9 @@ const QuestionnaireEditor = () => {
               <span className="text-xs font-semibold px-2 py-1 rounded bg-white/20 text-white shadow-inner">
                 v{config.version}
               </span>
+              <span className="text-xs font-medium px-2 py-1 rounded bg-green-500/20 text-green-100">
+                Al guardar: v{config.version + 1}
+              </span>
             </h1>
             <p className="text-sm font-medium text-blue-200">
               Slug: {config.slug} | Editando estructura
@@ -345,11 +348,11 @@ const QuestionnaireEditor = () => {
             onClick={async () => {
               setIsSaving(true);
               try {
-                await personsApi.updateDefinition(slug, {
+                const result = await personsApi.updateDefinition(slug, {
                   nombre: config.name,
-                  version: config.version,
                   configuracion: config,
                 });
+                setConfig((prev) => ({ ...prev, version: result.version }));
                 toast.success("Cambios guardados exitosamente");
                 navigate("/menu", {
                   state: { activeTab: "gestion-cuestionarios" },

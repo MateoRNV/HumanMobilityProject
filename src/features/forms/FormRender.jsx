@@ -212,7 +212,21 @@ export const FormRender = ({
         return answerEntry;
       },
     );
-    onSubmit?.({ answers: submittedAnswers });
+    const currentFieldIds = new Set();
+    for (const section of sections) {
+      for (const field of section.fields || []) {
+        currentFieldIds.add(field.id);
+      }
+    }
+
+    const orphanedAnswers = initialAnswers
+      .filter(
+        (a) => !currentFieldIds.has(a.campoId) && !answerIndex.has(a.campoId),
+      )
+      .map((a) => ({ ...a, _orphaned: true }));
+
+    const allAnswers = [...submittedAnswers, ...orphanedAnswers];
+    onSubmit?.({ answers: allAnswers });
   };
 
   return (
