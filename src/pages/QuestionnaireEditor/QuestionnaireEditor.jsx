@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router";
-import { personsApi } from "../../../api.config";
-import LoadingSpinner from "../../../components/Spinner/Spinner";
-import { FormRender } from "../../../components/FormRender";
+import { personsApi } from "../../api/api.config";
+import LoadingSpinner from "../../components/ui/Spinner/Spinner";
+import { FormRender } from "../../features/forms/FormRender";
 
 const QuestionnaireEditor = () => {
   const { slug } = useParams();

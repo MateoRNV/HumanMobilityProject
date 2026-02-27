@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
-import AddUserModal from "./components/AddUserModal";
-import UserDetailModal from "./components/UserDetailModal";
+import AddUserModal from "./AddUserModal";
+import UserDetailModal from "./UserDetailModal";
 import "./menu.css";
-import { personsApi } from "../../api.config";
+import { personsApi } from "../../api/api.config";
 import toast from "react-hot-toast";
-import LoadingSpinner from "../../components/Spinner/Spinner";
+import LoadingSpinner from "../../components/ui/Spinner/Spinner";
 
 export const Menu = () => {
   const navigate = useNavigate();

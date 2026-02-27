@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router";
-import { FormRender } from "../../components/FormRender";
-import { personsApi } from "../../api.config";
-import LoadingSpinner from "../../components/Spinner/Spinner";
+import { FormRender } from "../../features/forms/FormRender";
+import { personsApi } from "../../api/api.config";
+import LoadingSpinner from "../../components/ui/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 
 const FormRenderer = () => {

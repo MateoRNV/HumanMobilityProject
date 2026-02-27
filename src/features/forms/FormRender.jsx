@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { SelectInput } from "./SelectInput/SelectInput";
+import { SelectInput } from "../../components/ui/SelectInput/SelectInput";
 import styles from "./form-render.module.css";
-import { FloatingInput } from "./FloatingInput/FloatingInput";
-import { DateInput } from "./DateInput/DateInput";
-import { MatrixInput } from "./MatrixInput/MatrixInput";
-import { CheckboxInput } from "./CheckboxInput/CheckboxInput";
-import { TextareaField } from "./TextArea/TextArea";
-import { Table } from "./Table/Table";
+import { FloatingInput } from "../../components/ui/FloatingInput/FloatingInput";
+import { DateInput } from "../../components/ui/DateInput/DateInput";
+import { MatrixInput } from "./inputs/MatrixInput/MatrixInput";
+import { CheckboxInput } from "../../components/ui/CheckboxInput/CheckboxInput";
+import { TextareaField } from "../../components/ui/TextArea/TextArea";
+import { Table } from "./inputs/Table/Table";
 
 /** Helpers */
 const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);

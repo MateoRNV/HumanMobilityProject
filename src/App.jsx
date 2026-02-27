@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router";
 import Home from "./pages/Home/Home";
 import Menu from "./pages/Menu/Menu";
 import FormRenderer from "./pages/FormRenderer/FormRenderer";
-import QuestionnaireEditor from "./pages/Menu/components/QuestionnaireEditor";
+import QuestionnaireEditor from "./pages/QuestionnaireEditor/QuestionnaireEditor";
 import "./App.css";
 
 function LayoutWithBanner({ children }) {

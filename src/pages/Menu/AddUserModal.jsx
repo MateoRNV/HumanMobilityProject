@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Modal from "../../../components/Modal/Modal";
-import { personsApi } from "../../../api.config";
+import Modal from "../../components/ui/Modal/Modal";
+import { personsApi } from "../../api/api.config";
 import toast from "react-hot-toast";
 import "./AddUserModal.css";
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router";
-import Modal from "../../../components/Modal/Modal";
-import { personsApi } from "../../../api.config";
+import Modal from "../../components/ui/Modal/Modal";
+import { personsApi } from "../../api/api.config";
 import toast from "react-hot-toast";
 import "./UserDetailModal.css";
 
