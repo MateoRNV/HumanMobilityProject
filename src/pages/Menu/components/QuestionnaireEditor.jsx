@@ -16,6 +16,7 @@ const QuestionnaireEditor = () => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [draggedSectionIdx, setDraggedSectionIdx] = useState(null);
   const [draggedFieldIdx, setDraggedFieldIdx] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     const fetchSchema = async () => {
@@ -64,9 +65,7 @@ const QuestionnaireEditor = () => {
           throw new Error("Formato de esquema inválido");
         }
       } catch (error) {
-        toast.error(
-          "Mo se pudo cargar el esquema del backend. Usando datos Mock.",
-        );
+        toast.error("No se pudo cargar el esquema del backend.");
         console.error(error);
       } finally {
         setIsLoading(false);
@@ -84,6 +83,17 @@ const QuestionnaireEditor = () => {
         <LoadingSpinner />
         <p className="mt-4 text-gray-500 font-medium">
           Cargando definición del cuestionario...
+        </p>
+      </div>
+    );
+  }
+
+  if (isSaving) {
+    return (
+      <div className="flex flex-col h-screen w-full bg-gray-50 items-center justify-center relative z-[200]">
+        <LoadingSpinner />
+        <p className="mt-4 text-[var(--primary-color)] font-bold animate-pulse">
+          Guardando cambios en el servidor...
         </p>
       </div>
     );
@@ -179,7 +189,37 @@ const QuestionnaireEditor = () => {
           ...s,
           fields: s.fields.map((f) => {
             if (f.id === selectedFieldId) {
-              return { ...f, [key]: value };
+              const updated = { ...f, [key]: value };
+
+              if (key === "type") {
+                delete updated.options;
+                delete updated.rows;
+                delete updated.columns;
+                delete updated.allowAddRows;
+                delete updated.canDeleteRows;
+                delete updated.addRowText;
+
+                if (
+                  value === "select" ||
+                  value === "multi-select" ||
+                  value === "multi-checkbox"
+                ) {
+                  updated.options = [];
+                }
+                if (value === "matrix") {
+                  updated.rows = [
+                    { isHeader: true, value: "header", label: "Encabezado" },
+                  ];
+                  updated.columns = [];
+                }
+                if (value === "table") {
+                  updated.columns = [];
+                  updated.allowAddRows = true;
+                  updated.canDeleteRows = true;
+                }
+              }
+
+              return updated;
             }
             return f;
           }),
@@ -226,10 +266,11 @@ const QuestionnaireEditor = () => {
     const [draggedItem] = newSections.splice(dragIndex, 1);
     newSections.splice(dropIndex, 0, draggedItem);
 
-    newSections.forEach((sec, idx) => {
-      sec.order = idx + 1;
-    });
-    setConfig({ ...config, sections: newSections });
+    const reorderedSections = newSections.map((sec, idx) => ({
+      ...sec,
+      order: idx + 1,
+    }));
+    setConfig({ ...config, sections: reorderedSections });
     setDraggedSectionIdx(null);
   };
 
@@ -250,10 +291,11 @@ const QuestionnaireEditor = () => {
         const newFields = [...s.fields];
         const [draggedItem] = newFields.splice(dragIndex, 1);
         newFields.splice(dropIndex, 0, draggedItem);
-        newFields.forEach((f, idx) => {
-          f.order = idx + 1;
-        });
-        return { ...s, fields: newFields };
+        const reorderedFields = newFields.map((f, idx) => ({
+          ...f,
+          order: idx + 1,
+        }));
+        return { ...s, fields: reorderedFields };
       }
       return s;
     });
@@ -268,7 +310,11 @@ const QuestionnaireEditor = () => {
       <div className="flex items-center justify-between px-6 py-4 bg-[var(--primary-color)] text-white shadow-md relative z-20">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() =>
+              navigate("/menu", {
+                state: { activeTab: "gestion-cuestionarios" },
+              })
+            }
             className="flex items-center justify-center p-2 rounded-full hover:bg-white/10 transition-colors text-white/90"
           >
             <span className="material-symbols-outlined">arrow_back</span>
@@ -296,7 +342,25 @@ const QuestionnaireEditor = () => {
             {isPreviewMode ? "Editor" : "Vista Previa"}
           </button>
           <button
-            onClick={() => toast.success("Cambios guardados exitosamente")}
+            onClick={async () => {
+              setIsSaving(true);
+              try {
+                await personsApi.updateDefinition(slug, {
+                  nombre: config.name,
+                  version: config.version,
+                  configuracion: config,
+                });
+                toast.success("Cambios guardados exitosamente");
+                navigate("/menu", {
+                  state: { activeTab: "gestion-cuestionarios" },
+                });
+              } catch (error) {
+                console.error(error);
+                toast.error("Error al guardar los cambios");
+              } finally {
+                setIsSaving(false);
+              }
+            }}
             className="px-4 py-2 bg-white text-[var(--primary-color)] shadow-sm hover:bg-blue-50 focus:ring-2 focus:ring-white/50 rounded-md font-bold text-sm transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined text-[18px]">save</span>
@@ -517,7 +581,8 @@ const QuestionnaireEditor = () => {
                             </p>
                           )}
                           {(field.type === "select" ||
-                            field.type === "multi-select") &&
+                            field.type === "multi-select" ||
+                            field.type === "multi-checkbox") &&
                             field.options && (
                               <div className="mt-4 flex flex-wrap gap-2">
                                 {field.options.map((opt, i) => (
@@ -530,6 +595,18 @@ const QuestionnaireEditor = () => {
                                 ))}
                               </div>
                             )}
+                          {field.type === "matrix" && (
+                            <div className="mt-3 text-xs text-gray-500 flex items-center gap-2">
+                              <span className="material-symbols-outlined text-[14px]">
+                                grid_on
+                              </span>
+                              {
+                                (field.rows || []).filter((r) => !r.isHeader)
+                                  .length
+                              }{" "}
+                              filas x {(field.columns || []).length} columnas
+                            </div>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -650,6 +727,9 @@ const QuestionnaireEditor = () => {
                     >
                       <option value="text">Texto Corto (text)</option>
                       <option value="textarea">Texto Largo (textarea)</option>
+                      <option value="long-text">
+                        Texto Párrafo (long-text)
+                      </option>
                       <option value="number">Número (number)</option>
                       <option value="date">Fecha (date)</option>
                       <option value="select">Selección Única (select)</option>
@@ -657,7 +737,11 @@ const QuestionnaireEditor = () => {
                         Selección Múltiple (multi-select)
                       </option>
                       <option value="checkbox">Verificación (checkbox)</option>
+                      <option value="multi-checkbox">
+                        Verificación Múltiple (multi-checkbox)
+                      </option>
                       <option value="matrix">Matriz (matrix)</option>
+                      <option value="table">Tabla (table)</option>
                     </select>
                   </div>
 
@@ -694,8 +778,44 @@ const QuestionnaireEditor = () => {
                     </label>
                   </div>
 
+                  <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                    <input
+                      type="checkbox"
+                      id={`obs-${selectedField.id}`}
+                      checked={selectedField.observations || false}
+                      onChange={(e) =>
+                        handleUpdateField("observations", e.target.checked)
+                      }
+                      className="w-4 h-4 text-[var(--primary-color)] rounded border-gray-300 focus:ring-[var(--primary-color)]"
+                    />
+                    <label
+                      htmlFor={`obs-${selectedField.id}`}
+                      className="text-sm font-medium text-gray-700 cursor-pointer select-none"
+                    >
+                      Habilitar Observaciones
+                    </label>
+                  </div>
+
+                  {selectedField.observations && (
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                        Etiqueta de Observaciones
+                      </label>
+                      <input
+                        type="text"
+                        value={selectedField.observationsLabel || ""}
+                        onChange={(e) =>
+                          handleUpdateField("observationsLabel", e.target.value)
+                        }
+                        placeholder="Ej. Observaciones del campo"
+                        className="w-full px-3 py-2.5 bg-white text-gray-800 rounded-lg border border-gray-300 focus:border-[var(--primary-color)] focus:ring-1 focus:ring-[var(--primary-color)] outline-none transition-shadow text-sm shadow-sm"
+                      />
+                    </div>
+                  )}
+
                   {(selectedField.type === "select" ||
-                    selectedField.type === "multi-select") && (
+                    selectedField.type === "multi-select" ||
+                    selectedField.type === "multi-checkbox") && (
                     <div className="border-t border-gray-100 pt-6 flex flex-col gap-4">
                       <div className="flex items-center justify-between">
                         <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
@@ -771,6 +891,182 @@ const QuestionnaireEditor = () => {
                             Sin opciones configuradas
                           </div>
                         )}
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedField.type === "matrix" && (
+                    <div className="border-t border-gray-100 pt-6 flex flex-col gap-6">
+                      {/* --- FILAS --- */}
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center justify-between">
+                          <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                            Filas
+                          </label>
+                          <button
+                            className="text-[var(--primary-color)] text-xs font-semibold hover:bg-blue-50 px-2 py-1 rounded flex items-center gap-1 transition-colors"
+                            onClick={() => {
+                              const newRows = [
+                                ...(selectedField.rows || []),
+                                {
+                                  label: "Nueva Fila",
+                                  value: `row_${Date.now()}`,
+                                },
+                              ];
+                              handleUpdateField("rows", newRows);
+                            }}
+                          >
+                            <span className="material-symbols-outlined text-[14px]">
+                              add
+                            </span>
+                            Añadir Fila
+                          </button>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          {selectedField.rows &&
+                          selectedField.rows.length > 0 ? (
+                            selectedField.rows.map((row, idx) => (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-2 group/row"
+                              >
+                                {row.isHeader ? (
+                                  <span
+                                    className="material-symbols-outlined text-[16px] text-amber-500"
+                                    title="Fila cabecera"
+                                  >
+                                    star
+                                  </span>
+                                ) : (
+                                  <span className="material-symbols-outlined text-[16px] text-gray-300">
+                                    drag_indicator
+                                  </span>
+                                )}
+                                <input
+                                  type="text"
+                                  value={row.label}
+                                  onChange={(e) => {
+                                    const newRows = [...selectedField.rows];
+                                    newRows[idx] = {
+                                      ...newRows[idx],
+                                      label: e.target.value,
+                                      value: row.isHeader
+                                        ? "header"
+                                        : e.target.value
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "_"),
+                                    };
+                                    handleUpdateField("rows", newRows);
+                                  }}
+                                  className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded shrink min-w-0 text-sm focus:border-[var(--primary-color)] outline-none"
+                                  placeholder={
+                                    row.isHeader
+                                      ? "Título de la cabecera"
+                                      : "Nombre de la fila"
+                                  }
+                                />
+                                {!row.isHeader && (
+                                  <button
+                                    onClick={() => {
+                                      const newRows = selectedField.rows.filter(
+                                        (_, i) => i !== idx,
+                                      );
+                                      handleUpdateField("rows", newRows);
+                                    }}
+                                    className="text-gray-400 hover:text-red-500 p-1 rounded opacity-0 group-hover/row:opacity-100 transition-opacity"
+                                  >
+                                    <span className="material-symbols-outlined text-[18px]">
+                                      close
+                                    </span>
+                                  </button>
+                                )}
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-sm text-center text-gray-400 py-4 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+                              Sin filas configuradas
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* --- COLUMNAS --- */}
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center justify-between">
+                          <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                            Columnas
+                          </label>
+                          <button
+                            className="text-[var(--primary-color)] text-xs font-semibold hover:bg-blue-50 px-2 py-1 rounded flex items-center gap-1 transition-colors"
+                            onClick={() => {
+                              const newCols = [
+                                ...(selectedField.columns || []),
+                                {
+                                  label: "Nueva Columna",
+                                  value: `col_${Date.now()}`,
+                                },
+                              ];
+                              handleUpdateField("columns", newCols);
+                            }}
+                          >
+                            <span className="material-symbols-outlined text-[14px]">
+                              add
+                            </span>
+                            Añadir Columna
+                          </button>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          {selectedField.columns &&
+                          selectedField.columns.length > 0 ? (
+                            selectedField.columns.map((col, idx) => (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-2 group/col"
+                              >
+                                <span className="material-symbols-outlined text-[16px] text-gray-300">
+                                  drag_indicator
+                                </span>
+                                <input
+                                  type="text"
+                                  value={col.label}
+                                  onChange={(e) => {
+                                    const newCols = [...selectedField.columns];
+                                    newCols[idx] = {
+                                      ...newCols[idx],
+                                      label: e.target.value,
+                                      value: e.target.value
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "_"),
+                                    };
+                                    handleUpdateField("columns", newCols);
+                                  }}
+                                  className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded shrink min-w-0 text-sm focus:border-[var(--primary-color)] outline-none"
+                                  placeholder="Nombre de la columna"
+                                />
+                                <button
+                                  onClick={() => {
+                                    const newCols =
+                                      selectedField.columns.filter(
+                                        (_, i) => i !== idx,
+                                      );
+                                    handleUpdateField("columns", newCols);
+                                  }}
+                                  className="text-gray-400 hover:text-red-500 p-1 rounded opacity-0 group-hover/col:opacity-100 transition-opacity"
+                                >
+                                  <span className="material-symbols-outlined text-[18px]">
+                                    close
+                                  </span>
+                                </button>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-sm text-center text-gray-400 py-4 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+                              Sin columnas configuradas
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )}

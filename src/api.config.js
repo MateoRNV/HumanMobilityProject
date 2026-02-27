@@ -120,6 +120,11 @@ export const personsApi = {
   getDefinitions() {
     return apiClient.get("/forms/definitions");
   },
+
+  /** PUT /api/forms/definition/:slug - Actualizar estructura (schema) */
+  updateDefinition(slug, data) {
+    return apiClient.put(`/forms/definition/${slug}`, data);
+  },
 };
 
 export const apiService = {

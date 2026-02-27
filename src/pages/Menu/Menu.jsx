@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import AddUserModal from "./components/AddUserModal";
 import UserDetailModal from "./components/UserDetailModal";
 import "./menu.css";
@@ -9,7 +9,8 @@ import LoadingSpinner from "../../components/Spinner/Spinner";
 
 export const Menu = () => {
   const navigate = useNavigate();
-  const [tab, setTab] = useState("gestion-caso");
+  const location = useLocation();
+  const [tab, setTab] = useState(location.state?.activeTab || "gestion-caso");
   const [searchUserBox, setSearchUserBox] = useState("");
   const [searchQuestionnaireBox, setSearchQuestionnaireBox] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);

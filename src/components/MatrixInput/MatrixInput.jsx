@@ -10,11 +10,11 @@ export const MatrixInput = memo(
   ({ field, value, selections, onChange = () => {} }) => {
     // 1. Separar header y filas de datos
     const headerDefinition = useMemo(
-      () => field.rows.find((row) => row.isHeader),
+      () => (field.rows || []).find((row) => row.isHeader),
       [field.rows],
     );
     const dataRows = useMemo(
-      () => field.rows.filter((row) => !row.isHeader),
+      () => (field.rows || []).filter((row) => !row.isHeader),
       [field.rows],
     );
 
@@ -66,7 +66,7 @@ export const MatrixInput = memo(
                 <th className="text-left font-medium px-4 py-3 w-[45%]">
                   {headerDefinition?.label || ""}
                 </th>
-                {field.columns.map((col) => (
+                {(field.columns || []).map((col) => (
                   <th
                     key={col.value}
                     className="font-medium px-4 py-3 text-center"
@@ -112,7 +112,11 @@ export const MatrixInput = memo(
   (prevProps, nextProps) => {
     // Ignoramos comparacion estricta de onChange ya que viene como callback inline
     return (
-      prevProps.field === nextProps.field && prevProps.value === nextProps.value
+      prevProps.field?.id === nextProps.field?.id &&
+      prevProps.field?.rows === nextProps.field?.rows &&
+      prevProps.field?.columns === nextProps.field?.columns &&
+      prevProps.value === nextProps.value &&
+      prevProps.selections === nextProps.selections
     );
   },
 );
