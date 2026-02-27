@@ -13,7 +13,13 @@ const buildAnswerIndex = (answers = []) => {
   for (const a of answers) {
     idx.set(a.campoId, {
       ...a,
-      observationsValue: a.observationsValue || a.observations || "",
+      type: a.tipo || a.type || "",
+      value: a.valor !== undefined ? a.valor : a.value,
+      selections: a.selecciones
+        ? a.selecciones.map((s) => ({ row: s.fila, column: s.columna }))
+        : a.selections,
+      observationsValue:
+        a.valorObservaciones || a.observationsValue || a.observations || "",
     });
   }
   return idx;
@@ -26,6 +32,8 @@ export const FormRender = ({
   onCancel,
   onChange,
   lastUpdate,
+  isPreview = false,
+  isSubmitting = false,
 }) => {
   const { title = "", sections = [] } = formSchema || {};
   const [answerIndex, setAnswerIndex] = useState(() =>
@@ -44,28 +52,6 @@ export const FormRender = ({
     const answerRecord = answerIndex.get(fieldDefinition.id);
     if (!answerRecord) {
       if (fieldDefinition.type === "matrix") {
-        const initialAnswer = initialAnswers.find(
-          (answer) => answer.campoId === fieldDefinition.id,
-        );
-        if (
-          initialAnswer &&
-          initialAnswer.value &&
-          typeof initialAnswer.value === "object"
-        ) {
-          return initialAnswer.value;
-        }
-        if (initialAnswer && Array.isArray(initialAnswer.selections)) {
-          const selectionMap = {};
-          for (const selection of initialAnswer.selections) {
-            const rowValue = selection.row;
-            const columnValue = selection.column;
-            if (!Array.isArray(selectionMap[rowValue]))
-              selectionMap[rowValue] = [];
-            if (!selectionMap[rowValue].includes(columnValue))
-              selectionMap[rowValue].push(columnValue);
-          }
-          return selectionMap;
-        }
         return {};
       }
       return null;
@@ -196,20 +182,35 @@ export const FormRender = ({
     }
     const submittedAnswers = Array.from(answerIndex.values()).map(
       (answerEntry) => {
+        const mappedEntry = {
+          campoId: answerEntry.campoId,
+          tipo: answerEntry.type || answerEntry.tipo,
+        };
+
+        if (answerEntry.value !== undefined) {
+          mappedEntry.valor = answerEntry.value;
+        } else if (answerEntry.valor !== undefined) {
+          mappedEntry.valor = answerEntry.valor;
+        }
+
+        if (answerEntry.observationsValue !== undefined) {
+          mappedEntry.valorObservaciones = answerEntry.observationsValue;
+        }
+
         if (
-          answerEntry.type === "matrix" &&
-          answerEntry.value &&
-          typeof answerEntry.value === "object"
+          (answerEntry.type === "matrix" || answerEntry.tipo === "matrix") &&
+          mappedEntry.valor &&
+          typeof mappedEntry.valor === "object"
         ) {
-          const selectionsArray = [];
-          for (const rowKey in answerEntry.value) {
-            for (const columnKey of answerEntry.value[rowKey]) {
-              selectionsArray.push({ row: rowKey, column: columnKey });
+          const seleccionesArray = [];
+          for (const rowKey in mappedEntry.valor) {
+            for (const columnKey of mappedEntry.valor[rowKey]) {
+              seleccionesArray.push({ fila: rowKey, columna: columnKey });
             }
           }
-          return { ...answerEntry, selections: selectionsArray };
+          mappedEntry.selecciones = seleccionesArray;
         }
-        return answerEntry;
+        return mappedEntry;
       },
     );
     const currentFieldIds = new Set();
@@ -313,8 +314,21 @@ export const FormRender = ({
           </button>
         )}
         {onSubmit && (
-          <button type="submit" className={styles["submit-btn"]}>
-            Guardar Respuestas
+          <button
+            type={isPreview ? "button" : "submit"}
+            className={`${styles["submit-btn"]} ${isSubmitting || isPreview ? "opacity-60 cursor-not-allowed" : ""}`}
+            disabled={isSubmitting || isPreview}
+          >
+            {isSubmitting ? (
+              <span className="flex items-center gap-2 justify-center">
+                <span className="material-symbols-outlined animate-spin text-sm">
+                  autorenew
+                </span>
+                Guardando...
+              </span>
+            ) : (
+              "Guardar Respuestas"
+            )}
           </button>
         )}
       </div>

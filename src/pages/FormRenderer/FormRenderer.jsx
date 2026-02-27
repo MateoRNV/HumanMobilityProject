@@ -14,6 +14,7 @@ const FormRenderer = () => {
   const [answerData, setAnswerData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(location.state?.user || null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +51,7 @@ const FormRenderer = () => {
 
   const handleSave = async (data) => {
     try {
+      setIsSubmitting(true);
       const payload = {
         version_cuestionario: formSchema.version || 1,
         respuestas: data.answers,
@@ -61,6 +63,8 @@ const FormRenderer = () => {
       navigate("/menu");
     } catch (error) {
       toast.error("Error al guardar la información.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -120,6 +124,7 @@ const FormRenderer = () => {
           onSubmit={handleSave}
           onCancel={() => navigate("/menu")}
           lastUpdate={answerData?.fecha_modificacion || null}
+          isSubmitting={isSubmitting}
         />
       </div>
     </div>
