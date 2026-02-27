@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router";
 import { FormRender } from "../../features/forms/FormRender";
 import { personsApi } from "../../api/api.config";
 import LoadingSpinner from "../../components/ui/Spinner/Spinner";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const FormRenderer = () => {
   const { slug, personaId } = useParams();
@@ -91,7 +91,6 @@ const FormRenderer = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-8 pb-16 relative font-sans text-gray-900">
-      <Toaster />
       <div
         onClick={() => navigate("/menu")}
         className="material-symbols-outlined absolute cursor-pointer top-8 left-8 text-3xl text-[#273a71] hover:text-[#1e2d5c] transition-colors bg-white p-2 rounded-full shadow-sm"
