@@ -639,6 +639,24 @@ const QuestionnaireEditor = () => {
                               filas x {(field.columns || []).length} columnas
                             </div>
                           )}
+                          {field.type === "table" && (
+                            <div className="mt-3 text-xs text-gray-500 flex items-center gap-2 flex-wrap gap-y-1">
+                              <span className="material-symbols-outlined text-[14px]">
+                                table_chart
+                              </span>
+                              {(field.columns || []).length} columnas
+                              {field.allowAddRows && (
+                                <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded text-[10px] font-semibold">
+                                  + filas
+                                </span>
+                              )}
+                              {field.canDeleteRows && (
+                                <span className="px-1.5 py-0.5 bg-red-50 text-red-500 rounded text-[10px] font-semibold">
+                                  − filas
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -931,6 +949,161 @@ const QuestionnaireEditor = () => {
                             Sin opciones configuradas
                           </div>
                         )}
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedField.type === "table" && (
+                    <div className="border-t border-gray-100 pt-6 flex flex-col gap-6">
+                      {/* --- COLUMNAS --- */}
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center justify-between">
+                          <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                            Columnas
+                          </label>
+                          <button
+                            className="text-[var(--primary-color)] text-xs font-semibold hover:bg-blue-50 px-2 py-1 rounded flex items-center gap-1 transition-colors"
+                            onClick={() => {
+                              const newCols = [
+                                ...(selectedField.columns || []),
+                                {
+                                  id: `col_${Date.now()}`,
+                                  header: "Nueva Columna",
+                                },
+                              ];
+                              handleUpdateField("columns", newCols);
+                            }}
+                          >
+                            <span className="material-symbols-outlined text-[14px]">
+                              add
+                            </span>
+                            Añadir Columna
+                          </button>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          {selectedField.columns &&
+                          selectedField.columns.length > 0 ? (
+                            selectedField.columns.map((col, idx) => (
+                              <div
+                                key={idx}
+                                draggable
+                                onDragStart={(e) =>
+                                  handleItemDragStart(e, idx, "col")
+                                }
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) =>
+                                  handleItemDrop(e, idx, "col", "columns")
+                                }
+                                className={`flex items-center gap-2 group/col p-1 rounded transition-colors ${draggedColIdx === idx ? "opacity-50 border-dashed border border-gray-300 bg-gray-50" : "hover:bg-gray-50"}`}
+                              >
+                                <span className="material-symbols-outlined text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
+                                  drag_indicator
+                                </span>
+                                <input
+                                  type="text"
+                                  value={col.header}
+                                  onChange={(e) => {
+                                    const newCols = [
+                                      ...selectedField.columns,
+                                    ];
+                                    newCols[idx] = {
+                                      ...newCols[idx],
+                                      header: e.target.value,
+                                    };
+                                    handleUpdateField("columns", newCols);
+                                  }}
+                                  className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded shrink min-w-0 text-sm focus:border-[var(--primary-color)] outline-none"
+                                  placeholder="Nombre de la columna"
+                                />
+                                <button
+                                  onClick={() => {
+                                    const newCols =
+                                      selectedField.columns.filter(
+                                        (_, i) => i !== idx,
+                                      );
+                                    handleUpdateField("columns", newCols);
+                                  }}
+                                  className="text-gray-400 hover:text-red-500 p-1 rounded opacity-0 group-hover/col:opacity-100 transition-opacity"
+                                >
+                                  <span className="material-symbols-outlined text-[18px]">
+                                    close
+                                  </span>
+                                </button>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-sm text-center text-gray-400 py-4 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+                              Sin columnas configuradas
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* --- OPCIONES DE TABLA --- */}
+                      <div className="flex flex-col gap-3">
+                        <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                          Opciones de la Tabla
+                        </label>
+
+                        <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                          <input
+                            type="checkbox"
+                            id={`allowAddRows-${selectedField.id}`}
+                            checked={selectedField.allowAddRows || false}
+                            onChange={(e) =>
+                              handleUpdateField(
+                                "allowAddRows",
+                                e.target.checked,
+                              )
+                            }
+                            className="w-4 h-4 text-[var(--primary-color)] rounded border-gray-300 focus:ring-[var(--primary-color)]"
+                          />
+                          <label
+                            htmlFor={`allowAddRows-${selectedField.id}`}
+                            className="text-sm font-medium text-gray-700 cursor-pointer select-none"
+                          >
+                            Permitir agregar filas
+                          </label>
+                        </div>
+
+                        {selectedField.allowAddRows && (
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                              Texto del botón "Agregar fila"
+                            </label>
+                            <input
+                              type="text"
+                              value={selectedField.addRowText || ""}
+                              onChange={(e) =>
+                                handleUpdateField("addRowText", e.target.value)
+                              }
+                              placeholder="Ej. Agregar fila"
+                              className="w-full px-3 py-2.5 bg-white text-gray-800 rounded-lg border border-gray-300 focus:border-[var(--primary-color)] focus:ring-1 focus:ring-[var(--primary-color)] outline-none transition-shadow text-sm shadow-sm"
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                          <input
+                            type="checkbox"
+                            id={`canDeleteRows-${selectedField.id}`}
+                            checked={selectedField.canDeleteRows || false}
+                            onChange={(e) =>
+                              handleUpdateField(
+                                "canDeleteRows",
+                                e.target.checked,
+                              )
+                            }
+                            className="w-4 h-4 text-[var(--primary-color)] rounded border-gray-300 focus:ring-[var(--primary-color)]"
+                          />
+                          <label
+                            htmlFor={`canDeleteRows-${selectedField.id}`}
+                            className="text-sm font-medium text-gray-700 cursor-pointer select-none"
+                          >
+                            Permitir eliminar filas
+                          </label>
+                        </div>
                       </div>
                     </div>
                   )}

@@ -3,11 +3,11 @@ import React, { useState } from "react";
 const TimelineView = ({ history, formSchema }) => {
   const [openIds, setOpenIds] = useState({});
 
-  // Construye un mapa campoId -> título del campo usando el schema actual
-  const fieldTitles = {};
+  // Mapa campoId -> definición completa del campo (para acceder a columns, etc.)
+  const fieldMap = {};
   for (const section of formSchema?.sections || []) {
     for (const field of section.fields || []) {
-      fieldTitles[field.id] = field.title;
+      fieldMap[field.id] = field;
     }
   }
 
@@ -20,8 +20,9 @@ const TimelineView = ({ history, formSchema }) => {
       minute: "2-digit",
     });
 
-  const renderValue = (answer) => {
+  const renderValue = (answer, field) => {
     const { valor, tipo, selecciones } = answer;
+
     if (
       tipo === "matrix" &&
       Array.isArray(selecciones) &&
@@ -29,6 +30,51 @@ const TimelineView = ({ history, formSchema }) => {
     ) {
       return selecciones.map((s) => `${s.fila} / ${s.columna}`).join(", ");
     }
+
+    if (
+      tipo === "table" ||
+      (Array.isArray(valor) &&
+        valor.length > 0 &&
+        valor[0] !== null &&
+        typeof valor[0] === "object")
+    ) {
+      if (!Array.isArray(valor) || valor.length === 0) return "Sin filas";
+      const columns = field?.columns || [];
+      if (columns.length === 0) return `${valor.length} fila(s)`;
+      return (
+        <div className="overflow-x-auto mt-1 rounded-lg border border-gray-200">
+          <table className="text-xs border-collapse min-w-full">
+            <thead>
+              <tr className="bg-gray-100">
+                {columns.map((col) => (
+                  <th
+                    key={col.id}
+                    className="border-b border-gray-200 px-3 py-1.5 font-semibold text-gray-600 whitespace-nowrap text-left"
+                  >
+                    {col.header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {valor.map((row, i) => (
+                <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                  {columns.map((col) => (
+                    <td
+                      key={col.id}
+                      className="border-b border-gray-100 last:border-b-0 px-3 py-1.5 text-gray-700"
+                    >
+                      {row[col.id] || "—"}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
     if (Array.isArray(valor)) return valor.join(", ");
     if (typeof valor === "boolean") return valor ? "Sí" : "No";
     return valor ?? "—";
@@ -95,19 +141,40 @@ const TimelineView = ({ history, formSchema }) => {
             {isOpen && (
               <div className="border-t border-gray-100 px-5 py-4">
                 <div className="space-y-2">
-                  {visibleAnswers.map((answer) => (
-                    <div
-                      key={answer.campoId}
-                      className="grid grid-cols-2 gap-4 py-2 border-b border-gray-50 last:border-0"
-                    >
-                      <span className="text-xs font-medium text-gray-500">
-                        {fieldTitles[answer.campoId] ?? answer.campoId}
-                      </span>
-                      <span className="text-xs text-gray-800 font-medium">
-                        {renderValue(answer)}
-                      </span>
-                    </div>
-                  ))}
+                  {visibleAnswers.map((answer) => {
+                    const field = fieldMap[answer.campoId];
+                    const rendered = renderValue(answer, field);
+                    const isComplex =
+                      typeof rendered === "object" && rendered !== null;
+
+                    if (isComplex) {
+                      return (
+                        <div
+                          key={answer.campoId}
+                          className="py-2 border-b border-gray-50 last:border-0 flex flex-col gap-1"
+                        >
+                          <span className="text-xs font-medium text-gray-500">
+                            {field?.title ?? answer.campoId}
+                          </span>
+                          <div className="text-xs text-gray-800">{rendered}</div>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={answer.campoId}
+                        className="grid grid-cols-2 gap-4 py-2 border-b border-gray-50 last:border-0"
+                      >
+                        <span className="text-xs font-medium text-gray-500">
+                          {field?.title ?? answer.campoId}
+                        </span>
+                        <span className="text-xs text-gray-800 font-medium">
+                          {rendered}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

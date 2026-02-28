@@ -1,7 +1,7 @@
 import React from "react";
 
 const TableView = ({ history, formSchema }) => {
-  // Recolectar todos los campos del schema en orden
+  // Recolectar todos los campos del schema en orden, conservando la definición completa
   const allFields = [];
   for (const section of formSchema?.sections || []) {
     for (const field of section.fields || []) {
@@ -9,6 +9,8 @@ const TableView = ({ history, formSchema }) => {
         id: field.id,
         title: field.title,
         section: section.title,
+        type: field.type,
+        columns: field.columns,
       });
     }
   }
@@ -20,9 +22,10 @@ const TableView = ({ history, formSchema }) => {
       year: "numeric",
     });
 
-  const renderValue = (answer) => {
+  const renderValue = (answer, field) => {
     if (!answer) return <span className="text-gray-300">—</span>;
     const { valor, tipo, selecciones } = answer;
+
     if (
       tipo === "matrix" &&
       Array.isArray(selecciones) &&
@@ -30,6 +33,26 @@ const TableView = ({ history, formSchema }) => {
     ) {
       return selecciones.map((s) => `${s.fila}/${s.columna}`).join(", ");
     }
+
+    if (
+      tipo === "table" ||
+      (Array.isArray(valor) &&
+        valor.length > 0 &&
+        valor[0] !== null &&
+        typeof valor[0] === "object")
+    ) {
+      if (!Array.isArray(valor) || valor.length === 0)
+        return <span className="text-gray-300">—</span>;
+      return (
+        <span className="inline-flex items-center gap-1 text-blue-600 font-medium">
+          <span className="material-symbols-outlined text-[13px]">
+            table_rows
+          </span>
+          {valor.length} fila{valor.length !== 1 ? "s" : ""}
+        </span>
+      );
+    }
+
     if (Array.isArray(valor))
       return valor.join(", ") || <span className="text-gray-300">—</span>;
     if (typeof valor === "boolean") return valor ? "Sí" : "No";
@@ -95,7 +118,7 @@ const TableView = ({ history, formSchema }) => {
                   key={colIdx}
                   className="px-4 py-2.5 text-gray-600 text-center border-b border-gray-100"
                 >
-                  {renderValue(map[field.id])}
+                  {renderValue(map[field.id], field)}
                 </td>
               ))}
             </tr>
