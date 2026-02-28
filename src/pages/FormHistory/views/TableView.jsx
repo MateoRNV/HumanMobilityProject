@@ -111,7 +111,7 @@ const TableView = ({ history, formSchema }) => {
               <td
                 className={`px-4 py-2.5 font-medium text-gray-700 sticky left-0 z-10 border-r border-gray-200 ${rowIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
-                {field.title}
+                {field.title || field.id}
               </td>
               {answerMaps.map((map, colIdx) => (
                 <td

@@ -109,7 +109,7 @@ export const FormRender = ({
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
         <div className={`w-full md:w-2/5 ${styles["field-label-col"]}`}>
           <span className={styles["field-number"]}>{field.order}.</span>
-          <span>{field.title}</span>
+          <span>{field.title || field.id}</span>
         </div>
         <div
           className={`w-full md:w-3/5 flex flex-col justify-center ${rightClassName}`}
@@ -261,7 +261,7 @@ export const FormRender = ({
                     <span className="text-[var(--primary-color)] mr-3">
                       {section.order}.
                     </span>
-                    {section.title}
+                    {section.title || section.id}
                   </div>
                   <span
                     className="material-symbols-outlined text-[var(--primary-color)] transition-transform duration-200"

@@ -154,9 +154,11 @@ const TimelineView = ({ history, formSchema }) => {
                           className="py-2 border-b border-gray-50 last:border-0 flex flex-col gap-1"
                         >
                           <span className="text-xs font-medium text-gray-500">
-                            {field?.title ?? answer.campoId}
+                            {field?.title || answer.campoId}
                           </span>
-                          <div className="text-xs text-gray-800">{rendered}</div>
+                          <div className="text-xs text-gray-800">
+                            {rendered}
+                          </div>
                         </div>
                       );
                     }
@@ -167,7 +169,7 @@ const TimelineView = ({ history, formSchema }) => {
                         className="grid grid-cols-2 gap-4 py-2 border-b border-gray-50 last:border-0"
                       >
                         <span className="text-xs font-medium text-gray-500">
-                          {field?.title ?? answer.campoId}
+                          {field?.title || answer.campoId}
                         </span>
                         <span className="text-xs text-gray-800 font-medium">
                           {rendered}

@@ -322,7 +322,7 @@ export const Menu = () => {
                     </span>
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 mb-1">
-                    {q.nombre}
+                    {q.nombre || q.slug}
                   </h3>
                   <div className="text-sm text-gray-500 mb-3 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">
                     /{q.slug}
