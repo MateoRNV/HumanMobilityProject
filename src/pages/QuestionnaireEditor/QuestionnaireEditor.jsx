@@ -16,6 +16,9 @@ const QuestionnaireEditor = () => {
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [draggedSectionIdx, setDraggedSectionIdx] = useState(null);
   const [draggedFieldIdx, setDraggedFieldIdx] = useState(null);
+  const [draggedOptionIdx, setDraggedOptionIdx] = useState(null);
+  const [draggedRowIdx, setDraggedRowIdx] = useState(null);
+  const [draggedColIdx, setDraggedColIdx] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -302,6 +305,32 @@ const QuestionnaireEditor = () => {
 
     setConfig({ ...config, sections: newSections });
     setDraggedFieldIdx(null);
+  };
+
+  const handleItemDragStart = (e, index, type) => {
+    e.dataTransfer.setData("itemIdx", index);
+    if (type === "option") setDraggedOptionIdx(index);
+    if (type === "row") setDraggedRowIdx(index);
+    if (type === "col") setDraggedColIdx(index);
+  };
+
+  const handleItemDrop = (e, dropIndex, type, arrayName) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const dragIndex = Number(e.dataTransfer.getData("itemIdx"));
+    if (dragIndex === dropIndex || isNaN(dragIndex)) return;
+
+    if (!selectedFieldId) return;
+
+    const newItems = [...(selectedField[arrayName] || [])];
+    const [draggedItem] = newItems.splice(dragIndex, 1);
+    newItems.splice(dropIndex, 0, draggedItem);
+
+    handleUpdateField(arrayName, newItems);
+
+    if (type === "option") setDraggedOptionIdx(null);
+    if (type === "row") setDraggedRowIdx(null);
+    if (type === "col") setDraggedColIdx(null);
   };
 
   return (
@@ -850,9 +879,17 @@ const QuestionnaireEditor = () => {
                           selectedField.options.map((opt, idx) => (
                             <div
                               key={idx}
-                              className="flex items-center gap-2 group/opt relative"
+                              draggable
+                              onDragStart={(e) =>
+                                handleItemDragStart(e, idx, "option")
+                              }
+                              onDragOver={(e) => e.preventDefault()}
+                              onDrop={(e) =>
+                                handleItemDrop(e, idx, "option", "options")
+                              }
+                              className={`flex items-center gap-2 group/opt relative p-1 rounded transition-colors ${draggedOptionIdx === idx ? "opacity-50 border-dashed border border-gray-300 bg-gray-50" : "hover:bg-gray-50"}`}
                             >
-                              <div className="text-gray-300 cursor-grab hover:text-gray-500">
+                              <div className="text-gray-300 cursor-grab hover:text-gray-500 active:cursor-grabbing">
                                 <span className="material-symbols-outlined text-[16px]">
                                   drag_indicator
                                 </span>
@@ -932,7 +969,19 @@ const QuestionnaireEditor = () => {
                             selectedField.rows.map((row, idx) => (
                               <div
                                 key={idx}
-                                className="flex items-center gap-2 group/row"
+                                draggable={!row.isHeader}
+                                onDragStart={(e) => {
+                                  if (!row.isHeader)
+                                    handleItemDragStart(e, idx, "row");
+                                }}
+                                onDragOver={(e) => {
+                                  if (!row.isHeader) e.preventDefault();
+                                }}
+                                onDrop={(e) => {
+                                  if (!row.isHeader)
+                                    handleItemDrop(e, idx, "row", "rows");
+                                }}
+                                className={`flex items-center gap-2 group/row p-1 rounded transition-colors ${draggedRowIdx === idx ? "opacity-50 border-dashed border border-gray-300 bg-gray-50" : "hover:bg-gray-50"}`}
                               >
                                 {row.isHeader ? (
                                   <span
@@ -942,7 +991,7 @@ const QuestionnaireEditor = () => {
                                     star
                                   </span>
                                 ) : (
-                                  <span className="material-symbols-outlined text-[16px] text-gray-300">
+                                  <span className="material-symbols-outlined text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
                                     drag_indicator
                                   </span>
                                 )}
@@ -1026,9 +1075,17 @@ const QuestionnaireEditor = () => {
                             selectedField.columns.map((col, idx) => (
                               <div
                                 key={idx}
-                                className="flex items-center gap-2 group/col"
+                                draggable
+                                onDragStart={(e) =>
+                                  handleItemDragStart(e, idx, "col")
+                                }
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) =>
+                                  handleItemDrop(e, idx, "col", "columns")
+                                }
+                                className={`flex items-center gap-2 group/col p-1 rounded transition-colors ${draggedColIdx === idx ? "opacity-50 border-dashed border border-gray-300 bg-gray-50" : "hover:bg-gray-50"}`}
                               >
-                                <span className="material-symbols-outlined text-[16px] text-gray-300">
+                                <span className="material-symbols-outlined text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
                                   drag_indicator
                                 </span>
                                 <input
