@@ -201,6 +201,7 @@ const QuestionnaireEditor = () => {
                 delete updated.allowAddRows;
                 delete updated.canDeleteRows;
                 delete updated.addRowText;
+                delete updated.allowOtherOption;
 
                 if (
                   value === "select" ||
@@ -950,6 +951,28 @@ const QuestionnaireEditor = () => {
                           </div>
                         )}
                       </div>
+
+                      {/* --- ALLOW OTHER OPTION --- */}
+                      <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200 mt-2">
+                        <input
+                          type="checkbox"
+                          id={`allowOtherOption-${selectedField.id}`}
+                          checked={selectedField.allowOtherOption || false}
+                          onChange={(e) =>
+                            handleUpdateField(
+                              "allowOtherOption",
+                              e.target.checked,
+                            )
+                          }
+                          className="w-4 h-4 text-[var(--primary-color)] rounded border-gray-300 focus:ring-[var(--primary-color)]"
+                        />
+                        <label
+                          htmlFor={`allowOtherOption-${selectedField.id}`}
+                          className="text-sm font-medium text-gray-700 cursor-pointer select-none"
+                        >
+                          Permitir opción "Otros" (con campo de texto)
+                        </label>
+                      </div>
                     </div>
                   )}
 
@@ -1004,9 +1027,7 @@ const QuestionnaireEditor = () => {
                                   type="text"
                                   value={col.header}
                                   onChange={(e) => {
-                                    const newCols = [
-                                      ...selectedField.columns,
-                                    ];
+                                    const newCols = [...selectedField.columns];
                                     newCols[idx] = {
                                       ...newCols[idx],
                                       header: e.target.value,

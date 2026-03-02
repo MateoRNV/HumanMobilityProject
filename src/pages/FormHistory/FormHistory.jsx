@@ -97,7 +97,7 @@ const FormHistory = () => {
       {/* Header */}
       <div className="bg-[#273a71] text-white px-8 py-5 flex items-center gap-6 shadow-md">
         <button
-          onClick={() => navigate("/menu")}
+          onClick={() => navigate("/menu", { state: { openUser: userData } })}
           className="material-symbols-outlined text-2xl hover:text-blue-200 transition-colors flex-shrink-0"
           title="Volver al menú"
         >

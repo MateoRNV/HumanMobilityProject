@@ -20,6 +20,7 @@ const buildAnswerIndex = (answers = []) => {
         : a.selections,
       observationsValue:
         a.valorObservaciones || a.observationsValue || a.observations || "",
+      otherText: a.valorExtra || a.otros || a.valorOtro || a.otherText || "",
     });
   }
   return idx;
@@ -156,12 +157,21 @@ export const FormRender = ({
       for (const field of section.fields || []) {
         if (field.required) {
           const val = getNormalizedValue(field);
-          if (
+          const answerRecord = answerIndex.get(field.id);
+          const isOtherSelected =
+            val === "other" || (Array.isArray(val) && val.includes("other"));
+
+          const isMainValueMissing =
             val === null ||
             val === undefined ||
             val === "" ||
-            (Array.isArray(val) && val.length === 0)
-          ) {
+            (Array.isArray(val) && val.length === 0);
+
+          const isOtherValueMissing =
+            isOtherSelected &&
+            (!answerRecord?.otherText || answerRecord.otherText.trim() === "");
+
+          if (isMainValueMissing || isOtherValueMissing) {
             missingFields.push(field.title || `Campo ${field.order}`);
           }
         }
@@ -205,6 +215,13 @@ export const FormRender = ({
 
         if (answerEntry.observationsValue !== undefined) {
           mappedEntry.valorObservaciones = answerEntry.observationsValue;
+        }
+
+        if (
+          answerEntry.otherText !== undefined &&
+          answerEntry.otherText !== ""
+        ) {
+          mappedEntry.valorExtra = answerEntry.otherText;
         }
 
         if (

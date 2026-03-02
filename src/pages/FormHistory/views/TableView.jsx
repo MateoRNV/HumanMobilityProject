@@ -53,10 +53,15 @@ const TableView = ({ history, formSchema }) => {
       );
     }
 
-    if (Array.isArray(valor))
-      return valor.join(", ") || <span className="text-gray-300">—</span>;
+    if (Array.isArray(valor)) {
+      const items = valor.map((v) =>
+        v === "other" && answer.otros ? `Otros (${answer.otros})` : v,
+      );
+      return items.join(", ") || <span className="text-gray-300">—</span>;
+    }
     if (typeof valor === "boolean") return valor ? "Sí" : "No";
     if (!valor && valor !== 0) return <span className="text-gray-300">—</span>;
+    if (valor === "other" && answer.otros) return `Otros (${answer.otros})`;
     return String(valor);
   };
 

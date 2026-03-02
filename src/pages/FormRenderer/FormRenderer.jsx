@@ -61,7 +61,7 @@ const FormRenderer = () => {
       await personsApi.saveForm(personaId, slug, payload);
       toast.success("Información guardada correctamente");
 
-      navigate("/menu");
+      navigate("/menu", { state: { openUser: userData } });
     } catch (error) {
       toast.error("Error al guardar la información.");
     } finally {
@@ -83,7 +83,10 @@ const FormRenderer = () => {
         <h2 className="text-xl text-red-600">
           No se encontró la definición del formulario "{slug}"
         </h2>
-        <button className="btn mt-4" onClick={() => navigate("/menu")}>
+        <button
+          className="btn mt-4"
+          onClick={() => navigate("/menu", { state: { openUser: userData } })}
+        >
           Volver al Menú
         </button>
       </div>
@@ -93,7 +96,7 @@ const FormRenderer = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-8 pb-16 relative font-sans text-gray-900">
       <div
-        onClick={() => navigate("/menu")}
+        onClick={() => navigate("/menu", { state: { openUser: userData } })}
         className="material-symbols-outlined absolute cursor-pointer top-8 left-8 text-3xl text-[#273a71] hover:text-[#1e2d5c] transition-colors bg-white p-2 rounded-full shadow-sm"
         title="Volver al menú"
       >
@@ -122,7 +125,7 @@ const FormRenderer = () => {
           formSchema={formSchema}
           initialAnswers={answerData?.respuestas || []}
           onSubmit={handleSave}
-          onCancel={() => navigate("/menu")}
+          onCancel={() => navigate("/menu", { state: { openUser: userData } })}
           lastUpdate={answerData?.fecha_modificacion || null}
           isSubmitting={isSubmitting}
         />

@@ -75,8 +75,15 @@ const TimelineView = ({ history, formSchema }) => {
       );
     }
 
-    if (Array.isArray(valor)) return valor.join(", ");
+    if (Array.isArray(valor)) {
+      return valor
+        .map((v) =>
+          v === "other" && answer.otros ? `Otros (${answer.otros})` : v,
+        )
+        .join(", ");
+    }
     if (typeof valor === "boolean") return valor ? "Sí" : "No";
+    if (valor === "other" && answer.otros) return `Otros (${answer.otros})`;
     return valor ?? "—";
   };
 

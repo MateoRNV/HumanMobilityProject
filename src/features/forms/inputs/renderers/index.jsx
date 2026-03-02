@@ -61,18 +61,51 @@ export const SelectRenderer = ({
   setAnswer,
   FieldRow,
   isDisabled,
-}) => (
-  <FieldRow field={field}>
-    <SelectInput
-      options={field.options || []}
-      isMulti={false}
-      required={field.required}
-      value={optionByValue(field.options, value)}
-      onChange={(opt) => setAnswer(field, { value: opt ? opt.value : null })}
-      isDisabled={isDisabled}
-    />
-  </FieldRow>
-);
+  answerIndex,
+}) => {
+  const options = [...(field.options || [])];
+  if (field.allowOtherOption) {
+    if (!options.find((o) => o.value === "other")) {
+      options.push({ label: "Otros", value: "other" });
+    }
+  }
+
+  const isOther = value === "other";
+  const otherTextValue = answerIndex?.get(field.id)?.otherText || "";
+
+  return (
+    <FieldRow field={field}>
+      <SelectInput
+        options={options}
+        isMulti={false}
+        required={field.required}
+        value={optionByValue(options, value)}
+        onChange={(opt) => {
+          const isSelectedOther = opt && opt.value === "other";
+          setAnswer(field, {
+            value: opt ? opt.value : null,
+            ...(!isSelectedOther ? { otherText: "" } : {}),
+          });
+        }}
+        isDisabled={isDisabled}
+      />
+      {isOther && (
+        <div className="mt-3 w-full">
+          <FloatingInput
+            id={`other-${field.id}`}
+            type="text"
+            label="Especificar Otros"
+            widthClass="w-full"
+            required={field.required}
+            defaultValue={otherTextValue}
+            onBlur={(e) => setAnswer(field, { otherText: e.target.value })}
+            disabled={isDisabled}
+          />
+        </div>
+      )}
+    </FieldRow>
+  );
+};
 
 export const MultiSelectRenderer = ({
   field,
@@ -80,21 +113,51 @@ export const MultiSelectRenderer = ({
   setAnswer,
   FieldRow,
   isDisabled,
-}) => (
-  <FieldRow field={field}>
-    <SelectInput
-      options={field.options || []}
-      isMulti={true}
-      required={field.required}
-      value={optionsByValues(field.options, value)}
-      onChange={(opt) => {
-        const values = (opt || []).map((o) => o.value);
-        setAnswer(field, { value: values });
-      }}
-      isDisabled={isDisabled}
-    />
-  </FieldRow>
-);
+  answerIndex,
+}) => {
+  const options = [...(field.options || [])];
+  if (field.allowOtherOption) {
+    if (!options.find((o) => o.value === "other")) {
+      options.push({ label: "Otros", value: "other" });
+    }
+  }
+
+  const hasOther = (value || []).includes("other");
+  const otherTextValue = answerIndex?.get(field.id)?.otherText || "";
+
+  return (
+    <FieldRow field={field}>
+      <SelectInput
+        options={options}
+        isMulti={true}
+        required={field.required}
+        value={optionsByValues(options, value)}
+        onChange={(opt) => {
+          const values = (opt || []).map((o) => o.value);
+          setAnswer(field, {
+            value: values,
+            ...(!values.includes("other") ? { otherText: "" } : {}),
+          });
+        }}
+        isDisabled={isDisabled}
+      />
+      {hasOther && (
+        <div className="mt-3 w-full">
+          <FloatingInput
+            id={`other-${field.id}`}
+            type="text"
+            label="Especificar Otros"
+            widthClass="w-full"
+            required={field.required}
+            defaultValue={otherTextValue}
+            onBlur={(e) => setAnswer(field, { otherText: e.target.value })}
+            disabled={isDisabled}
+          />
+        </div>
+      )}
+    </FieldRow>
+  );
+};
 
 export const MatrixRenderer = ({ field, value, setAnswer, answerIndex }) => (
   <div className={styles["field-container"]} key={field.id}>
@@ -179,40 +242,78 @@ export const LongTextRenderer = ({ field, value, setAnswer }) => (
   </div>
 );
 
-export const MultiCheckboxRenderer = ({ field, value, setAnswer }) => (
-  <div>
-    {field.title && (
-      <h3 className={styles["checkbox-title"]}>
-        <span className={styles["field-number"]}>
-          {String(field.order).padStart(2, "0")}
-        </span>
-        {field.title}
-      </h3>
-    )}
-    <div className="flex flex-col">
-      {(field.options || []).map((opt) => (
-        <div className={styles["checkbox-container"]} key={opt.value}>
-          <div>{opt.label}</div>
-          <CheckboxInput
-            key={opt.value}
-            checked={Array.isArray(value) ? value.includes(opt.value) : false}
-            onChange={(checked) => {
-              let updatedValues = Array.isArray(value) ? [...value] : [];
-              if (checked) {
-                if (!updatedValues.includes(opt.value)) {
-                  updatedValues.push(opt.value);
+export const MultiCheckboxRenderer = ({
+  field,
+  value,
+  setAnswer,
+  answerIndex,
+  isDisabled,
+}) => {
+  const options = [...(field.options || [])];
+  if (field.allowOtherOption) {
+    if (!options.find((o) => o.value === "other")) {
+      options.push({ label: "Otros", value: "other" });
+    }
+  }
+
+  const hasOther = (value || []).includes("other");
+  const otherTextValue = answerIndex?.get(field.id)?.otherText || "";
+
+  return (
+    <div>
+      {field.title && (
+        <h3 className={styles["checkbox-title"]}>
+          <span className={styles["field-number"]}>
+            {String(field.order).padStart(2, "0")}
+          </span>
+          {field.title}
+        </h3>
+      )}
+      <div className="flex flex-col">
+        {options.map((opt) => (
+          <div className={styles["checkbox-container"]} key={opt.value}>
+            <div>{opt.label}</div>
+            <CheckboxInput
+              key={opt.value}
+              checked={Array.isArray(value) ? value.includes(opt.value) : false}
+              onChange={(checked) => {
+                let updatedValues = Array.isArray(value) ? [...value] : [];
+                if (checked) {
+                  if (!updatedValues.includes(opt.value)) {
+                    updatedValues.push(opt.value);
+                  }
+                } else {
+                  updatedValues = updatedValues.filter((v) => v !== opt.value);
                 }
-              } else {
-                updatedValues = updatedValues.filter((v) => v !== opt.value);
-              }
-              setAnswer(field, { value: updatedValues });
-            }}
+                setAnswer(field, {
+                  value: updatedValues,
+                  ...(!updatedValues.includes("other")
+                    ? { otherText: "" }
+                    : {}),
+                });
+              }}
+              disabled={isDisabled}
+            />
+          </div>
+        ))}
+      </div>
+      {hasOther && (
+        <div className="mt-3 w-full">
+          <FloatingInput
+            id={`other-${field.id}`}
+            type="text"
+            label="Especificar Otros"
+            widthClass="w-full"
+            required={field.required}
+            defaultValue={otherTextValue}
+            onBlur={(e) => setAnswer(field, { otherText: e.target.value })}
+            disabled={isDisabled}
           />
         </div>
-      ))}
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 export const FIELD_RENDERERS = {
   text: TextRenderer,

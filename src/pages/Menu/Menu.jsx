@@ -49,6 +49,21 @@ export const Menu = () => {
     fetchQuestionnaires();
   }, []);
 
+  useEffect(() => {
+    if (location.state?.openUser) {
+      setSelectedUser(location.state.openUser);
+      setIsDetailModalOpen(true);
+
+      const newState = { ...location.state };
+      delete newState.openUser;
+
+      navigate(location.pathname, {
+        replace: true,
+        state: Object.keys(newState).length > 0 ? newState : null,
+      });
+    }
+  }, [location.state, location.pathname, navigate]);
+
   const handleUserClick = (user) => {
     setSelectedUser(user);
     setIsDetailModalOpen(true);
