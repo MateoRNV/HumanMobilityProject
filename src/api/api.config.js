@@ -136,6 +136,49 @@ export const personsApi = {
   },
 };
 
+/**
+ * API de Analytics - Análisis de respuestas por campo
+ */
+export const analyticsApi = {
+  getChartableFields(slug) {
+    return apiClient.get(`/analytics/${slug}/fields`);
+  },
+
+  getFieldDistribution(slug, campoId, filter = {}) {
+    const qs = buildQs(filter);
+    return apiClient.get(`/analytics/${slug}/field/${campoId}${qs}`);
+  },
+
+  getOverview(slug, filter = {}) {
+    const qs = buildQs(filter);
+    return apiClient.get(`/analytics/${slug}/overview${qs}`);
+  },
+
+  getTimeSeries(slug, campoId, filter = {}) {
+    const qs = buildQs(filter);
+    return apiClient.get(`/analytics/${slug}/timeseries/${campoId}${qs}`);
+  },
+
+  getCrossTab(slug, fieldA, fieldB, filter = {}) {
+    const params = new URLSearchParams({ fieldA, fieldB });
+    if (filter.from) params.set("from", filter.from);
+    if (filter.to) params.set("to", filter.to);
+    return apiClient.get(`/analytics/${slug}/crosstab?${params}`);
+  },
+
+  getRawResponses(slug) {
+    return apiClient.get(`/analytics/${slug}/raw`);
+  },
+};
+
+function buildQs(filter) {
+  const params = new URLSearchParams();
+  if (filter.from) params.set("from", filter.from);
+  if (filter.to) params.set("to", filter.to);
+  const str = params.toString();
+  return str ? `?${str}` : "";
+}
+
 export const apiService = {
   get: (endpoint) => apiClient.get(endpoint),
   post: (endpoint, data) => apiClient.post(endpoint, data),

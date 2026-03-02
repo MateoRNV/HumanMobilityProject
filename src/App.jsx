@@ -4,6 +4,7 @@ import Menu from "./pages/Menu/Menu";
 import FormRenderer from "./pages/FormRenderer/FormRenderer";
 import QuestionnaireEditor from "./pages/QuestionnaireEditor/QuestionnaireEditor";
 import FormHistory from "./pages/FormHistory/FormHistory";
+import Analytics from "./pages/Analytics/Analytics";
 import "./App.css";
 
 function LayoutWithBanner({ children }) {
@@ -37,6 +38,7 @@ export default function App() {
       />
       <Route path="/editor/:slug" element={<QuestionnaireEditor />} />
       <Route path="/historial/:slug/:personaId" element={<FormHistory />} />
+      <Route path="/analytics" element={<Analytics />} />
     </Routes>
   );
 }

@@ -147,6 +147,16 @@ export const Menu = () => {
           >
             Gestión de Cuestionarios
           </div>
+          <div
+            className={`cursor-pointer pb-3 px-1 transition-colors ${
+              tab === "analytics"
+                ? "active text-[var(--primary-color)]"
+                : "hover:text-gray-800"
+            }`}
+            onClick={() => setTab("analytics")}
+          >
+            Analytics
+          </div>
         </div>
         <div className="pb-3">
           {tab === "gestion-caso" && (
@@ -156,6 +166,15 @@ export const Menu = () => {
             >
               <span className="material-symbols-outlined text-sm">add</span>
               Nuevo Usuario
+            </button>
+          )}
+          {tab === "analytics" && (
+            <button
+              className="bg-[var(--primary-color)] border border-[var(--primary-color)] text-white hover:bg-[#1e2d5c] shadow-sm font-medium py-2 px-5 rounded-md transition-colors flex items-center gap-2"
+              onClick={() => navigate("/analytics")}
+            >
+              <span className="material-symbols-outlined text-sm">bar_chart</span>
+              Ir a Analytics
             </button>
           )}
           {/* tab === "talleres" && (
@@ -358,6 +377,34 @@ export const Menu = () => {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Analytics */}
+      {tab === "analytics" && (
+        <div
+          className="flex flex-col items-center justify-center w-full max-w-5xl px-4 md:px-8 mt-8 flex-1"
+          style={{ minHeight: "400px" }}
+        >
+          <div className="text-center space-y-4">
+            <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="material-symbols-outlined text-4xl text-blue-600">
+                bar_chart
+              </span>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800">Analytics Dashboard</h2>
+            <p className="text-gray-600 max-w-md mx-auto">
+              Análisis dinámicos de respuestas por campo. Selecciona un cuestionario,
+              un campo y un tipo de gráfico para visualizar los datos.
+            </p>
+            <button
+              onClick={() => navigate("/analytics")}
+              className="mt-6 bg-[var(--primary-color)] text-white hover:bg-[#1e2d5c] font-semibold py-3 px-8 rounded-lg transition-colors shadow-sm flex items-center gap-2 mx-auto"
+            >
+              <span className="material-symbols-outlined">arrow_forward</span>
+              Ir a Analytics
+            </button>
+          </div>
         </div>
       )}
     </div>
