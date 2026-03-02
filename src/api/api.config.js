@@ -115,6 +115,11 @@ export const personsApi = {
     return apiClient.get(`/forms/definition/${slug}`);
   },
 
+  /** GET /api/forms/definition/:slug/version/:version - Obtener una versión específica */
+  getDefinitionByVersion(slug, version) {
+    return apiClient.get(`/forms/definition/${slug}/version/${version}`);
+  },
+
   /** GET /api/forms/definitions - Obtener todas las definiciones */
   getDefinitions() {
     return apiClient.get("/forms/definitions");

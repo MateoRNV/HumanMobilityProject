@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FormRender } from "../../../features/forms/FormRender";
 
-const FormView = ({ history, formSchema }) => {
+const FormView = ({ history, formSchema, schemasByVersion }) => {
   const [selectedIdx, setSelectedIdx] = useState(0);
 
   const formatDate = (iso) =>
@@ -21,6 +21,8 @@ const FormView = ({ history, formSchema }) => {
   }
 
   const selected = history[selectedIdx];
+  const selectedSchema =
+    schemasByVersion?.[selected?.versionCuestionario] || formSchema;
 
   return (
     <div className="flex gap-4 h-full">
@@ -61,7 +63,7 @@ const FormView = ({ history, formSchema }) => {
       <div className="flex-1 overflow-auto">
         <FormRender
           key={selected?.id || "empty"}
-          formSchema={formSchema}
+          formSchema={selectedSchema}
           initialAnswers={selected?.respuestas || []}
           isPreview={true}
         />

@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
-const TimelineView = ({ history, formSchema }) => {
+const TimelineView = ({ history, formSchema, schemasByVersion }) => {
   const [openIds, setOpenIds] = useState({});
 
-  // Mapa campoId -> definición completa del campo (para acceder a columns, etc.)
-  const fieldMap = {};
-  for (const section of formSchema?.sections || []) {
-    for (const field of section.fields || []) {
-      fieldMap[field.id] = field;
+  const buildFieldMap = (schema) => {
+    const map = {};
+    for (const section of schema?.sections || []) {
+      for (const field of section.fields || []) {
+        map[field.id] = field;
+      }
     }
-  }
+    return map;
+  };
+
+  // Pre-computa un fieldMap por cada versión disponible
+  const fieldMapsByVersion = useMemo(() => {
+    const maps = {};
+    for (const [version, schema] of Object.entries(schemasByVersion || {})) {
+      maps[version] = buildFieldMap(schema);
+    }
+    return maps;
+  }, [schemasByVersion]);
+
+  const currentFieldMap = useMemo(
+    () => buildFieldMap(formSchema),
+    [formSchema],
+  );
+
+  const getFieldMap = (version) =>
+    fieldMapsByVersion[version] || currentFieldMap;
 
   const formatDate = (iso) =>
     new Date(iso).toLocaleDateString("es-ES", {
@@ -22,6 +41,7 @@ const TimelineView = ({ history, formSchema }) => {
 
   const renderValue = (answer, field) => {
     const { valor, tipo, selecciones } = answer;
+    const otherText = answer.valorExtra || answer.otros;
 
     if (
       tipo === "matrix" &&
@@ -78,12 +98,12 @@ const TimelineView = ({ history, formSchema }) => {
     if (Array.isArray(valor)) {
       return valor
         .map((v) =>
-          v === "other" && answer.otros ? `Otros (${answer.otros})` : v,
+          v === "other" && otherText ? `Otros (${otherText})` : v,
         )
         .join(", ");
     }
     if (typeof valor === "boolean") return valor ? "Sí" : "No";
-    if (valor === "other" && answer.otros) return `Otros (${answer.otros})`;
+    if (valor === "other" && otherText) return `Otros (${otherText})`;
     return valor ?? "—";
   };
 
@@ -107,6 +127,7 @@ const TimelineView = ({ history, formSchema }) => {
     <div className="space-y-3">
       {history.map((entry, idx) => {
         const isOpen = !!openIds[entry.id];
+        const fieldMap = getFieldMap(entry.versionCuestionario);
         const visibleAnswers = (entry.respuestas || []).filter(
           (a) => !a._orphaned,
         );

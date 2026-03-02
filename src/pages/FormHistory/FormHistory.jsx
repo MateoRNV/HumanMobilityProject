@@ -44,6 +44,7 @@ const FormHistory = () => {
 
   const [history, setHistory] = useState([]);
   const [formSchema, setFormSchema] = useState(null);
+  const [schemasByVersion, setSchemasByVersion] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState("timeline");
 
@@ -58,8 +59,29 @@ const FormHistory = () => {
           personsApi.getFormHistory(personaId, slug),
           personsApi.getDefinition(slug),
         ]);
+
+        const currentSchema = definitionData.configuracion || definitionData;
         setHistory(historyData);
-        setFormSchema(definitionData.configuracion || definitionData);
+        setFormSchema(currentSchema);
+
+        // Obtener schemas de todas las versiones que aparecen en el historial
+        const uniqueVersions = [
+          ...new Set(historyData.map((h) => h.versionCuestionario)),
+        ];
+        const versionResults = await Promise.all(
+          uniqueVersions.map((v) =>
+            personsApi
+              .getDefinitionByVersion(slug, v)
+              .then((d) => ({ version: v, schema: d.configuracion || d }))
+              .catch(() => null),
+          ),
+        );
+
+        const byVersion = { [definitionData.version]: currentSchema };
+        for (const result of versionResults) {
+          if (result) byVersion[result.version] = result.schema;
+        }
+        setSchemasByVersion(byVersion);
       } catch {
         toast.error("Error al cargar el historial.");
       } finally {
@@ -79,7 +101,7 @@ const FormHistory = () => {
   }
 
   const renderView = () => {
-    const props = { history, formSchema };
+    const props = { history, formSchema, schemasByVersion };
     switch (activeView) {
       case "timeline":
         return <TimelineView {...props} />;

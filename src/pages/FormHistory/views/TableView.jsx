@@ -25,6 +25,7 @@ const TableView = ({ history, formSchema }) => {
   const renderValue = (answer, field) => {
     if (!answer) return <span className="text-gray-300">—</span>;
     const { valor, tipo, selecciones } = answer;
+    const otherText = answer.valorExtra || answer.otros;
 
     if (
       tipo === "matrix" &&
@@ -55,13 +56,13 @@ const TableView = ({ history, formSchema }) => {
 
     if (Array.isArray(valor)) {
       const items = valor.map((v) =>
-        v === "other" && answer.otros ? `Otros (${answer.otros})` : v,
+        v === "other" && otherText ? `Otros (${otherText})` : v,
       );
       return items.join(", ") || <span className="text-gray-300">—</span>;
     }
     if (typeof valor === "boolean") return valor ? "Sí" : "No";
     if (!valor && valor !== 0) return <span className="text-gray-300">—</span>;
-    if (valor === "other" && answer.otros) return `Otros (${answer.otros})`;
+    if (valor === "other" && otherText) return `Otros (${otherText})`;
     return String(valor);
   };
 
