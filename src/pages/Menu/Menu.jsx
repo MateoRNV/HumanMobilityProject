@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import AddUserModal from "./AddUserModal";
 import UserDetailModal from "./UserDetailModal";
+import ProfesionalesTab from "./ProfesionalesTab";
 import "./menu.css";
 import { personsApi } from "../../api/api.config";
+import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/ui/Spinner/Spinner";
 
 export const Menu = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { profesional: me } = useAuth();
+  const isAdmin = me?.rol === "admin";
   const [tab, setTab] = useState(location.state?.activeTab || "gestion-caso");
   const [searchUserBox, setSearchUserBox] = useState("");
   const [searchQuestionnaireBox, setSearchQuestionnaireBox] = useState("");
@@ -137,16 +141,30 @@ export const Menu = () => {
           >
             Gestión de Casos
           </div>
-          <div
-            className={`cursor-pointer pb-3 px-1 transition-colors ${
-              tab === "gestion-cuestionarios"
-                ? "active text-[var(--primary-color)]"
-                : "hover:text-gray-800"
-            }`}
-            onClick={() => setTab("gestion-cuestionarios")}
-          >
-            Gestión de Cuestionarios
-          </div>
+          {isAdmin && (
+            <div
+              className={`cursor-pointer pb-3 px-1 transition-colors ${
+                tab === "gestion-cuestionarios"
+                  ? "active text-[var(--primary-color)]"
+                  : "hover:text-gray-800"
+              }`}
+              onClick={() => setTab("gestion-cuestionarios")}
+            >
+              Gestión de Cuestionarios
+            </div>
+          )}
+          {isAdmin && (
+            <div
+              className={`cursor-pointer pb-3 px-1 transition-colors ${
+                tab === "profesionales"
+                  ? "active text-[var(--primary-color)]"
+                  : "hover:text-gray-800"
+              }`}
+              onClick={() => setTab("profesionales")}
+            >
+              Profesionales
+            </div>
+          )}
         </div>
         <div className="pb-3">
           {tab === "gestion-caso" && (
@@ -158,6 +176,7 @@ export const Menu = () => {
               Nuevo Usuario
             </button>
           )}
+          {/* El botón de "Nuevo Profesional" vive dentro de ProfesionalesTab */}
           {/* tab === "talleres" && (
             <button className="bg-[var(--primary-color)] text-white hover:bg-[#1e2d5c] shadow-sm font-medium py-2 px-5 rounded-md transition-colors flex items-center gap-2">
               <span className="material-symbols-outlined text-sm">add</span>
@@ -360,6 +379,9 @@ export const Menu = () => {
           )}
         </div>
       )}
+
+      {/* Gestión de Profesionales — solo admin */}
+      {tab === "profesionales" && isAdmin && <ProfesionalesTab />}
     </div>
   );
 };
