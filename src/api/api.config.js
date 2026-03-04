@@ -8,12 +8,25 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
 
-const defaultHeaders = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
-};
+function getHeaders() {
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
+  const token = localStorage.getItem("token");
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return headers;
+}
 
 async function handleResponse(response) {
+  if (response.status === 401) {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+    throw new Error("Sesión expirada");
+  }
+
   const text = await response.text();
   const data = text ? JSON.parse(text) : null;
 
@@ -35,7 +48,7 @@ export const apiClient = {
   async get(endpoint) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "GET",
-      headers: defaultHeaders,
+      headers: getHeaders(),
     });
     return handleResponse(response);
   },
@@ -43,7 +56,7 @@ export const apiClient = {
   async post(endpoint, body) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "POST",
-      headers: defaultHeaders,
+      headers: getHeaders(),
       body: JSON.stringify(body ?? {}),
     });
     return handleResponse(response);
@@ -52,7 +65,7 @@ export const apiClient = {
   async patch(endpoint, body) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "PATCH",
-      headers: defaultHeaders,
+      headers: getHeaders(),
       body: JSON.stringify(body ?? {}),
     });
     return handleResponse(response);
@@ -61,7 +74,7 @@ export const apiClient = {
   async put(endpoint, body) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "PUT",
-      headers: defaultHeaders,
+      headers: getHeaders(),
       body: JSON.stringify(body ?? {}),
     });
     return handleResponse(response);
@@ -133,6 +146,18 @@ export const personsApi = {
   /** GET /api/forms/submissions/:personaId/:slug/history */
   getFormHistory(personaId, slug) {
     return apiClient.get(`/forms/submissions/${personaId}/${slug}/history`);
+  },
+};
+
+export const profesionalesApi = {
+  getAll() {
+    return apiClient.get('/auth/profesionales');
+  },
+  register(data) {
+    return apiClient.post('/auth/register', data);
+  },
+  update(id, data) {
+    return apiClient.patch(`/auth/profesionales/${id}`, data);
   },
 };
 
