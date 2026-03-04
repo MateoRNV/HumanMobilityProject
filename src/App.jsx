@@ -1,7 +1,6 @@
-import { Routes, Route, useNavigate } from "react-router";
+import { Routes, Route, Navigate, useNavigate } from "react-router";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Menu from "./pages/Menu/Menu";
 import FormRenderer from "./pages/FormRenderer/FormRenderer";
@@ -112,7 +111,7 @@ export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/menu"

@@ -97,6 +97,18 @@ export default function Login() {
             </h2>
           </div>
 
+          {/* Demo banner */}
+          <div className="bg-amber-50 border border-amber-300 rounded-xl px-4 py-3 flex flex-col gap-1">
+            <p className="text-amber-800 text-sm font-bold">⚠ Versión de demostración</p>
+            <p className="text-amber-700 text-xs leading-relaxed">
+              Esta es una demo. Puedes ingresar con las siguientes credenciales:
+            </p>
+            <p className="text-amber-900 text-xs font-mono mt-1">
+              Usuario: <strong>admin@admin.ec</strong><br />
+              Contraseña: <strong>admin123</strong>
+            </p>
+          </div>
+
           <div className="text-left">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1D3A6C] mb-2 tracking-tight">
               Bienvenido
