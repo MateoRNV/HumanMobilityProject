@@ -51,7 +51,7 @@ export default function AddProfesionalModal({ isOpen, onClose, onSuccess }) {
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <span className="material-symbols-outlined">close</span>
+            <span className="material-symbols-outlined notranslate">close</span>
           </button>
         </div>
 

@@ -80,7 +80,7 @@ export const Table = ({
                 {canDeleteRows && !isDisabled && (
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     <span
-                      className="material-symbols-outlined text-red-500 cursor-pointer hover:text-red-700"
+                      className="material-symbols-outlined notranslate text-red-500 cursor-pointer hover:text-red-700"
                       onClick={() => handleDeleteRow(rowIndex)}
                     >
                       delete

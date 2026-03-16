@@ -120,7 +120,7 @@ const FormHistory = () => {
       <div className="bg-[#273a71] text-white px-8 py-5 flex items-center gap-6 shadow-md">
         <button
           onClick={() => navigate("/menu", { state: { openUser: userData } })}
-          className="material-symbols-outlined text-2xl hover:text-blue-200 transition-colors flex-shrink-0"
+          className="material-symbols-outlined notranslate text-2xl hover:text-blue-200 transition-colors flex-shrink-0"
           title="Volver al menú"
         >
           arrow_back
@@ -163,7 +163,7 @@ const FormHistory = () => {
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
-              <span className="material-symbols-outlined text-xl flex-shrink-0">
+              <span className="material-symbols-outlined notranslate text-xl flex-shrink-0">
                 {view.icon}
               </span>
               <div>
@@ -184,7 +184,7 @@ const FormHistory = () => {
           {/* Placeholder para vistas futuras */}
           <div className="mt-auto mx-2 px-4 py-3 rounded-lg border border-dashed border-gray-200">
             <div className="flex items-center gap-3 opacity-40">
-              <span className="material-symbols-outlined text-xl">
+              <span className="material-symbols-outlined notranslate text-xl">
                 bar_chart
               </span>
               <div>

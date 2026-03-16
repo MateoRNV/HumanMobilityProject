@@ -158,7 +158,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                     onClick={() => setIsEditing(true)}
                     className="flex items-center gap-1.5 text-sm font-semibold text-[var(--primary-color)] hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
                   >
-                    <span className="material-symbols-outlined text-lg">
+                    <span className="material-symbols-outlined notranslate text-lg">
                       edit
                     </span>
                     Editar
@@ -204,7 +204,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                       {user.numeroCaso || "Sin asignar"}
                     </span>
                     <span
-                      className="material-symbols-outlined text-gray-400 text-sm"
+                      className="material-symbols-outlined notranslate text-gray-400 text-sm"
                       title="Solo lectura"
                     >
                       lock
@@ -243,7 +243,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-xs font-semibold text-gray-400 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-sm">
+                      <span className="material-symbols-outlined notranslate text-sm">
                         phone
                       </span>{" "}
                       Teléfonos
@@ -288,7 +288,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                                   onClick={() => removePhone(idx)}
                                   className="text-red-500 hover:bg-red-50 p-1 rounded"
                                 >
-                                  <span className="material-symbols-outlined text-lg">
+                                  <span className="material-symbols-outlined notranslate text-lg">
                                     delete
                                   </span>
                                 </button>
@@ -319,7 +319,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-xs font-semibold text-gray-400 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-sm">
+                      <span className="material-symbols-outlined notranslate text-sm">
                         mail
                       </span>{" "}
                       Correos
@@ -364,7 +364,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                                   onClick={() => removeEmail(idx)}
                                   className="text-red-500 hover:bg-red-50 p-1 rounded"
                                 >
-                                  <span className="material-symbols-outlined text-lg">
+                                  <span className="material-symbols-outlined notranslate text-lg">
                                     delete
                                   </span>
                                 </button>
@@ -407,7 +407,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                         state={{ user }}
                         className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all hover:shadow-md hover:-translate-y-0.5 ${q.color}`}
                       >
-                        <span className="material-symbols-outlined text-2xl">
+                        <span className="material-symbols-outlined notranslate text-2xl">
                           {q.icon}
                         </span>
                         <span className="text-xs font-bold">{q.name}</span>
@@ -422,7 +422,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                           title="Ver historial"
                           className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-full p-0.5 shadow-sm hover:shadow-md"
                         >
-                          <span className="material-symbols-outlined text-base text-gray-500 hover:text-[#273a71]">
+                          <span className="material-symbols-outlined notranslate text-base text-gray-500 hover:text-[#273a71]">
                             history
                           </span>
                         </button>
@@ -453,7 +453,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                           }
                           className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all hover:shadow-md hover:-translate-y-0.5 ${q.color} cursor-pointer group`}
                         >
-                          <span className="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">
+                          <span className="material-symbols-outlined notranslate text-3xl group-hover:scale-110 transition-transform">
                             history
                           </span>
                           <span className="text-xs font-bold text-center">
@@ -464,7 +464,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                   </div>
                 ) : (
                   <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center text-center">
-                    <span className="material-symbols-outlined text-4xl text-gray-300 mb-2">
+                    <span className="material-symbols-outlined notranslate text-4xl text-gray-300 mb-2">
                       history
                     </span>
                     <p className="text-sm text-gray-500">
@@ -496,7 +496,7 @@ const UserDetailModal = ({ isOpen, onClose, user, onSuccess }) => {
                     "Guardando..."
                   ) : (
                     <>
-                      <span className="material-symbols-outlined text-lg">
+                      <span className="material-symbols-outlined notranslate text-lg">
                         save
                       </span>
                       Guardar Cambios

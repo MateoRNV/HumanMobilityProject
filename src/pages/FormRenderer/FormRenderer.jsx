@@ -97,7 +97,7 @@ const FormRenderer = () => {
     <div className="min-h-screen bg-gray-50 pt-8 pb-16 relative font-sans text-gray-900">
       <div
         onClick={() => navigate("/menu", { state: { openUser: userData } })}
-        className="material-symbols-outlined absolute cursor-pointer top-8 left-8 text-3xl text-[#273a71] hover:text-[#1e2d5c] transition-colors bg-white p-2 rounded-full shadow-sm"
+        className="material-symbols-outlined notranslate absolute cursor-pointer top-8 left-8 text-3xl text-[#273a71] hover:text-[#1e2d5c] transition-colors bg-white p-2 rounded-full shadow-sm"
         title="Volver al menú"
       >
         arrow_back

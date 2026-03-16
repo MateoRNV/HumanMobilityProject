@@ -347,7 +347,7 @@ const QuestionnaireEditor = () => {
             }
             className="flex items-center justify-center p-2 rounded-full hover:bg-white/10 transition-colors text-white/90"
           >
-            <span className="material-symbols-outlined">arrow_back</span>
+            <span className="material-symbols-outlined notranslate">arrow_back</span>
           </button>
           <div>
             <h1 className="text-xl font-bold flex items-center gap-2">
@@ -369,7 +369,7 @@ const QuestionnaireEditor = () => {
             onClick={() => setIsPreviewMode(!isPreviewMode)}
             className="px-4 py-2 border border-transparent text-blue-100 bg-white/10 hover:bg-white/20 rounded-md font-medium text-sm transition-colors flex items-center gap-2"
           >
-            <span className="material-symbols-outlined text-[18px]">
+            <span className="material-symbols-outlined notranslate text-[18px]">
               {isPreviewMode ? "edit" : "visibility"}
             </span>
             {isPreviewMode ? "Editor" : "Vista Previa"}
@@ -396,7 +396,7 @@ const QuestionnaireEditor = () => {
             }}
             className="px-4 py-2 bg-white text-[var(--primary-color)] shadow-sm hover:bg-blue-50 focus:ring-2 focus:ring-white/50 rounded-md font-bold text-sm transition-all flex items-center gap-2"
           >
-            <span className="material-symbols-outlined text-[18px]">save</span>
+            <span className="material-symbols-outlined notranslate text-[18px]">save</span>
             Guardar Cambios
           </button>
         </div>
@@ -407,7 +407,7 @@ const QuestionnaireEditor = () => {
         <div className="w-80 bg-white border-r border-gray-200 flex flex-col h-full shadow-sm z-10 hidden md:flex">
           <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
             <h2 className="font-semibold text-gray-800 text-sm uppercase tracking-wider flex items-center gap-2">
-              <span className="material-symbols-outlined text-[18px] text-gray-500">
+              <span className="material-symbols-outlined notranslate text-[18px] text-gray-500">
                 format_list_bulleted
               </span>
               Secciones
@@ -417,7 +417,7 @@ const QuestionnaireEditor = () => {
               className="text-[var(--primary-color)] hover:bg-blue-50 p-1.5 rounded-md transition-colors"
               title="Añadir Sección"
             >
-              <span className="material-symbols-outlined text-[20px]">add</span>
+              <span className="material-symbols-outlined notranslate text-[20px]">add</span>
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
@@ -442,7 +442,7 @@ const QuestionnaireEditor = () => {
               >
                 <div className="flex items-center gap-3 overflow-hidden flex-1">
                   <div className="text-gray-300 cursor-grab hover:text-gray-500 active:cursor-grabbing">
-                    <span className="material-symbols-outlined text-[20px]">
+                    <span className="material-symbols-outlined notranslate text-[20px]">
                       drag_indicator
                     </span>
                   </div>
@@ -464,7 +464,7 @@ const QuestionnaireEditor = () => {
                     className="text-gray-400 hover:text-red-500 p-1.5 hover:bg-red-50 rounded"
                     title="Eliminar Sección"
                   >
-                    <span className="material-symbols-outlined text-[18px]">
+                    <span className="material-symbols-outlined notranslate text-[18px]">
                       delete
                     </span>
                   </button>
@@ -510,7 +510,7 @@ const QuestionnaireEditor = () => {
                     </p>
                     <span className="w-1 h-1 rounded-full bg-blue-300/30"></span>
                     <p className="text-blue-200 text-xs font-medium uppercase tracking-tight flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[14px]">
+                      <span className="material-symbols-outlined notranslate text-[14px]">
                         info
                       </span>
                       Haz clic para editar propiedades
@@ -524,7 +524,7 @@ const QuestionnaireEditor = () => {
                   }}
                   className="px-5 py-2.5 bg-white text-[var(--primary-color)] hover:bg-blue-50 shadow-md rounded-xl font-bold text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95 relative z-10 ring-2 ring-transparent hover:ring-white/30"
                 >
-                  <span className="material-symbols-outlined text-[20px] font-bold">
+                  <span className="material-symbols-outlined notranslate text-[20px] font-bold">
                     add_circle
                   </span>
                   Añadir Campo
@@ -534,7 +534,7 @@ const QuestionnaireEditor = () => {
               {selectedSection.fields.length === 0 ? (
                 <div className="bg-white border border-dashed border-gray-300 rounded-xl p-12 flex flex-col items-center justify-center text-center">
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                    <span className="material-symbols-outlined text-3xl text-gray-400">
+                    <span className="material-symbols-outlined notranslate text-3xl text-gray-400">
                       post_add
                     </span>
                   </div>
@@ -549,7 +549,7 @@ const QuestionnaireEditor = () => {
                     onClick={handleAddField}
                     className="px-5 py-2.5 bg-[var(--primary-color)] text-white hover:bg-[#1e2d5c] shadow-sm rounded-md font-medium text-sm transition-colors flex items-center gap-2"
                   >
-                    <span className="material-symbols-outlined text-[18px]">
+                    <span className="material-symbols-outlined notranslate text-[18px]">
                       add
                     </span>
                     Añadir primer campo
@@ -579,7 +579,7 @@ const QuestionnaireEditor = () => {
                         } ${draggedFieldIdx === index ? "opacity-50 border-dashed" : ""}`}
                     >
                       <div className="absolute left-0 top-0 bottom-0 w-10 flex flex-col items-center justify-center text-gray-300 opacity-0 group-hover:opacity-100 cursor-grab hover:text-gray-500 active:cursor-grabbing">
-                        <span className="material-symbols-outlined text-[20px]">
+                        <span className="material-symbols-outlined notranslate text-[20px]">
                           drag_indicator
                         </span>
                       </div>
@@ -607,7 +607,7 @@ const QuestionnaireEditor = () => {
                           </h4>
                           {field.placeholder && (
                             <p className="text-sm text-gray-500 mt-2 flex items-center gap-1.5">
-                              <span className="material-symbols-outlined text-[14px]">
+                              <span className="material-symbols-outlined notranslate text-[14px]">
                                 edit_note
                               </span>
                               {field.placeholder}
@@ -630,7 +630,7 @@ const QuestionnaireEditor = () => {
                             )}
                           {field.type === "matrix" && (
                             <div className="mt-3 text-xs text-gray-500 flex items-center gap-2">
-                              <span className="material-symbols-outlined text-[14px]">
+                              <span className="material-symbols-outlined notranslate text-[14px]">
                                 grid_on
                               </span>
                               {
@@ -642,7 +642,7 @@ const QuestionnaireEditor = () => {
                           )}
                           {field.type === "table" && (
                             <div className="mt-3 text-xs text-gray-500 flex items-center gap-2 flex-wrap gap-y-1">
-                              <span className="material-symbols-outlined text-[14px]">
+                              <span className="material-symbols-outlined notranslate text-[14px]">
                                 table_chart
                               </span>
                               {(field.columns || []).length} columnas
@@ -670,7 +670,7 @@ const QuestionnaireEditor = () => {
                               setShowSectionProps(false);
                             }}
                           >
-                            <span className="material-symbols-outlined text-[18px]">
+                            <span className="material-symbols-outlined notranslate text-[18px]">
                               tune
                             </span>
                           </button>
@@ -682,7 +682,7 @@ const QuestionnaireEditor = () => {
                               handleDeleteField(field.id);
                             }}
                           >
-                            <span className="material-symbols-outlined text-[18px]">
+                            <span className="material-symbols-outlined notranslate text-[18px]">
                               delete
                             </span>
                           </button>
@@ -696,7 +696,7 @@ const QuestionnaireEditor = () => {
           ) : (
             <div className="mt-32 flex flex-col items-center text-gray-400 text-center">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-4xl opacity-50">
+                <span className="material-symbols-outlined notranslate text-4xl opacity-50">
                   data_object
                 </span>
               </div>
@@ -716,7 +716,7 @@ const QuestionnaireEditor = () => {
           <div className="w-80 lg:w-96 bg-white border-l border-gray-200 h-full overflow-y-auto shadow-sm flex flex-col z-20">
             <div className="p-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur z-10">
               <h2 className="font-semibold text-gray-800 text-sm uppercase tracking-wider flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-gray-500">
+                <span className="material-symbols-outlined notranslate text-[18px] text-gray-500">
                   {selectedField ? "tune" : "format_list_bulleted"}
                 </span>
                 {selectedField
@@ -730,7 +730,7 @@ const QuestionnaireEditor = () => {
                 }}
                 className="text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-1 rounded transition-colors"
               >
-                <span className="material-symbols-outlined text-[20px]">
+                <span className="material-symbols-outlined notranslate text-[20px]">
                   close
                 </span>
               </button>
@@ -885,7 +885,7 @@ const QuestionnaireEditor = () => {
                             handleUpdateField("options", newOptions);
                           }}
                         >
-                          <span className="material-symbols-outlined text-[14px]">
+                          <span className="material-symbols-outlined notranslate text-[14px]">
                             add
                           </span>{" "}
                           Añadir Opción
@@ -909,7 +909,7 @@ const QuestionnaireEditor = () => {
                               className={`flex items-center gap-2 group/opt relative p-1 rounded transition-colors ${draggedOptionIdx === idx ? "opacity-50 border-dashed border border-gray-300 bg-gray-50" : "hover:bg-gray-50"}`}
                             >
                               <div className="text-gray-300 cursor-grab hover:text-gray-500 active:cursor-grabbing">
-                                <span className="material-symbols-outlined text-[16px]">
+                                <span className="material-symbols-outlined notranslate text-[16px]">
                                   drag_indicator
                                 </span>
                               </div>
@@ -939,7 +939,7 @@ const QuestionnaireEditor = () => {
                                 }}
                                 className="text-gray-400 hover:text-red-500 p-1 rounded opacity-0 group-hover/opt:opacity-100 transition-opacity"
                               >
-                                <span className="material-symbols-outlined text-[18px]">
+                                <span className="material-symbols-outlined notranslate text-[18px]">
                                   close
                                 </span>
                               </button>
@@ -997,7 +997,7 @@ const QuestionnaireEditor = () => {
                               handleUpdateField("columns", newCols);
                             }}
                           >
-                            <span className="material-symbols-outlined text-[14px]">
+                            <span className="material-symbols-outlined notranslate text-[14px]">
                               add
                             </span>
                             Añadir Columna
@@ -1020,7 +1020,7 @@ const QuestionnaireEditor = () => {
                                 }
                                 className={`flex items-center gap-2 group/col p-1 rounded transition-colors ${draggedColIdx === idx ? "opacity-50 border-dashed border border-gray-300 bg-gray-50" : "hover:bg-gray-50"}`}
                               >
-                                <span className="material-symbols-outlined text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
+                                <span className="material-symbols-outlined notranslate text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
                                   drag_indicator
                                 </span>
                                 <input
@@ -1047,7 +1047,7 @@ const QuestionnaireEditor = () => {
                                   }}
                                   className="text-gray-400 hover:text-red-500 p-1 rounded opacity-0 group-hover/col:opacity-100 transition-opacity"
                                 >
-                                  <span className="material-symbols-outlined text-[18px]">
+                                  <span className="material-symbols-outlined notranslate text-[18px]">
                                     close
                                   </span>
                                 </button>
@@ -1150,7 +1150,7 @@ const QuestionnaireEditor = () => {
                               handleUpdateField("rows", newRows);
                             }}
                           >
-                            <span className="material-symbols-outlined text-[14px]">
+                            <span className="material-symbols-outlined notranslate text-[14px]">
                               add
                             </span>
                             Añadir Fila
@@ -1179,13 +1179,13 @@ const QuestionnaireEditor = () => {
                               >
                                 {row.isHeader ? (
                                   <span
-                                    className="material-symbols-outlined text-[16px] text-amber-500"
+                                    className="material-symbols-outlined notranslate text-[16px] text-amber-500"
                                     title="Fila cabecera"
                                   >
                                     star
                                   </span>
                                 ) : (
-                                  <span className="material-symbols-outlined text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
+                                  <span className="material-symbols-outlined notranslate text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
                                     drag_indicator
                                   </span>
                                 )}
@@ -1222,7 +1222,7 @@ const QuestionnaireEditor = () => {
                                     }}
                                     className="text-gray-400 hover:text-red-500 p-1 rounded opacity-0 group-hover/row:opacity-100 transition-opacity"
                                   >
-                                    <span className="material-symbols-outlined text-[18px]">
+                                    <span className="material-symbols-outlined notranslate text-[18px]">
                                       close
                                     </span>
                                   </button>
@@ -1256,7 +1256,7 @@ const QuestionnaireEditor = () => {
                               handleUpdateField("columns", newCols);
                             }}
                           >
-                            <span className="material-symbols-outlined text-[14px]">
+                            <span className="material-symbols-outlined notranslate text-[14px]">
                               add
                             </span>
                             Añadir Columna
@@ -1279,7 +1279,7 @@ const QuestionnaireEditor = () => {
                                 }
                                 className={`flex items-center gap-2 group/col p-1 rounded transition-colors ${draggedColIdx === idx ? "opacity-50 border-dashed border border-gray-300 bg-gray-50" : "hover:bg-gray-50"}`}
                               >
-                                <span className="material-symbols-outlined text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
+                                <span className="material-symbols-outlined notranslate text-[16px] text-gray-300 cursor-grab active:cursor-grabbing">
                                   drag_indicator
                                 </span>
                                 <input
@@ -1309,7 +1309,7 @@ const QuestionnaireEditor = () => {
                                   }}
                                   className="text-gray-400 hover:text-red-500 p-1 rounded opacity-0 group-hover/col:opacity-100 transition-opacity"
                                 >
-                                  <span className="material-symbols-outlined text-[18px]">
+                                  <span className="material-symbols-outlined notranslate text-[18px]">
                                     close
                                   </span>
                                 </button>
@@ -1412,7 +1412,7 @@ const QuestionnaireEditor = () => {
             <div className="bg-white border-b border-gray-100 px-8 py-5 flex items-center justify-between sticky top-0 z-20 rounded-t-2xl backdrop-blur-md bg-white/90">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-[var(--primary-color)]">
-                  <span className="material-symbols-outlined">visibility</span>
+                  <span className="material-symbols-outlined notranslate">visibility</span>
                 </div>
                 <div>
                   <h2 className="font-bold text-gray-900 text-lg">
@@ -1427,7 +1427,7 @@ const QuestionnaireEditor = () => {
                 onClick={() => setIsPreviewMode(false)}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-bold transition-all border border-gray-200"
               >
-                <span className="material-symbols-outlined text-[18px]">
+                <span className="material-symbols-outlined notranslate text-[18px]">
                   close
                 </span>
                 Cerrar Preview

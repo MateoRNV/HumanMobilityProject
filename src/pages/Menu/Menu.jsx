@@ -172,14 +172,14 @@ export const Menu = () => {
               className="bg-[var(--primary-color)] border border-[var(--primary-color)] text-white hover:bg-[#1e2d5c] shadow-sm font-medium py-2 px-5 rounded-md transition-colors flex items-center gap-2"
               onClick={() => setIsModalOpen(true)}
             >
-              <span className="material-symbols-outlined text-sm">add</span>
+              <span className="material-symbols-outlined notranslate text-sm">add</span>
               Nuevo Usuario
             </button>
           )}
           {/* El botón de "Nuevo Profesional" vive dentro de ProfesionalesTab */}
           {/* tab === "talleres" && (
             <button className="bg-[var(--primary-color)] text-white hover:bg-[#1e2d5c] shadow-sm font-medium py-2 px-5 rounded-md transition-colors flex items-center gap-2">
-              <span className="material-symbols-outlined text-sm">add</span>
+              <span className="material-symbols-outlined notranslate text-sm">add</span>
               Adicionar Taller
             </button>
           )*/}
@@ -214,7 +214,7 @@ export const Menu = () => {
               value={searchUserBox}
               onChange={(e) => setSearchUserBox(e.target.value)}
             />
-            <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
+            <span className="material-symbols-outlined notranslate absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
               search
             </span>
           </div>
@@ -240,7 +240,7 @@ export const Menu = () => {
                       </span>
                       {user.documento && (
                         <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-xs">
+                          <span className="material-symbols-outlined notranslate text-xs">
                             badge
                           </span>
                           <span>{user.documento}</span>
@@ -259,7 +259,7 @@ export const Menu = () => {
                       className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-blue-50 text-blue-600 border-blue-100"
                       title="Cuestionario de Triaje"
                     >
-                      <span className="material-symbols-outlined text-xl">
+                      <span className="material-symbols-outlined notranslate text-xl">
                         assignment
                       </span>
                     </Link>
@@ -272,7 +272,7 @@ export const Menu = () => {
                       className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-emerald-50 text-emerald-600 border-emerald-100"
                       title="Cuestionario de Trabajo Social"
                     >
-                      <span className="material-symbols-outlined text-xl">
+                      <span className="material-symbols-outlined notranslate text-xl">
                         group
                       </span>
                     </Link>
@@ -285,7 +285,7 @@ export const Menu = () => {
                       className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-amber-50 text-amber-600 border-amber-100"
                       title="Cuestionario Legal"
                     >
-                      <span className="material-symbols-outlined text-xl">
+                      <span className="material-symbols-outlined notranslate text-xl">
                         balance
                       </span>
                     </Link>
@@ -298,7 +298,7 @@ export const Menu = () => {
                       className="h-10 w-10 flex items-center justify-center rounded-full border transition-all hover:shadow-md hover:-translate-y-0.5 bg-purple-50 text-purple-600 border-purple-100"
                       title="Cuestionario de Psicología"
                     >
-                      <span className="material-symbols-outlined text-xl">
+                      <span className="material-symbols-outlined notranslate text-xl">
                         psychology
                       </span>
                     </Link>
@@ -309,7 +309,7 @@ export const Menu = () => {
             </div>
           ) : (
             <div className="flex flex-col mx-auto items-center mt-20 gap-4">
-              <span className="material-symbols-outlined text-6xl text-gray-400">
+              <span className="material-symbols-outlined notranslate text-6xl text-gray-400">
                 search_off
               </span>
               <div className="text-gray-500">No se encontraron usuarios</div>
@@ -335,7 +335,7 @@ export const Menu = () => {
               value={searchQuestionnaireBox}
               onChange={(e) => setSearchQuestionnaireBox(e.target.value)}
             />
-            <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
+            <span className="material-symbols-outlined notranslate absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
               search
             </span>
           </div>
@@ -351,7 +351,7 @@ export const Menu = () => {
                   <div
                     className={`w-16 h-16 flex items-center justify-center rounded-2xl mb-4 border ${q.color}`}
                   >
-                    <span className="material-symbols-outlined text-3xl">
+                    <span className="material-symbols-outlined notranslate text-3xl">
                       {q.icon}
                     </span>
                   </div>
@@ -369,7 +369,7 @@ export const Menu = () => {
             </div>
           ) : (
             <div className="flex flex-col mx-auto items-center mt-20 gap-4">
-              <span className="material-symbols-outlined text-6xl text-gray-400">
+              <span className="material-symbols-outlined notranslate text-6xl text-gray-400">
                 search_off
               </span>
               <div className="text-gray-500">

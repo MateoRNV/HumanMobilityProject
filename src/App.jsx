@@ -81,7 +81,7 @@ function LayoutWithBanner({ children }) {
                 <span className="hidden sm:inline text-xs font-medium">
                   Salir
                 </span>
-                <span className="material-symbols-outlined text-base sm:text-lg">
+                <span className="material-symbols-outlined notranslate text-base sm:text-lg">
                   logout
                 </span>
               </button>

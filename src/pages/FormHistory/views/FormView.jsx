@@ -14,7 +14,7 @@ const FormView = ({ history, formSchema, schemasByVersion }) => {
   if (history.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-gray-400">
-        <span className="material-symbols-outlined text-5xl mb-3">history</span>
+        <span className="material-symbols-outlined notranslate text-5xl mb-3">history</span>
         <p className="text-sm">Sin registros guardados</p>
       </div>
     );

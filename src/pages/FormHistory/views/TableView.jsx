@@ -46,7 +46,7 @@ const TableView = ({ history, formSchema }) => {
         return <span className="text-gray-300">—</span>;
       return (
         <span className="inline-flex items-center gap-1 text-blue-600 font-medium">
-          <span className="material-symbols-outlined text-[13px]">
+          <span className="material-symbols-outlined notranslate text-[13px]">
             table_rows
           </span>
           {valor.length} fila{valor.length !== 1 ? "s" : ""}
@@ -69,7 +69,7 @@ const TableView = ({ history, formSchema }) => {
   if (history.length === 0 || allFields.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-gray-400">
-        <span className="material-symbols-outlined text-5xl mb-3">
+        <span className="material-symbols-outlined notranslate text-5xl mb-3">
           table_chart
         </span>
         <p className="text-sm">Sin datos para comparar</p>

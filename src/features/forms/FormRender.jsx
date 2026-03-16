@@ -281,7 +281,7 @@ export const FormRender = ({
                     {section.title || section.id}
                   </div>
                   <span
-                    className="material-symbols-outlined text-[var(--primary-color)] transition-transform duration-200"
+                    className="material-symbols-outlined notranslate text-[var(--primary-color)] transition-transform duration-200"
                     style={{
                       transform: isCollapsed ? "rotate(-90deg)" : "rotate(0)",
                     }}
@@ -338,7 +338,7 @@ export const FormRender = ({
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2 justify-center">
-                <span className="material-symbols-outlined animate-spin text-sm">
+                <span className="material-symbols-outlined notranslate animate-spin text-sm">
                   autorenew
                 </span>
                 Guardando...

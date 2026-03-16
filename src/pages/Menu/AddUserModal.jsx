@@ -66,7 +66,7 @@ const AddUserModal = ({ isOpen, onClose, onSuccess }) => {
               Nombre<span className="required-mark">*</span>
             </label>
             <div className={`input-wrapper ${name ? "has-value" : ""}`}>
-              <span className="material-symbols-outlined input-icon">
+              <span className="material-symbols-outlined notranslate input-icon">
                 person
               </span>
               <input
@@ -87,7 +87,7 @@ const AddUserModal = ({ isOpen, onClose, onSuccess }) => {
               Apellido <span className="required-mark">*</span>
             </label>
             <div className={`input-wrapper ${lastName ? "has-value" : ""}`}>
-              <span className="material-symbols-outlined input-icon">
+              <span className="material-symbols-outlined notranslate input-icon">
                 person
               </span>
               <input
@@ -106,7 +106,7 @@ const AddUserModal = ({ isOpen, onClose, onSuccess }) => {
           <div className="form-group">
             <label htmlFor="user-doc">Número de Identificación</label>
             <div className={`input-wrapper ${document ? "has-value" : ""}`}>
-              <span className="material-symbols-outlined input-icon">
+              <span className="material-symbols-outlined notranslate input-icon">
                 badge
               </span>
               <input
@@ -142,7 +142,7 @@ const AddUserModal = ({ isOpen, onClose, onSuccess }) => {
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined">how_to_reg</span>
+                  <span className="material-symbols-outlined notranslate">how_to_reg</span>
                   <span>Registrar Usuario</span>
                 </>
               )}

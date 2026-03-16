@@ -109,7 +109,7 @@ export default function ProfesionalesTab() {
           onClick={() => setIsModalOpen(true)}
           className="bg-[var(--primary-color)] border border-[var(--primary-color)] text-white hover:bg-[#1e2d5c] shadow-sm font-medium py-2 px-5 rounded-md transition-colors flex items-center gap-2"
         >
-          <span className="material-symbols-outlined text-sm">add</span>
+          <span className="material-symbols-outlined notranslate text-sm">add</span>
           Nuevo Profesional
         </button>
       </div>
@@ -122,7 +122,7 @@ export default function ProfesionalesTab() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
+        <span className="material-symbols-outlined notranslate absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
           search
         </span>
       </div>
@@ -133,7 +133,7 @@ export default function ProfesionalesTab() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col mx-auto items-center mt-20 gap-4">
-          <span className="material-symbols-outlined text-6xl text-gray-400">
+          <span className="material-symbols-outlined notranslate text-6xl text-gray-400">
             group_off
           </span>
           <div className="text-gray-500">No se encontraron profesionales</div>
@@ -204,7 +204,7 @@ export default function ProfesionalesTab() {
                         : "bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200"
                     }`}
                   >
-                    <span className="material-symbols-outlined text-base">
+                    <span className="material-symbols-outlined notranslate text-base">
                       {p.activo ? "check_circle" : "cancel"}
                     </span>
                     {p.activo ? "Activo" : "Inactivo"}

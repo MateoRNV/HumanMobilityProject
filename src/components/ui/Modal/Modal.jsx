@@ -20,7 +20,7 @@ const Modal = ({ isOpen, onClose, children, header, isLoading, width }) => {
         <div className="modal-header">
           <div className="modal-header-content">
             {header.icon && (
-              <span className="material-symbols-outlined modal-header-icon">
+              <span className="material-symbols-outlined notranslate modal-header-icon">
                 {header.icon}
               </span>
             )}
@@ -32,7 +32,7 @@ const Modal = ({ isOpen, onClose, children, header, isLoading, width }) => {
               onClick={handleClose}
               aria-label="Cerrar modal"
             >
-              <span className="material-symbols-outlined">close</span>
+              <span className="material-symbols-outlined notranslate">close</span>
             </button>
           )}
         </div>
